@@ -1,24 +1,25 @@
 namespace efx {
 PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
-  background.setImage(juce::ImageCache::getFromMemory(
-      assets::Background_png, assets::Background_pngSize));
-
   logo.setImage(
-      juce::ImageCache::getFromMemory(assets::Logo_png, assets::Logo_pngSize));
+      juce::ImageCache::getFromMemory(assets::efx_logo_png, assets::efx_logo_pngSize));
 
   addAndMakeVisible(background);
   addAndMakeVisible(logo);
+  addAndMakeVisible(label);
+
+  setLookAndFeel(&lookAndFeel);
 
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
-  setSize(540, 270);
+  setSize(540, 218);
 }
 
 void PluginEditor::resized() {
   const auto bounds = getLocalBounds();
 
   background.setBounds(bounds);
-
-  logo.setBounds({16, 16, 105, 24});
+  logo.setBounds({-2, -3, 160, 77});
+  label.setBounds({100, 100, 50, 50});
 }
+
 }  // namespace efx

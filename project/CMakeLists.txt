@@ -99,7 +99,7 @@ juce_add_binary_data(plugin_assets
     efx::assets
   SOURCES
     assets/Background.png
-    assets/Logo.png
+    assets/efx_logo.png
     # TODO: Add custom font files
 )
 
