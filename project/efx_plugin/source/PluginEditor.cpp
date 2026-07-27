@@ -7,6 +7,9 @@ PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
   addAndMakeVisible(logo);
   addAndMakeVisible(label);
 
+  setSliderDefaults(gainSlider);
+  addAndMakeVisible(gainSlider);
+
   setLookAndFeel(&lookAndFeel);
 
   // Make sure that before the constructor has finished, you've set the
@@ -20,6 +23,15 @@ void PluginEditor::resized() {
   background.setBounds(bounds);
   logo.setBounds({-2, -3, 160, 77});
   label.setBounds({100, 100, 50, 50});
+
+  gainSlider.setTopLeftPosition(333, 12);
+}
+
+void PluginEditor::setSliderDefaults(juce::Slider &slider) {
+  slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+  slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+  slider.setPopupDisplayEnabled(true, true, this);
+  slider.setSize(40, 40);
 }
 
 }  // namespace efx

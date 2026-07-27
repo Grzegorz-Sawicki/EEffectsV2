@@ -17,9 +17,12 @@ public:
   void resized() override;
 
 private:
+  void setSliderDefaults(juce::Slider& slider);
+
   juce::ImageComponent logo;
   juce::Label label{"test label", "TEST"};
   Background background;
+  juce::Slider gainSlider;
 
   CustomLookAndFeel lookAndFeel;
 
