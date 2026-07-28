@@ -43,7 +43,6 @@ public:
     const auto meterSpace = 2;
 
     auto leftMeterBounds = juce::Rectangle<int>{padding, padding, meterWidth, meterHeight};
-
     auto rightMeterBounds = juce::Rectangle<int>{
       leftMeterBounds.getX() + meterWidth + meterSpace,
       padding,
@@ -51,10 +50,23 @@ public:
       meterHeight
     };
 
+    const float minDb = -60.0f;
+    const float maxDb = 6.0f;
+    const std::vector<float> ticks = { 6.0f, 0.0f, -6.0f, -12.0f, -18.0f, -24.0f, -36.0f, -48.0f, -60.0f };
+
+    for (const float tickDb : ticks)
+    {
+      float yPos = juce::jmap(tickDb, minDb, maxDb, (float)leftMeterBounds.getBottom(), (float)leftMeterBounds.getY());
+      g.setFont(8);
+      g.setColour(juce::Colours::white.withAlpha(0.6f));
+      g.drawSingleLineText(juce::String((int)tickDb), rightMeterBounds.getRight(), yPos + 4.0f);
+
+      g.setColour(juce::Colours::white.withAlpha(0.2f));
+      g.drawLine(leftMeterBounds.getX(), yPos, leftMeterBounds.getRight(), yPos);
+    }
+
     drawMeterBar(g, leftMeterBounds, visualLeft);
     drawMeterBar(g, rightMeterBounds, visualRight);
-
-    //DBG("left = " << visualLeft << " and right = " << visualRight << "\n");
   }
 
 private:
