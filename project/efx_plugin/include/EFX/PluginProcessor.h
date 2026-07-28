@@ -39,6 +39,9 @@ public:
     return parameters;
   }
 
+  std::atomic<float> leftPeak { 0.0f };
+  std::atomic<float> rightPeak { 0.0f };
+
 private:
   Parameters parameters{*this};
 

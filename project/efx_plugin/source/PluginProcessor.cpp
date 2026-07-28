@@ -101,8 +101,9 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   juce::ignoreUnused(midiMessages);
 
   juce::ScopedNoDenormals noDenormals;
-  const auto totalNumInputChannels = getTotalNumInputChannels();
-  const auto totalNumOutputChannels = getTotalNumOutputChannels();
+  const auto inChannels = getTotalNumInputChannels();
+  const auto outChannels = getTotalNumOutputChannels();
+  const auto numSamples = buffer.getNumSamples();
 
   // In case we have more outputs than inputs, this code clears any output
   // channels that didn't contain input data, (because these aren't
@@ -111,7 +112,7 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   // when they first compile a plugin, but obviously you don't need to keep
   // this code if your algorithm always overwrites all the output channels.
   for (const auto channelToClear :
-       std::views::iota(totalNumInputChannels, totalNumOutputChannels)) {
+       std::views::iota(inChannels, outChannels)) {
     buffer.clear(channelToClear, 0, buffer.getNumSamples());
   }
 
@@ -124,12 +125,28 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
   //tremolo.process(buffer);
 
-  const auto numChannels = juce::jmax (totalNumInputChannels, totalNumOutputChannels);
+  const auto numChannels = juce::jmax (inChannels, outChannels);
   auto inoutBlock = juce::dsp::AudioBlock<float> (buffer)
       .getSubsetChannelBlock(0, static_cast<size_t>(numChannels));
 
   auto context = juce::dsp::ProcessContextReplacing<float> (inoutBlock);
   processorChain.process(context);
+
+  if (outChannels > 0)
+  {
+    const float lPeak = buffer.getMagnitude (0, 0, numSamples);
+    leftPeak.store (lPeak);
+
+    if (outChannels > 1)
+    {
+      const float rPeak = buffer.getMagnitude (1, 0, numSamples);
+      rightPeak.store (rPeak);
+    }
+    else
+    {
+      rightPeak.store (lPeak);
+    }
+  }
 }
 
 bool PluginProcessor::hasEditor() const {

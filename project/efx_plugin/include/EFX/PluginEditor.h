@@ -13,6 +13,7 @@ public:
 class PluginEditor : public juce::AudioProcessorEditor {
 public:
   explicit PluginEditor(PluginProcessor&);
+  ~PluginEditor() override;
 
   void resized() override;
 
@@ -23,6 +24,8 @@ private:
   juce::Label label{"test label", "TEST"};
   Background background;
   juce::Slider gainSlider;
+
+  VUMeter vuMeter;
 
   CustomLookAndFeel lookAndFeel;
 
