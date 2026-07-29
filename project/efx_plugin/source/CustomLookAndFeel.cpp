@@ -73,4 +73,10 @@ CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, 
   g.strokePath(indicatorLine, juce::PathStrokeType(1.0f, juce::PathStrokeType::curved));
 }
 
+juce::FontOptions CustomLookAndFeel::interMedium() {
+  static const auto result = juce::Typeface::createSystemTypefaceFor(assets::InterMedium_ttf,
+                                                                     assets::InterMedium_ttfSize);
+  return juce::FontOptions(result);
+}
+
 }  // namespace efx

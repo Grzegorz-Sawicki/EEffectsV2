@@ -23,7 +23,10 @@ private:
   juce::ImageComponent logo;
   juce::Label label{"test label", "TEST"};
   Background background;
+
   juce::Slider gainSlider;
+  juce::Label gainLabel{"gain label", "GAIN"};
+  juce::SliderParameterAttachment gainAttachment;
 
   VUMeter vuMeter;
 

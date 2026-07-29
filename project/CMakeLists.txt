@@ -100,7 +100,7 @@ juce_add_binary_data(plugin_assets
   SOURCES
     assets/Background.png
     assets/efx_logo.png
-    # TODO: Add custom font files
+    assets/Inter-Medium.ttf
 )
 
 add_library(efx::plugin_assets ALIAS plugin_assets)
