@@ -8,6 +8,12 @@ struct Parameters {
   juce::AudioParameterFloat& pan;
   juce::AudioParameterBool& bypass;
 
+  juce::AudioParameterFloat& tremoloRate;
+  juce::AudioParameterFloat& tremoloMix;
+  juce::AudioParameterFloat& tremoloDepth;
+  juce::AudioParameterBool& tremoloBypass;
+  juce::AudioParameterChoice& tremoloWaveform;
+
   JUCE_DECLARE_NON_COPYABLE(Parameters);
   JUCE_DECLARE_NON_MOVEABLE(Parameters);
 };

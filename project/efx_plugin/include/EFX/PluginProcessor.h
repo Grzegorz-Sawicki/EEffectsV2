@@ -45,17 +45,18 @@ public:
 private:
   Parameters parameters{*this};
 
-  juce::dsp::ProcessorChain<GainProcessor, PanProcessor> processorChain;
+  juce::dsp::ProcessorChain<GainProcessor, PanProcessor, TremoloProcessor> processorChain;
 
   enum ProcessorIndices
   {
     gainIndex,
-    panIndex
+    panIndex,
+    tremoloIndex
   };
 
-  Tremolo tremolo;
   GainProcessor& gain;
   PanProcessor& pan;
+  TremoloProcessor& tremolo;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 };

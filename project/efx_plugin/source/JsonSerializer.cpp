@@ -5,6 +5,12 @@ struct SerializableParameters {
   float pan;
   bool bypass;
 
+  float tremoloRate;
+  float tremoloMix;
+  float tremoloDepth;
+  bool tremoloBypass;
+  juce::String tremoloWaveform;
+
   static constexpr auto marshallingVersion = 1;
 
   template <typename Archive, typename T>
@@ -26,7 +32,12 @@ struct SerializableParameters {
     archive(
         named("gainDB", t.gain),
         named("pan", t.pan),
-        named("bypass", t.bypass)
+        named("bypass", t.bypass),
+        named("tremoloRate", t.tremoloRate),
+        named("tremoloMix", t.tremoloMix),
+        named("tremoloDepth", t.tremoloDepth),
+        named("tremoloBypass", t.tremoloBypass),
+        named("tremoloWaveform", t.tremoloWaveform)
     );
   }
 };
@@ -35,7 +46,12 @@ SerializableParameters from(const efx::Parameters &parameters) {
   return {
       .gain = parameters.gain.get(),
       .pan = parameters.pan.get(),
-      .bypass = parameters.bypass.get()
+      .bypass = parameters.bypass.get(),
+      .tremoloRate = parameters.tremoloRate.get(),
+      .tremoloMix = parameters.tremoloMix.get(),
+      .tremoloDepth = parameters.tremoloDepth.get(),
+      .tremoloBypass = parameters.tremoloBypass.get(),
+      .tremoloWaveform = parameters.tremoloWaveform.getCurrentChoiceName(),
   };
 }
 } // namespace
@@ -70,9 +86,21 @@ juce::Result JsonSerializer::deserialize(juce::InputStream& input,
     return juce::Result::fail("Failed to parse parameters from json representation");
   }
 
+  const auto tremoloWaveformIndex = parameters.tremoloWaveform.choices.indexOf(
+      parsedParameters->tremoloWaveform);
+  if(tremoloWaveformIndex == -1) {
+    return juce::Result::fail("non-existent waveform name found");
+  }
+
   parameters.gain = parsedParameters->gain;
   parameters.pan = parsedParameters->pan;
   parameters.bypass = parsedParameters->bypass;
+
+  parameters.tremoloWaveform = tremoloWaveformIndex;
+  parameters.tremoloRate = parsedParameters->tremoloRate;
+  parameters.tremoloMix = parsedParameters->tremoloMix;
+  parameters.tremoloDepth = parsedParameters->tremoloDepth;
+  parameters.tremoloBypass = parsedParameters->tremoloBypass;
 
   return juce::Result::ok();
 }

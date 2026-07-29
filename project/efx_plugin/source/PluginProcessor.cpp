@@ -2,6 +2,7 @@ namespace efx {
 PluginProcessor::PluginProcessor()
     : gain (juce::dsp::get<gainIndex>(processorChain)),
       pan (juce::dsp::get<panIndex>(processorChain)),
+      tremolo (juce::dsp::get<tremoloIndex>(processorChain)),
       AudioProcessor(
           BusesProperties()
               .withInput("Input", juce::AudioChannelSet::stereo(), true)
@@ -53,8 +54,6 @@ void PluginProcessor::changeProgramName(int index,
 
 void PluginProcessor::prepareToPlay(double sampleRate,
                                     int expectedMaxFramesPerBlock) {
-  tremolo.prepare(sampleRate, expectedMaxFramesPerBlock);
-
   const auto numChannels = juce::jmax (getTotalNumInputChannels(), getTotalNumOutputChannels());
 
   auto spec = juce::dsp::ProcessSpec(
@@ -64,18 +63,10 @@ void PluginProcessor::prepareToPlay(double sampleRate,
   );
 
   processorChain.prepare(spec);
-
-  //gain.prepare(spec);
 }
 
 void PluginProcessor::releaseResources() {
-  // When playback stops, you can use this as an opportunity to free up any
-  // spare memory, etc.
-
-  tremolo.reset();
-
   processorChain.reset();
-  //gain.reset();
 }
 
 bool PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
@@ -119,11 +110,15 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   gain.setGain(parameters.gain.get());
   pan.setPan(parameters.pan.get());
 
+  tremolo.setModulationRate(parameters.tremoloRate.get());
+  tremolo.setMix(parameters.tremoloMix.get());
+  tremolo.setDepth(parameters.tremoloDepth.get()),
+  tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()));
+  tremolo.setBypass(parameters.tremoloBypass.get());
+
   if(parameters.bypass.get()) {
     return;
   }
-
-  //tremolo.process(buffer);
 
   const auto numChannels = juce::jmax (inChannels, outChannels);
   auto inoutBlock = juce::dsp::AudioBlock<float> (buffer)
@@ -150,7 +145,7 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 }
 
 bool PluginProcessor::hasEditor() const {
-  return true;
+  return false;
 }
 
 // This function will be called to create an instance of the editor
@@ -172,8 +167,14 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
     DBG(result.getErrorMessage());
   }
 
-  gain.setGain(parameters.gain.get());
-  pan.setPan(parameters.pan.get());
+  gain.setGain(parameters.gain.get()); //TODO add force
+  pan.setPan(parameters.pan.get()); //TODO add force
+
+  tremolo.setModulationRate(parameters.tremoloRate.get());
+  tremolo.setMix(parameters.tremoloMix.get(), true);
+  tremolo.setDepth(parameters.tremoloDepth.get(), true);
+  tremolo.setBypass(parameters.tremoloBypass.get());
+  tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()), true);
 }
 
 juce::AudioProcessorParameter* PluginProcessor::getBypassParameter() const {

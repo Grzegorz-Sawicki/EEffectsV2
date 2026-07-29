@@ -43,6 +43,7 @@ END_JUCE_MODULE_DECLARATION
 #include "include/EFX/GainProcessor.h"
 #include "include/EFX/PanProcessor.h"
 #include "include/EFX/BypassTransitionSmoother.h"
+#include "include/EFX/TremoloProcessor.h"
 #include "include/EFX/VUMeter.h"
 #include "include/EFX/PluginProcessor.h"
 #include "include/EFX/PluginEditor.h"
