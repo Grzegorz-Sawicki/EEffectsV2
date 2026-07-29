@@ -8,9 +8,9 @@ CustomLookAndFeel::CustomLookAndFeel() {
 }
 
 juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
-  static const std::array colors {
-    juce::Colour{0xFF2A3135},
-    juce::Colour{0xFFFFFFFF}
+  static const std::array colors{
+      juce::Colour{0xFF2A3135},
+      juce::Colour{0xFFFFFFFF}
   };
 
   return colors.at(juce::toUnderlyingType(colorName));
@@ -22,26 +22,39 @@ CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, 
   const auto bounds = juce::Rectangle<float>{(float) x, (float) y, (float) width, (float) height};
 
   const float startAngle = -juce::MathConstants<float>::pi * 0.75f; // -135 deg
-  const float endAngle   =  juce::MathConstants<float>::pi * 0.75f; // +135 deg
+  const float endAngle = juce::MathConstants<float>::pi * 0.75f; // +135 deg
   const float currentAngle = startAngle + sliderPosProportional * (endAngle - startAngle);
   auto center = bounds.getCentre();
 
-  juce::Path pizzaPath;
-
-  pizzaPath.addPieSegment (bounds, startAngle, endAngle, 0.0f);
-
-  g.setColour (juce::Colour(0xFF919191));
-  g.fillPath (pizzaPath);
+  // Outer
+  juce::Path outerPath;
+  outerPath.addPieSegment(bounds, startAngle, endAngle, 0.0f);
+  g.setColour(juce::Colour(0xFF919191));
+  g.fillPath(outerPath);
 
   // Path Indicator
-  if (currentAngle > startAngle)
-  {
-    juce::Path indicatorPath;
+  bool isBipolar = slider.getProperties().getWithDefault("isBipolar", false);
 
-    indicatorPath.addPieSegment (bounds, startAngle, currentAngle, 0.0f);
+  if (isBipolar) {
+    const float centerAngle = 0.0f;
 
-    g.setColour (getColor(Colors::whiteHighlight));
-    g.fillPath (indicatorPath);
+    if (!juce::approximatelyEqual(currentAngle, centerAngle)) {
+      juce::Path indicatorPath;
+
+      float arcStart = std::min(centerAngle, currentAngle);
+      float arcEnd = std::max(centerAngle, currentAngle);
+
+      indicatorPath.addPieSegment(bounds, arcStart, arcEnd, 0.0f);
+      g.setColour(getColor(Colors::whiteHighlight));
+      g.fillPath(indicatorPath);
+    }
+  } else {
+    if (currentAngle > startAngle) {
+      juce::Path indicatorPath;
+      indicatorPath.addPieSegment(bounds, startAngle, currentAngle, 0.0f);
+      g.setColour(getColor(Colors::whiteHighlight));
+      g.fillPath(indicatorPath);
+    }
   }
 
   // Background
@@ -61,14 +74,11 @@ CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, 
 
   // Line Indicator
   const auto innerBoundsRadius = innerBounds.getWidth() * 0.5f;
-
-  juce::Point<float> endPoint (center.x + innerBoundsRadius * std::sin (currentAngle),
-                               center.y - innerBoundsRadius * std::cos (currentAngle));
-
+  juce::Point<float> endPoint(center.x + innerBoundsRadius * std::sin(currentAngle),
+                              center.y - innerBoundsRadius * std::cos(currentAngle));
   juce::Path indicatorLine;
   indicatorLine.startNewSubPath(center);
   indicatorLine.lineTo(endPoint);
-
   g.setColour(getColor(Colors::whiteHighlight));
   g.strokePath(indicatorLine, juce::PathStrokeType(1.0f, juce::PathStrokeType::curved));
 }

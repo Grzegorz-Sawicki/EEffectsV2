@@ -12,8 +12,6 @@ public:
     const float newLeft = leftPeakSource.load();
     const float newRight = rightPeakSource.load();
 
-    //DBG("lps = " << newLeft << " rps = " << newRight);
-
     if (newLeft > visualLeft) {
       visualLeft += attackFactor * (newLeft - visualLeft);
     } else {

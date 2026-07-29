@@ -28,6 +28,14 @@ private:
   juce::Label gainLabel{"gain label", "GAIN"};
   juce::SliderParameterAttachment gainAttachment;
 
+  juce::Slider panSlider;
+  juce::Label panLabel{"pan label", "PAN"};
+  juce::SliderParameterAttachment panAttachment;
+
+  juce::ToggleButton bypassButton;
+  juce::Label bypassLabel{"bypass label", "BYPASS"};
+  juce::ButtonParameterAttachment bypassAttachment;
+
   VUMeter vuMeter;
 
   CustomLookAndFeel lookAndFeel;
