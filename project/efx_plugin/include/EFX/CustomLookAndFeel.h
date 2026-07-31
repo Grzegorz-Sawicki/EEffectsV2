@@ -2,7 +2,7 @@
 
 namespace efx {
 namespace custom_colors {
-  const int highlightDefault = 0x12345678;
+  const int highlight = 0x12345678;
 }
 
 class CustomLookAndFeel : public juce::LookAndFeel_V4 {

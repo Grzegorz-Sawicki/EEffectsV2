@@ -58,7 +58,7 @@ CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, 
 
   // Path Indicator
   bool isBipolar = slider.getProperties().getWithDefault("isBipolar", false);
-  juce::Colour ringColor = slider.findColour(custom_colors::highlightDefault, true);
+  juce::Colour ringColor = slider.findColour(custom_colors::highlight, true);
 
   if (isBipolar) {
     const float centerAngle = 0.0f;

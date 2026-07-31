@@ -16,21 +16,18 @@ public:
     label.setText(labelText, juce::dontSendNotification);
 
     setSliderDefaults();
-    slider.getProperties().set("isBipolar", true);
-    slider.setColour(custom_colors::highlightDefault, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-
     setLabelDefaults();
-    label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
+
     addAndMakeVisible(slider);
     addAndMakeVisible(label);
   }
 
   void resized() override {
     auto area = getLocalBounds();
+    label.setSize(area.getWidth(), 15);
 
-    slider.setTopLeftPosition(area.getTopLeft());
-    label.setSize(area.getWidth(), 20);
-    label.setTopLeftPosition(slider.getX(), slider.getBottom() - 5.0f);
+    slider.setCentrePosition(area.getWidth() * 0.5f, slider.getHeight() * 0.5f);
+    label.setTopLeftPosition(area.getX(), area.getBottom() - label.getHeight());
   }
 
   juce::Slider slider;
@@ -48,7 +45,40 @@ private:
     label.setInterceptsMouseClicks(false, false);
     label.setJustificationType(juce::Justification::centred);
   }
+};
 
+class LabeledButton : public juce::Component {
+public:
+  LabeledButton (const juce::String& labelText) {
+    label.setText(labelText, juce::dontSendNotification);
+
+    setButtonDefaults();
+    setLabelDefaults();
+
+    addAndMakeVisible(button);
+    addAndMakeVisible(label);
+  }
+
+  void resized() override {
+    auto area = getLocalBounds();
+
+    button.setSize(30, 30);
+    label.setSize(area.getWidth(), 15);
+
+    button.setCentrePosition(area.getWidth() * 0.5f, (area.getHeight() - label.getHeight()) * 0.5f);
+    label.setTopLeftPosition(area.getX(), area.getBottom() - label.getHeight());
+  }
+
+  juce::ToggleButton button;
+  juce::Label label;
+
+private:
+  void setButtonDefaults() {}
+
+  void setLabelDefaults() {
+    label.setInterceptsMouseClicks(false, false);
+    label.setJustificationType(juce::Justification::centred);
+  }
 };
 
 class PluginEditor : public juce::AudioProcessorEditor {
@@ -69,8 +99,7 @@ private:
   LabeledSlider panLabeledSlider{"PAN"};
   juce::SliderParameterAttachment panAttachment;
 
-  juce::ToggleButton bypassButton;
-  juce::Label bypassLabel{"bypass label", "BYPASS"};
+  LabeledButton bypassLabeledButton{"BYPASS"};
   juce::ButtonParameterAttachment bypassAttachment;
 
   VUMeter vuMeter;
