@@ -13,16 +13,41 @@ CustomLookAndFeel::CustomLookAndFeel() {
 juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
   static const std::array colors{
       juce::Colour{0xFF2A3135},
-      juce::Colour{0xFFFFFFFF}
+      juce::Colour{0xFFFFFFFF},
+      juce::Colour{0xFFFF005E}
   };
 
   return colors.at(juce::toUnderlyingType(colorName));
 }
 
+void CustomLookAndFeel::drawToggleButton (juce::Graphics& g, juce::ToggleButton& button,
+                       bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) {
+  const auto bounds = button.getLocalBounds().toFloat();
+  const auto innerBounds = bounds.reduced(2.0f);
+
+  g.setColour(juce::Colour(0xFFD9D9D9));
+  g.fillRect(bounds);
+
+  juce::Colour fillColor;
+
+  if (button.getToggleState()) {
+    fillColor = getColor(Colors::redHighlight);
+  } else {
+    fillColor = getColor(Colors::background);
+  }
+
+  if (shouldDrawButtonAsHighlighted) {
+    fillColor = fillColor.withAlpha(0.7f);
+  }
+
+  g.setColour(fillColor);
+  g.fillRect(innerBounds);
+}
+
 void
 CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, int height, float sliderPosProportional,
                                     float rotaryStartAngle, float rotaryEndAngle, juce::Slider &slider) {
-  const auto bounds = juce::Rectangle<float>{(float) x, (float) y, (float) width, (float) height};
+  const auto bounds = slider.getLocalBounds().toFloat();
 
   const float startAngle = -juce::MathConstants<float>::pi * 0.75f; // -135 deg
   const float endAngle = juce::MathConstants<float>::pi * 0.75f; // +135 deg
