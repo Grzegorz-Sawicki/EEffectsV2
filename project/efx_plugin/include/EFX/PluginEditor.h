@@ -10,6 +10,47 @@ public:
 };
 }
 
+class LabeledSlider : public juce::Component {
+public:
+  LabeledSlider (const juce::String& labelText) {
+    label.setText(labelText, juce::dontSendNotification);
+
+    setSliderDefaults();
+    slider.getProperties().set("isBipolar", true);
+    slider.setColour(custom_colors::highlightDefault, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
+
+    setLabelDefaults();
+    label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
+    addAndMakeVisible(slider);
+    addAndMakeVisible(label);
+  }
+
+  void resized() override {
+    auto area = getLocalBounds();
+
+    slider.setTopLeftPosition(area.getTopLeft());
+    label.setSize(area.getWidth(), 20);
+    label.setTopLeftPosition(slider.getX(), slider.getBottom() - 5.0f);
+  }
+
+  juce::Slider slider;
+  juce::Label label;
+
+private:
+  void setSliderDefaults() {
+    slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+    slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+    slider.setPopupDisplayEnabled(true, true, nullptr);
+    slider.setSize(40, 40);
+  }
+
+  void setLabelDefaults() {
+    label.setInterceptsMouseClicks(false, false);
+    label.setJustificationType(juce::Justification::centred);
+  }
+
+};
+
 class PluginEditor : public juce::AudioProcessorEditor {
 public:
   explicit PluginEditor(PluginProcessor&);
@@ -18,18 +59,14 @@ public:
   void resized() override;
 
 private:
-  void setSliderDefaults(juce::Slider& slider);
-
   juce::ImageComponent logo;
   juce::Label label{"test label", "TEST"};
   Background background;
 
-  juce::Slider gainSlider;
-  juce::Label gainLabel{"gain label", "GAIN"};
+  LabeledSlider gainLabeledSlider{"GAIN"};
   juce::SliderParameterAttachment gainAttachment;
 
-  juce::Slider panSlider;
-  juce::Label panLabel{"pan label", "PAN"};
+  LabeledSlider panLabeledSlider{"PAN"};
   juce::SliderParameterAttachment panAttachment;
 
   juce::ToggleButton bypassButton;

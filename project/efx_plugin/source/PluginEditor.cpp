@@ -2,8 +2,8 @@ namespace efx {
 PluginEditor::PluginEditor(PluginProcessor& p) :
   AudioProcessorEditor(&p),
   vuMeter (p.leftPeak, p.rightPeak),
-  gainAttachment(p.getParameterRefs().gain, gainSlider),
-  panAttachment(p.getParameterRefs().pan, panSlider),
+  gainAttachment(p.getParameterRefs().gain, gainLabeledSlider.slider),
+  panAttachment(p.getParameterRefs().pan, panLabeledSlider.slider),
   bypassAttachment(p.getParameterRefs().bypass, bypassButton) {
   logo.setImage(
       juce::ImageCache::getFromMemory(assets::efx_logo_png, assets::efx_logo_pngSize));
@@ -12,27 +12,9 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   addAndMakeVisible(logo);
   addAndMakeVisible(label);
 
-  setSliderDefaults(gainSlider);
-  gainSlider.getProperties().set("isBipolar", true);
-  gainSlider.setColour(custom_colors::highlightColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-  addAndMakeVisible(gainSlider);
+  addAndMakeVisible(gainLabeledSlider);
 
-  gainLabel.setInterceptsMouseClicks(false, false);
-  gainLabel.setJustificationType(juce::Justification::centred);
-  gainLabel.setFont(lookAndFeel.getInterMediumFont());
-  gainLabel.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-  addAndMakeVisible(gainLabel);
-
-  setSliderDefaults(panSlider);
-  panSlider.getProperties().set("isBipolar", true);
-  panSlider.setColour(custom_colors::highlightColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-  addAndMakeVisible(panSlider);
-
-  panLabel.setInterceptsMouseClicks(false, false);
-  panLabel.setJustificationType(juce::Justification::centred);
-  panLabel.setFont(lookAndFeel.getInterMediumFont());
-  panLabel.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-  addAndMakeVisible(panLabel);
+  addAndMakeVisible(panLabeledSlider);
 
   addAndMakeVisible(bypassButton);
 
@@ -62,22 +44,12 @@ void PluginEditor::resized() {
 
   vuMeter.setBounds({494, 6, 40, 206});
 
-  gainSlider.setTopLeftPosition(333, 12);
-  gainLabel.setBounds(gainSlider.getX(), gainSlider.getY() + 37, gainSlider.getWidth(), 15);
+  gainLabeledSlider.setBounds(333, 12, 40, 60);
 
-  panSlider.setTopLeftPosition(385, 12);
-  panLabel.setBounds(panSlider.getX(), panSlider.getY() + 37, panSlider.getWidth(), 15);
+  panLabeledSlider.setBounds(385, 12, 40, 60);
 
   bypassButton.setBounds(443, 18, 28, 28);
   bypassLabel.setSize(60, 15);
   bypassLabel.setCentrePosition(bypassButton.getX() + bypassButton.getWidth() * 0.5f, bypassButton.getBottom() + 10);
 }
-
-void PluginEditor::setSliderDefaults(juce::Slider &slider) {
-  slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
-  slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-  slider.setPopupDisplayEnabled(true, true, this);
-  slider.setSize(40, 40);
-}
-
 }  // namespace efx

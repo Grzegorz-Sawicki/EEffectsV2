@@ -1,6 +1,10 @@
 #pragma once
 
 namespace efx {
+namespace custom_colors {
+  const int highlightDefault = 0x12345678;
+}
+
 class CustomLookAndFeel : public juce::LookAndFeel_V4 {
 public:
   CustomLookAndFeel();
@@ -14,6 +18,10 @@ public:
 
   void drawRotarySlider(juce::Graphics &, int x, int y, int width, int height, float sliderPosProportional,
                         float rotaryStartAngle, float rotaryEndAngle, juce::Slider &) override;
+
+  juce::Font getLabelFont (juce::Label&) override {
+    return interMedium().withPointHeight(12.0f);
+  }
 
   static juce::FontOptions getInterMediumFont() {
     return interMedium().withPointHeight(12.0f);

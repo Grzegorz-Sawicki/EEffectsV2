@@ -2,10 +2,6 @@
 #include "efx_plugin/include/EFX/CustomLookAndFeel.h"
 
 namespace efx {
-namespace custom_colors {
-  const int highlightColourId = 0x12345678;
-}
-
 CustomLookAndFeel::CustomLookAndFeel() {
   setColour(juce::ResizableWindow::backgroundColourId, getColor(Colors::background));
 }
@@ -62,7 +58,7 @@ CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, 
 
   // Path Indicator
   bool isBipolar = slider.getProperties().getWithDefault("isBipolar", false);
-  juce::Colour ringColor = slider.findColour(custom_colors::highlightColourId, true);
+  juce::Colour ringColor = slider.findColour(custom_colors::highlightDefault, true);
 
   if (isBipolar) {
     const float centerAngle = 0.0f;
