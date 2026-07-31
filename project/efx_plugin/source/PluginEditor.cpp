@@ -13,6 +13,8 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   addAndMakeVisible(label);
 
   setSliderDefaults(gainSlider);
+  gainSlider.getProperties().set("isBipolar", true);
+  gainSlider.setColour(custom_colors::highlightColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
   addAndMakeVisible(gainSlider);
 
   gainLabel.setInterceptsMouseClicks(false, false);
@@ -23,6 +25,7 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
   setSliderDefaults(panSlider);
   panSlider.getProperties().set("isBipolar", true);
+  panSlider.setColour(custom_colors::highlightColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
   addAndMakeVisible(panSlider);
 
   panLabel.setInterceptsMouseClicks(false, false);

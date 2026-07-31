@@ -2,6 +2,9 @@
 #include "efx_plugin/include/EFX/CustomLookAndFeel.h"
 
 namespace efx {
+namespace custom_colors {
+  const int highlightColourId = 0x12345678;
+}
 
 CustomLookAndFeel::CustomLookAndFeel() {
   setColour(juce::ResizableWindow::backgroundColourId, getColor(Colors::background));
@@ -34,6 +37,7 @@ CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, 
 
   // Path Indicator
   bool isBipolar = slider.getProperties().getWithDefault("isBipolar", false);
+  juce::Colour ringColor = slider.findColour(custom_colors::highlightColourId, true);
 
   if (isBipolar) {
     const float centerAngle = 0.0f;
@@ -45,14 +49,14 @@ CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, 
       float arcEnd = std::max(centerAngle, currentAngle);
 
       indicatorPath.addPieSegment(bounds, arcStart, arcEnd, 0.0f);
-      g.setColour(getColor(Colors::whiteHighlight));
+      g.setColour(ringColor);
       g.fillPath(indicatorPath);
     }
   } else {
     if (currentAngle > startAngle) {
       juce::Path indicatorPath;
       indicatorPath.addPieSegment(bounds, startAngle, currentAngle, 0.0f);
-      g.setColour(getColor(Colors::whiteHighlight));
+      g.setColour(ringColor);
       g.fillPath(indicatorPath);
     }
   }
@@ -79,7 +83,7 @@ CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, 
   juce::Path indicatorLine;
   indicatorLine.startNewSubPath(center);
   indicatorLine.lineTo(endPoint);
-  g.setColour(getColor(Colors::whiteHighlight));
+  g.setColour(ringColor);
   g.strokePath(indicatorLine, juce::PathStrokeType(1.0f, juce::PathStrokeType::curved));
 }
 
