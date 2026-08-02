@@ -173,7 +173,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
   tremolo.setMix(parameters.tremoloMix.get(), true);
   tremolo.setDepth(parameters.tremoloDepth.get(), true);
   tremolo.setBypass(parameters.tremoloBypass.get());
-  tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()), true);
+  tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()));
 }
 
 juce::AudioProcessorParameter* PluginProcessor::getBypassParameter() const {
