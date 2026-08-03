@@ -1,6 +1,7 @@
 namespace efx {
 PluginEditor::PluginEditor(PluginProcessor& p) :
   AudioProcessorEditor(&p),
+  effectDetailView(p),
   vuMeter (p.leftPeak, p.rightPeak),
   gainAttachment(p.getParameterRefs().gain, gainLabeledSlider.slider),
   panAttachment(p.getParameterRefs().pan, panLabeledSlider.slider),
@@ -10,7 +11,6 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
   addAndMakeVisible(background);
   addAndMakeVisible(logo);
-  addAndMakeVisible(label);
 
   gainLabeledSlider.slider.setColour(custom_colors::highlight, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
   gainLabeledSlider.slider.getProperties().set("isBipolar", true);
@@ -27,6 +27,19 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
   addAndMakeVisible(vuMeter);
 
+  addAndMakeVisible(effectRackView);
+  addAndMakeVisible(effectDetailView);
+
+  auto selectionCallback = [this] (juce::String selectedName) {
+    effectDetailView.showEditor(selectedName);
+  };
+
+  effectRackView.tremoloItem.onSelect = selectionCallback;
+  effectRackView.flangerItem.onSelect = selectionCallback;
+  effectRackView.filterItem.onSelect = selectionCallback;
+
+  effectDetailView.showEditor("Tremolo");
+
   setLookAndFeel(&lookAndFeel);
 
   setSize(540, 218);
@@ -41,7 +54,6 @@ void PluginEditor::resized() {
 
   background.setBounds(bounds);
   logo.setBounds({-2, -3, 160, 77});
-  label.setBounds({100, 100, 50, 50});
 
   vuMeter.setBounds({494, 6, 40, 206});
 
@@ -50,5 +62,9 @@ void PluginEditor::resized() {
   panLabeledSlider.setBounds(380, 12, 50, 55);
 
   bypassLabeledButton.setBounds(430, 12, 50, 55);
+
+  effectRackView.setBounds(6, 70, 122, 142);
+
+  effectDetailView.setBounds(130, 70, 352, 142);
 }
 }  // namespace efx
