@@ -117,6 +117,12 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()));
   tremolo.setBypass(parameters.tremoloBypass.get());
 
+  flanger.setRate(parameters.flangerRate.get());
+  flanger.setMix(parameters.flangerMix.get());
+  flanger.setDepth(parameters.flangerDepth.get());
+  flanger.setFeedback(parameters.flangerFeedback.get());
+  flanger.setBypass(parameters.flangerBypass.get());
+
   if(parameters.bypass.get()) {
     return;
   }
@@ -146,7 +152,7 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 }
 
 bool PluginProcessor::hasEditor() const {
-  return true;
+  return false;
 }
 
 // This function will be called to create an instance of the editor
@@ -175,6 +181,12 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
   tremolo.setDepth(parameters.tremoloDepth.get(), true);
   tremolo.setBypass(parameters.tremoloBypass.get());
   tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()));
+
+  flanger.setMix(parameters.flangerMix.get(), true);
+  flanger.setDepth(parameters.flangerDepth.get(), true);
+  flanger.setFeedback(parameters.flangerFeedback.get(), true);
+  flanger.setRate(parameters.flangerRate.get(), true);
+  flanger.setBypass(parameters.flangerBypass.get());
 }
 
 juce::AudioProcessorParameter* PluginProcessor::getBypassParameter() const {

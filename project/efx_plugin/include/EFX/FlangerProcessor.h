@@ -78,6 +78,10 @@ public:
   }
 
   void process(juce::dsp::ProcessContextReplacing<float> &context) noexcept override {
+    if(bypass) {
+      return;
+    }
+
     const auto &inputBlock = context.getInputBlock();
     auto &outputBlock = context.getOutputBlock();
 
@@ -119,6 +123,10 @@ public:
     }
   }
 
+  void setBypass(bool newBypass) {
+    bypass = newBypass;
+  }
+
   void setRate(float rateHz, bool force = false) {
     if (force) {
       rateSmoothed.setCurrentAndTargetValue(rateHz);
@@ -151,6 +159,8 @@ private:
   std::vector<DelayLine> delayLines;
 
   TremoloLFO lfo;
+
+  bool bypass{false};
 
   juce::SmoothedValue<float> mixSmoothed{0.5f};
   juce::SmoothedValue<float> rateSmoothed{0.5f};

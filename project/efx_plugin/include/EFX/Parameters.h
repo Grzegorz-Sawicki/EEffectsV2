@@ -14,6 +14,12 @@ struct Parameters {
   juce::AudioParameterBool& tremoloBypass;
   juce::AudioParameterChoice& tremoloWaveform;
 
+  juce::AudioParameterFloat& flangerRate;
+  juce::AudioParameterFloat& flangerMix;
+  juce::AudioParameterFloat& flangerDepth;
+  juce::AudioParameterFloat& flangerFeedback;
+  juce::AudioParameterBool& flangerBypass;
+
   JUCE_DECLARE_NON_COPYABLE(Parameters);
   JUCE_DECLARE_NON_MOVEABLE(Parameters);
 };

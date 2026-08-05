@@ -92,6 +92,60 @@ juce::AudioParameterChoice &createTremoloWaveformParameter(juce::AudioProcessor 
   return addParameterToProcessor(processor, std::move(parameter));
 }
 
+juce::AudioParameterFloat &createFlangerRateParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"flanger.modulation.rate", defaultVersionHint},
+      juce::String{"Flanger modulation rate"},
+      juce::NormalisableRange{0.05f, 10.f, 0.01f, 0.4f},
+      1.0f,
+      juce::AudioParameterFloatAttributes{}.withLabel("Hz")
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createFlangerMixParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"flanger.mix", defaultVersionHint},
+      juce::String{"Flanger mix"},
+      juce::NormalisableRange{0.f, 1.f, 0.001f},
+      1.f
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createFlangerDepthParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"flanger.depth", defaultVersionHint},
+      juce::String{"Flanger depth"},
+      juce::NormalisableRange{0.f, 1.f, 0.001f},
+      0.5f,
+      juce::AudioParameterFloatAttributes{}
+          .withStringFromValueFunction([](float x, int) { return juce::String(x, 3); })
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createFlangerFeedbackParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"flanger.feedback", defaultVersionHint},
+      juce::String{"Flanger feedback"},
+      juce::NormalisableRange{-0.95f, 0.95f, 0.01f},
+      0.3f,
+      juce::AudioParameterFloatAttributes{}
+          .withStringFromValueFunction([](float x, int) { return juce::String(x, 3); })
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterBool &createFlangerBypassParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterBool>(
+      juce::ParameterID{"flanger.bypass", defaultVersionHint},
+      juce::String{"Flanger bypass"},
+      false
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
 }  // namespace
 
 Parameters::Parameters(juce::AudioProcessor& processor)
@@ -102,6 +156,11 @@ Parameters::Parameters(juce::AudioProcessor& processor)
     tremoloMix(createTremoloMixParameter(processor)),
     tremoloDepth(createTremoloDepthParameter(processor)),
     tremoloBypass(createTremoloBypassParameter(processor)),
-    tremoloWaveform(createTremoloWaveformParameter(processor)) {
+    tremoloWaveform(createTremoloWaveformParameter(processor)),
+    flangerRate(createFlangerRateParameter(processor)),
+    flangerMix(createFlangerMixParameter(processor)),
+    flangerDepth(createFlangerDepthParameter(processor)),
+    flangerBypass(createFlangerBypassParameter(processor)),
+    flangerFeedback(createFlangerFeedbackParameter(processor)) {
 }
 }  // namespace efx

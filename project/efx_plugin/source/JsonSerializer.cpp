@@ -11,6 +11,12 @@ struct SerializableParameters {
   bool tremoloBypass;
   juce::String tremoloWaveform;
 
+  float flangerRate;
+  float flangerMix;
+  float flangerDepth;
+  float flangerFeedback;
+  bool flangerBypass;
+
   static constexpr auto marshallingVersion = 1;
 
   template <typename Archive, typename T>
@@ -37,7 +43,12 @@ struct SerializableParameters {
         named("tremoloMix", t.tremoloMix),
         named("tremoloDepth", t.tremoloDepth),
         named("tremoloBypass", t.tremoloBypass),
-        named("tremoloWaveform", t.tremoloWaveform)
+        named("tremoloWaveform", t.tremoloWaveform),
+        named("flangerRate", t.flangerRate),
+        named("flangerMix", t.flangerMix),
+        named("flangerDepth", t.flangerDepth),
+        named("flangerFeedback", t.flangerFeedback),
+        named("flangerBypass", t.flangerBypass)
     );
   }
 };
@@ -52,6 +63,11 @@ SerializableParameters from(const efx::Parameters &parameters) {
       .tremoloDepth = parameters.tremoloDepth.get(),
       .tremoloBypass = parameters.tremoloBypass.get(),
       .tremoloWaveform = parameters.tremoloWaveform.getCurrentChoiceName(),
+      .flangerRate = parameters.flangerRate.get(),
+      .flangerMix = parameters.flangerMix.get(),
+      .flangerDepth = parameters.flangerDepth.get(),
+      .flangerFeedback = parameters.flangerFeedback.get(),
+      .flangerBypass = parameters.flangerBypass.get()
   };
 }
 } // namespace
@@ -101,6 +117,12 @@ juce::Result JsonSerializer::deserialize(juce::InputStream& input,
   parameters.tremoloMix = parsedParameters->tremoloMix;
   parameters.tremoloDepth = parsedParameters->tremoloDepth;
   parameters.tremoloBypass = parsedParameters->tremoloBypass;
+
+  parameters.flangerBypass = parsedParameters->flangerBypass;
+  parameters.flangerRate = parsedParameters->flangerRate;
+  parameters.flangerMix = parsedParameters->flangerMix;
+  parameters.flangerDepth = parsedParameters->flangerDepth;
+  parameters.flangerFeedback = parsedParameters->flangerFeedback;
 
   return juce::Result::ok();
 }
