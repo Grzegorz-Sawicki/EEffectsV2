@@ -60,19 +60,24 @@ public:
   }
 
   void process(juce::dsp::ProcessContextReplacing<float>& context) noexcept override {
-    if(bypass) return;
+    if(bypass) {
+      return;
+    }
 
-    const auto& block = context.getOutputBlock();
+    const auto &inputBlock = context.getInputBlock();
+    auto &outputBlock = context.getOutputBlock();
 
-    for (const auto frameIndex : std::views::iota(static_cast<size_t>(0), block.getNumSamples())) {
+    const auto numChannels = outputBlock.getNumChannels();
+    const auto numSamples = outputBlock.getNumSamples();
+
+    for (size_t frameIndex = 0; frameIndex < numSamples; ++frameIndex) {
       const auto lfoValue = lfo.getNextSample();
 
       const auto modulationValue = (depthSmoothed.getNextValue() * lfoValue) + 1;
       const auto mixValue = mixSmoothed.getNextValue();
 
-      for (const auto channelIndex :
-          std::views::iota(static_cast<size_t>(0), block.getNumChannels())) {
-        const auto inputSample = block.getSample(channelIndex, frameIndex);
+      for (size_t channelIndex = 0; channelIndex < numChannels; ++channelIndex) {
+        const auto inputSample = inputBlock.getSample(channelIndex, frameIndex);
 
         const auto dry = inputSample * (1 - mixValue);
         const auto unmixedOutput = inputSample * modulationValue;
@@ -80,7 +85,7 @@ public:
 
         const auto mixedOutput = dry + wet;
 
-        block.setSample(channelIndex, frameIndex, mixedOutput);
+        outputBlock.setSample(channelIndex, frameIndex, mixedOutput);
       }
     }
   }

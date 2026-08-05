@@ -3,6 +3,7 @@ PluginProcessor::PluginProcessor()
     : gain (juce::dsp::get<gainIndex>(processorChain)),
       pan (juce::dsp::get<panIndex>(processorChain)),
       tremolo (juce::dsp::get<tremoloIndex>(processorChain)),
+      flanger (juce::dsp::get<flangerIndex>(processorChain)),
       AudioProcessor(
           BusesProperties()
               .withInput("Input", juce::AudioChannelSet::stereo(), true)

@@ -44,6 +44,7 @@ END_JUCE_MODULE_DECLARATION
 #include "include/EFX/LFO.h"
 #include "include/EFX/BypassTransitionSmoother.h"
 #include "include/EFX/TremoloProcessor.h"
+#include "include/EFX/FlangerProcessor.h"
 #include "include/EFX/VUMeter.h"
 #include "include/EFX/PluginProcessor.h"
 #include "include/EFX/PluginEditor.h"
