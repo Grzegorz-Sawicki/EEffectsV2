@@ -17,6 +17,21 @@ struct SerializableParameters {
   float flangerFeedback;
   bool flangerBypass;
 
+  float lowpassFrequency;
+  float lowpassResonance;
+  float lowpassMix;
+  bool lowpassBypass;
+
+  float highpassFrequency;
+  float highpassResonance;
+  float highpassMix;
+  bool highpassBypass;
+
+  float bandpassFrequency;
+  float bandpassResonance;
+  float bandpassMix;
+  bool bandpassBypass;
+
   static constexpr auto marshallingVersion = 1;
 
   template <typename Archive, typename T>
@@ -48,7 +63,19 @@ struct SerializableParameters {
         named("flangerMix", t.flangerMix),
         named("flangerDepth", t.flangerDepth),
         named("flangerFeedback", t.flangerFeedback),
-        named("flangerBypass", t.flangerBypass)
+        named("flangerBypass", t.flangerBypass),
+        named("lowpassFrequency", t.lowpassFrequency),
+        named("lowpassResonance", t.lowpassResonance),
+        named("lowpassMix", t.lowpassMix),
+        named("lowpassBypass", t.lowpassBypass),
+        named("highpassFrequency", t.highpassFrequency),
+        named("highpassResonance", t.highpassResonance),
+        named("highpassMix", t.highpassMix),
+        named("highpassBypass", t.highpassBypass),
+        named("bandpassFrequency", t.bandpassFrequency),
+        named("bandpassResonance", t.bandpassResonance),
+        named("bandpassMix", t.bandpassMix),
+        named("bandpassBypass", t.bandpassBypass)
     );
   }
 };
@@ -67,7 +94,19 @@ SerializableParameters from(const efx::Parameters &parameters) {
       .flangerMix = parameters.flangerMix.get(),
       .flangerDepth = parameters.flangerDepth.get(),
       .flangerFeedback = parameters.flangerFeedback.get(),
-      .flangerBypass = parameters.flangerBypass.get()
+      .flangerBypass = parameters.flangerBypass.get(),
+      .lowpassFrequency = parameters.lowpassFrequency.get(),
+      .lowpassResonance = parameters.lowpassResonance.get(),
+      .lowpassMix = parameters.lowpassMix.get(),
+      .lowpassBypass = parameters.lowpassBypass.get(),
+      .highpassFrequency = parameters.highpassFrequency.get(),
+      .highpassResonance = parameters.highpassResonance.get(),
+      .highpassMix = parameters.highpassMix.get(),
+      .highpassBypass = parameters.highpassBypass.get(),
+      .bandpassFrequency = parameters.bandpassFrequency.get(),
+      .bandpassResonance = parameters.bandpassResonance.get(),
+      .bandpassMix = parameters.bandpassMix.get(),
+      .bandpassBypass = parameters.bandpassBypass.get()
   };
 }
 } // namespace
@@ -123,6 +162,21 @@ juce::Result JsonSerializer::deserialize(juce::InputStream& input,
   parameters.flangerMix = parsedParameters->flangerMix;
   parameters.flangerDepth = parsedParameters->flangerDepth;
   parameters.flangerFeedback = parsedParameters->flangerFeedback;
+
+  parameters.lowpassFrequency = parsedParameters->lowpassFrequency;
+  parameters.lowpassResonance = parsedParameters->lowpassResonance;
+  parameters.lowpassMix = parsedParameters->lowpassMix;
+  parameters.lowpassBypass = parsedParameters->lowpassBypass;
+
+  parameters.highpassFrequency = parsedParameters->highpassFrequency;
+  parameters.highpassResonance = parsedParameters->highpassResonance;
+  parameters.highpassMix = parsedParameters->highpassMix;
+  parameters.highpassBypass = parsedParameters->highpassBypass;
+
+  parameters.bandpassFrequency = parsedParameters->bandpassFrequency;
+  parameters.bandpassResonance = parsedParameters->bandpassResonance;
+  parameters.bandpassMix = parsedParameters->bandpassMix;
+  parameters.bandpassBypass = parsedParameters->bandpassBypass;
 
   return juce::Result::ok();
 }

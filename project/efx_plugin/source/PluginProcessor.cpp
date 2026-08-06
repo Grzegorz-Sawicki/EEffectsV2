@@ -4,6 +4,9 @@ PluginProcessor::PluginProcessor()
       pan (juce::dsp::get<panIndex>(processorChain)),
       tremolo (juce::dsp::get<tremoloIndex>(processorChain)),
       flanger (juce::dsp::get<flangerIndex>(processorChain)),
+      lowpass (juce::dsp::get<lowpassIndex>(processorChain)),
+      highpass (juce::dsp::get<highpassIndex>(processorChain)),
+      bandpass (juce::dsp::get<bandpassIndex>(processorChain)),
       AudioProcessor(
           BusesProperties()
               .withInput("Input", juce::AudioChannelSet::stereo(), true)
@@ -123,6 +126,21 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   flanger.setFeedback(parameters.flangerFeedback.get());
   flanger.setBypass(parameters.flangerBypass.get());
 
+  lowpass.setCutoff(parameters.lowpassFrequency.get());
+  lowpass.setResonance(parameters.lowpassResonance.get());
+  lowpass.setMix(parameters.lowpassMix.get());
+  lowpass.setBypass(parameters.lowpassBypass.get());
+
+  highpass.setCutoff(parameters.highpassFrequency.get());
+  highpass.setResonance(parameters.highpassResonance.get());
+  highpass.setMix(parameters.highpassMix.get());
+  highpass.setBypass(parameters.highpassBypass.get());
+
+  bandpass.setCutoff(parameters.bandpassFrequency.get());
+  bandpass.setResonance(parameters.bandpassResonance.get());
+  bandpass.setMix(parameters.bandpassMix.get());
+  bandpass.setBypass(parameters.bandpassBypass.get());
+
   if(parameters.bypass.get()) {
     return;
   }
@@ -187,6 +205,21 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
   flanger.setFeedback(parameters.flangerFeedback.get(), true);
   flanger.setRate(parameters.flangerRate.get(), true);
   flanger.setBypass(parameters.flangerBypass.get());
+
+  lowpass.setCutoff(parameters.lowpassFrequency.get(), true);
+  lowpass.setResonance(parameters.lowpassResonance.get(), true);
+  lowpass.setMix(parameters.lowpassMix.get(), true);
+  lowpass.setBypass(parameters.lowpassBypass.get());
+
+  highpass.setCutoff(parameters.highpassFrequency.get(), true);
+  highpass.setResonance(parameters.highpassResonance.get(), true);
+  highpass.setMix(parameters.highpassMix.get(), true);
+  highpass.setBypass(parameters.highpassBypass.get());
+
+  bandpass.setCutoff(parameters.bandpassFrequency.get(), true);
+  bandpass.setResonance(parameters.bandpassResonance.get(), true);
+  bandpass.setMix(parameters.bandpassMix.get(), true);
+  bandpass.setBypass(parameters.bandpassBypass.get());
 }
 
 juce::AudioProcessorParameter* PluginProcessor::getBypassParameter() const {

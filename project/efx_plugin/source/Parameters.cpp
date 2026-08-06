@@ -77,7 +77,7 @@ juce::AudioParameterBool &createTremoloBypassParameter(juce::AudioProcessor &pro
   auto parameter = std::make_unique<juce::AudioParameterBool>(
       juce::ParameterID{"tremolo.bypass", defaultVersionHint},
       juce::String{"Tremolo bypass"},
-      false
+      true
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -141,7 +141,148 @@ juce::AudioParameterBool &createFlangerBypassParameter(juce::AudioProcessor &pro
   auto parameter = std::make_unique<juce::AudioParameterBool>(
       juce::ParameterID{"flanger.bypass", defaultVersionHint},
       juce::String{"Flanger bypass"},
-      false
+      true
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createLowpassFrequencyParameter(juce::AudioProcessor &processor) {
+  juce::NormalisableRange<float> freqRange{20.0f, 20000.0f, 1.0f};
+  freqRange.setSkewForCentre(1000.0f);
+
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"lowpass.frequency", defaultVersionHint},
+      juce::String{"Lowpass cutoff frequency"},
+      freqRange,
+      20000.0f,
+      juce::AudioParameterFloatAttributes{}.withLabel("Hz")
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createLowpassResonanceParameter(juce::AudioProcessor &processor) {
+  juce::NormalisableRange<float> qRange{0.1f, 10.0f, 0.01f};
+  qRange.setSkewForCentre(1.0f);
+
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"lowpass.resonance", defaultVersionHint},
+      juce::String{"Lowpass resonance"},
+      qRange,
+      0.7071f,
+      juce::AudioParameterFloatAttributes{}.withLabel("Q")
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createLowpassMixParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"lowpass.mix", defaultVersionHint},
+      juce::String{"Lowpass mix"},
+      juce::NormalisableRange{0.f, 1.f, 0.001f},
+      1.f
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterBool &createLowpassBypassParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterBool>(
+      juce::ParameterID{"lowpass.bypass", defaultVersionHint},
+      juce::String{"Lowpass bypass"},
+      true
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createHighpassFrequencyParameter(juce::AudioProcessor &processor) {
+  juce::NormalisableRange<float> freqRange{20.0f, 20000.0f, 1.0f};
+  freqRange.setSkewForCentre(1000.0f);
+
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"highpass.frequency", defaultVersionHint},
+      juce::String{"Highpass cutoff frequency"},
+      freqRange,
+      20.0f,
+      juce::AudioParameterFloatAttributes{}.withLabel("Hz")
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createHighpassResonanceParameter(juce::AudioProcessor &processor) {
+  juce::NormalisableRange<float> qRange{0.1f, 10.0f, 0.01f};
+  qRange.setSkewForCentre(1.0f);
+
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"highpass.resonance", defaultVersionHint},
+      juce::String{"Highpass resonance"},
+      qRange,
+      0.7071f,
+      juce::AudioParameterFloatAttributes{}.withLabel("Q")
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createHighpassMixParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"highpass.mix", defaultVersionHint},
+      juce::String{"Highpass mix"},
+      juce::NormalisableRange{0.f, 1.f, 0.001f},
+      1.f
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterBool &createHighpassBypassParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterBool>(
+      juce::ParameterID{"highpass.bypass", defaultVersionHint},
+      juce::String{"Highpass bypass"},
+      true
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createBandpassFrequencyParameter(juce::AudioProcessor &processor) {
+  juce::NormalisableRange<float> freqRange{20.0f, 20000.0f, 1.0f};
+  freqRange.setSkewForCentre(1000.0f);
+
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"bandpass.frequency", defaultVersionHint},
+      juce::String{"Bandpass cutoff frequency"},
+      freqRange,
+      20.0f,
+      juce::AudioParameterFloatAttributes{}.withLabel("Hz")
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createBandpassResonanceParameter(juce::AudioProcessor &processor) {
+  juce::NormalisableRange<float> qRange{0.1f, 10.0f, 0.01f};
+  qRange.setSkewForCentre(1.0f);
+
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"bandpass.resonance", defaultVersionHint},
+      juce::String{"Bandpass resonance"},
+      qRange,
+      1.0f,
+      juce::AudioParameterFloatAttributes{}.withLabel("Q")
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterFloat &createBandpassMixParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterFloat>(
+      juce::ParameterID{"bandpass.mix", defaultVersionHint},
+      juce::String{"Bandpass mix"},
+      juce::NormalisableRange{0.f, 1.f, 0.001f},
+      1.f
+  );
+  return addParameterToProcessor(processor, std::move(parameter));
+}
+
+juce::AudioParameterBool &createBandpassBypassParameter(juce::AudioProcessor &processor) {
+  auto parameter = std::make_unique<juce::AudioParameterBool>(
+      juce::ParameterID{"bandpass.bypass", defaultVersionHint},
+      juce::String{"Bandpass bypass"},
+      true
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -152,15 +293,32 @@ Parameters::Parameters(juce::AudioProcessor& processor)
   : gain(createGainParameter(processor)),
     pan(createPanParameter(processor)),
     bypass(createBypassParameter(processor)),
+
     tremoloRate(createTremoloRateParameter(processor)),
     tremoloMix(createTremoloMixParameter(processor)),
     tremoloDepth(createTremoloDepthParameter(processor)),
     tremoloBypass(createTremoloBypassParameter(processor)),
     tremoloWaveform(createTremoloWaveformParameter(processor)),
+
     flangerRate(createFlangerRateParameter(processor)),
     flangerMix(createFlangerMixParameter(processor)),
     flangerDepth(createFlangerDepthParameter(processor)),
     flangerBypass(createFlangerBypassParameter(processor)),
-    flangerFeedback(createFlangerFeedbackParameter(processor)) {
+    flangerFeedback(createFlangerFeedbackParameter(processor)),
+
+    lowpassFrequency(createLowpassFrequencyParameter(processor)),
+    lowpassResonance(createLowpassResonanceParameter(processor)),
+    lowpassMix(createLowpassMixParameter(processor)),
+    lowpassBypass(createLowpassBypassParameter(processor)),
+
+    highpassFrequency(createHighpassFrequencyParameter(processor)),
+    highpassResonance(createHighpassResonanceParameter(processor)),
+    highpassMix(createHighpassMixParameter(processor)),
+    highpassBypass(createHighpassBypassParameter(processor)),
+
+    bandpassFrequency(createBandpassFrequencyParameter(processor)),
+    bandpassResonance(createBandpassResonanceParameter(processor)),
+    bandpassMix(createBandpassMixParameter(processor)),
+    bandpassBypass(createBandpassBypassParameter(processor)) {
 }
 }  // namespace efx

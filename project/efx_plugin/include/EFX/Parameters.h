@@ -20,6 +20,21 @@ struct Parameters {
   juce::AudioParameterFloat& flangerFeedback;
   juce::AudioParameterBool& flangerBypass;
 
+  juce::AudioParameterFloat& lowpassFrequency;
+  juce::AudioParameterFloat& lowpassResonance;
+  juce::AudioParameterFloat& lowpassMix;
+  juce::AudioParameterBool& lowpassBypass;
+
+  juce::AudioParameterFloat& highpassFrequency;
+  juce::AudioParameterFloat& highpassResonance;
+  juce::AudioParameterFloat& highpassMix;
+  juce::AudioParameterBool& highpassBypass;
+
+  juce::AudioParameterFloat& bandpassFrequency;
+  juce::AudioParameterFloat& bandpassResonance;
+  juce::AudioParameterFloat& bandpassMix;
+  juce::AudioParameterBool& bandpassBypass;
+
   JUCE_DECLARE_NON_COPYABLE(Parameters);
   JUCE_DECLARE_NON_MOVEABLE(Parameters);
 };
