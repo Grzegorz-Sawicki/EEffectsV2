@@ -1,6 +1,7 @@
 namespace efx {
 PluginEditor::PluginEditor(PluginProcessor& p) :
   AudioProcessorEditor(&p),
+  background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::background)),
   effectDetailView(p),
   vuMeter (p.leftPeak, p.rightPeak),
   gainAttachment(p.getParameterRefs().gain, gainLabeledSlider.slider),
@@ -22,7 +23,7 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   panLabeledSlider.label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
   addAndMakeVisible(panLabeledSlider);
 
-  bypassLabeledButton.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
+  bypassLabeledButton.label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
   addAndMakeVisible(bypassLabeledButton);
 
   addAndMakeVisible(vuMeter);

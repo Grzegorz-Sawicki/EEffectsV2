@@ -9,7 +9,7 @@ class CustomLookAndFeel : public juce::LookAndFeel_V4 {
 public:
   CustomLookAndFeel();
 
-  enum class Colors : size_t { background, whiteHighlight, redHighlight };
+  enum class Colors : size_t { background, effectBackground, whiteHighlight, redHighlight, tremoloHighlight, flangerHighlight, filterHighlight };
 
   static juce::Colour getColor(Colors colorName);
 

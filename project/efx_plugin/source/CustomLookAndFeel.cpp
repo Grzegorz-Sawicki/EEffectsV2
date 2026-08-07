@@ -9,8 +9,12 @@ CustomLookAndFeel::CustomLookAndFeel() {
 juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
   static const std::array colors{
       juce::Colour{0xFF2A3135},
+      juce::Colour{0xFF1E1E1E},
       juce::Colour{0xFFFFFFFF},
-      juce::Colour{0xFFFF005E}
+      juce::Colour{0xFFFF005E},
+      juce::Colour{0xFFFDBA00},
+      juce::Colour{0xFF3BB463},
+      juce::Colour{0xFF5F78DB}
   };
 
   return colors.at(juce::toUnderlyingType(colorName));
