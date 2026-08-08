@@ -75,6 +75,29 @@ private:
   }
 };
 
+class LabeledComboBox : public juce::Component {
+public:
+  LabeledComboBox(const juce::String &labelText) {
+    label.setText(labelText, juce::dontSendNotification);
+
+    addAndMakeVisible(comboBox);
+    addAndMakeVisible(label);
+  }
+
+  void resized() override {
+    auto area = getLocalBounds();
+
+    comboBox.setSize(90, 21);
+    label.setSize(area.getWidth(), 15);
+
+    comboBox.setTopLeftPosition(area.getTopLeft());
+    label.setTopLeftPosition(area.getX(), area.getBottom() - label.getHeight());
+  }
+
+  juce::ComboBox comboBox;
+  juce::Label label;
+};
+
 namespace {
 class Background : public juce::Component {
 public:
@@ -150,7 +173,8 @@ public:
       bypassAttachment(p.getParameterRefs().tremoloBypass, bypassLabeledButton.button),
       mixAttachment(p.getParameterRefs().tremoloMix, mixLabeledSlider.slider),
       depthAttachment(p.getParameterRefs().tremoloDepth, depthLabeledSlider.slider),
-      rateAttachment(p.getParameterRefs().tremoloRate, rateLabeledSlider.slider) {
+      rateAttachment(p.getParameterRefs().tremoloRate, rateLabeledSlider.slider),
+      waveformAttachment(p.getParameterRefs().tremoloWaveform, waveformLabeledComboBox.comboBox) {
     addAndMakeVisible(background);
     addAndMakeVisible(innerBackground);
 
@@ -168,6 +192,12 @@ public:
     rateLabeledSlider.slider.setColour(custom_colors::highlight, mainColor);
     rateLabeledSlider.label.setColour(juce::Label::textColourId, mainColor);
     addAndMakeVisible(rateLabeledSlider);
+
+    waveformLabeledComboBox.comboBox.setColour(custom_colors::highlight, mainColor);
+    waveformLabeledComboBox.comboBox.addItemList(p.getParameterRefs().tremoloWaveform.choices, 1);
+    waveformAttachment.sendInitialUpdate();
+    waveformLabeledComboBox.label.setColour(juce::Label::textColourId, mainColor);
+    addAndMakeVisible(waveformLabeledComboBox);
   }
 
   void resized() override {
@@ -182,6 +212,8 @@ public:
     mixLabeledSlider.setBounds(238, 38, 50, 55);
     depthLabeledSlider.setBounds(158, 38, 50, 55);
     rateLabeledSlider.setBounds(106, 38, 50, 55);
+
+    waveformLabeledComboBox.setBounds(15, 51, 90, 35);
   }
 
 private:
@@ -202,7 +234,8 @@ private:
   LabeledSlider rateLabeledSlider{"RATE"};
   juce::SliderParameterAttachment rateAttachment;
 
-  //TODO WAVEFORM CHOICE
+  LabeledComboBox waveformLabeledComboBox{"WAVEFORM"};
+  juce::ComboBoxParameterAttachment waveformAttachment;
 };
 
 class FlangerEditor : public juce::Component {

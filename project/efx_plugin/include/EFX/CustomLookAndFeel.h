@@ -9,7 +9,7 @@ class CustomLookAndFeel : public juce::LookAndFeel_V4 {
 public:
   CustomLookAndFeel();
 
-  enum class Colors : size_t { background, effectBackground, whiteHighlight, redHighlight, tremoloHighlight, flangerHighlight, filterHighlight };
+  enum class Colors : size_t { background, effectBackground, whiteHighlight, redHighlight, tremoloHighlight, flangerHighlight, filterHighlight, grayBackground };
 
   static juce::Colour getColor(Colors colorName);
 
@@ -21,6 +21,28 @@ public:
 
   juce::Font getLabelFont (juce::Label&) override {
     return interMedium().withPointHeight(12.0f);
+  }
+
+  void drawComboBox (juce::Graphics &g, int width, int height, bool isButtonDown, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox &box) override;
+
+  juce::Font getComboBoxFont (juce::ComboBox&) override {
+    return interMedium().withPointHeight(12.0f);
+  }
+
+  void positionComboBoxText (juce::ComboBox& box, juce::Label& label) override;
+
+  juce::PopupMenu::Options getOptionsForComboBoxPopupMenu (juce::ComboBox&, juce::Label&) override;
+
+  juce::Font getPopupMenuFont() override {
+    return interMedium().withPointHeight(12.0f);
+  }
+
+  juce::Path getTickShape(float) override {
+    return {};
+  }
+
+  juce::BorderSize<int> getLabelBorderSize(juce::Label &) override {
+    return juce::BorderSize<int>{0};
   }
 
   static juce::FontOptions getInterMediumFont() {

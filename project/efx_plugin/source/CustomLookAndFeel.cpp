@@ -4,6 +4,11 @@
 namespace efx {
 CustomLookAndFeel::CustomLookAndFeel() {
   setColour(juce::ResizableWindow::backgroundColourId, getColor(Colors::background));
+  setColour(juce::PopupMenu::textColourId, getColor(Colors::tremoloHighlight));
+  setColour(juce::PopupMenu::highlightedBackgroundColourId, getColor(Colors::tremoloHighlight));
+  setColour(juce::PopupMenu::highlightedTextColourId, getColor(Colors::whiteHighlight));
+  setColour(juce::PopupMenu::backgroundColourId, getColor(Colors::grayBackground));
+  setColour(juce::ComboBox::textColourId, getColor(Colors::tremoloHighlight));
 }
 
 juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
@@ -14,7 +19,8 @@ juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
       juce::Colour{0xFFFF005E},
       juce::Colour{0xFFFDBA00},
       juce::Colour{0xFF3BB463},
-      juce::Colour{0xFF5F78DB}
+      juce::Colour{0xFF5F78DB},
+      juce::Colour{0xFF353535}
   };
 
   return colors.at(juce::toUnderlyingType(colorName));
@@ -110,6 +116,62 @@ CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, 
   indicatorLine.lineTo(endPoint);
   g.setColour(ringColor);
   g.strokePath(indicatorLine, juce::PathStrokeType(1.0f, juce::PathStrokeType::curved));
+}
+
+void CustomLookAndFeel::drawComboBox(juce::Graphics &g,
+                                     int,
+                                     int,
+                                     bool,
+                                     int,
+                                     int,
+                                     int, int,
+                                     juce::ComboBox &box) {
+  auto bounds = box.getLocalBounds().toFloat();
+  auto highlightColor = box.findColour(custom_colors::highlight, true);
+  g.setColour(highlightColor);
+  g.fillRoundedRectangle(bounds, 2);
+
+  auto buttonBounds = bounds.reduced(2.f);
+  g.setColour(getColor(Colors::effectBackground));
+  g.fillRoundedRectangle(buttonBounds, 2);
+
+  auto arrowWidth = 8.f;
+  auto arrowHeight = 6.f;
+  auto arrowX = buttonBounds.getWidth() - 8 - arrowWidth / 2.f;
+  auto arrowY = buttonBounds.getCentreY();
+  auto arrowBounds = juce::Rectangle<float>{0, 0, arrowWidth, arrowHeight};
+  arrowBounds.setCentre(arrowX, arrowY);
+
+  juce::Path arrow;
+  arrow.startNewSubPath(arrowBounds.getTopLeft());
+  arrow.lineTo(arrowBounds.getTopRight());
+  arrow.lineTo(arrowBounds.getCentreX(), arrowBounds.getBottom());
+  arrow.closeSubPath();
+
+  g.setColour(highlightColor);
+  g.fillPath(arrow);
+}
+
+void CustomLookAndFeel::positionComboBoxText(juce::ComboBox &box, juce::Label &label) {
+  auto bounds = box.getLocalBounds();
+  bounds.removeFromLeft(5);
+  bounds.removeFromTop(4);
+  bounds.removeFromBottom(4);
+  bounds.removeFromRight(10);
+
+  label.setBounds(bounds);
+  label.setJustificationType(juce::Justification::left);
+  label.setFont(getComboBoxFont(box));
+}
+
+juce::PopupMenu::Options CustomLookAndFeel::getOptionsForComboBoxPopupMenu(juce::ComboBox &box, juce::Label &label) {
+  const auto menuBounds = box.getScreenBounds().reduced(2, 0);
+
+  return LookAndFeel_V4::getOptionsForComboBoxPopupMenu(box, label)
+      .withStandardItemHeight(18)
+      .withItemThatMustBeVisible(0)
+      .withTargetScreenArea(menuBounds)
+      .withMinimumWidth(76);
 }
 
 juce::FontOptions CustomLookAndFeel::interMedium() {
