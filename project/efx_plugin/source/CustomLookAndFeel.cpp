@@ -118,4 +118,10 @@ juce::FontOptions CustomLookAndFeel::interMedium() {
   return juce::FontOptions(result);
 }
 
+juce::FontOptions CustomLookAndFeel::orbitronMedium() {
+  static const auto result = juce::Typeface::createSystemTypefaceFor(assets::OrbitronMedium_ttf,
+                                                                     assets::OrbitronMedium_ttfSize);
+  return juce::FontOptions(result);
+}
+
 }  // namespace efx

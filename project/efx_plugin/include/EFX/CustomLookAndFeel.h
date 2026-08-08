@@ -27,7 +27,12 @@ public:
     return interMedium().withPointHeight(12.0f);
   }
 
+  static juce::FontOptions getOrbitronMediumFont() {
+    return orbitronMedium().withPointHeight(20.0f);
+  }
+
 private:
   static juce::FontOptions interMedium();
+  static juce::FontOptions orbitronMedium();
 };
 }  // namespace efx

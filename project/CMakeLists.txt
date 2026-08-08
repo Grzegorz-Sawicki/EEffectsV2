@@ -98,9 +98,9 @@ juce_add_binary_data(plugin_assets
   NAMESPACE
     efx::assets
   SOURCES
-    assets/Background.png
     assets/efx_logo.png
     assets/Inter-Medium.ttf
+    assets/Orbitron-Medium.ttf
 )
 
 add_library(efx::plugin_assets ALIAS plugin_assets)
