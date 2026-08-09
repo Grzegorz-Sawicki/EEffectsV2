@@ -18,7 +18,8 @@ public:
     flangerHighlight,
     filterHighlight,
     grayBackground,
-    dirtyWhite
+    dirtyWhite,
+    grey
   };
 
   static juce::Colour getColor(Colors colorName);

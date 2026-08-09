@@ -113,50 +113,99 @@ private:
 
 class EffectRackItem : public juce::Component {
 public:
-  EffectRackItem(juce::String effectName) : name(std::move(effectName)) {
+  EffectRackItem(juce::String effectName) :
+      name(std::move(effectName)),
+      background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::grey)),
+      whiteBackground(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight)) {
+    addAndMakeVisible(whiteBackground);
+    addAndMakeVisible(background);
+
     label.setText(name, juce::dontSendNotification);
     label.setInterceptsMouseClicks(false, false);
     addAndMakeVisible(label);
 
-    bypassButton.setClickingTogglesState(true);
-    bypassButton.onClick = [this](){
-      bypassButton.setButtonText(bypassButton.getToggleState() ? "ON" : "OFF");
+    button.getProperties().set("customFontSize", 9.0f);
+    button.setClickingTogglesState(true);
+    button.onClick = [this]() {
+      button.setButtonText(button.getToggleState() ? "ON" : "OFF");
     };
-    bypassButton.onClick();
-    bypassButton.setColour(custom_colors::highlight, mainColor);
-    addAndMakeVisible(bypassButton);
+    button.onClick();
+    setMainColor(mainColor);
+    addAndMakeVisible(button);
+
+    addMouseListener(this, true);
+    updateHoverVisuals();
   }
 
   void resized() override {
-    auto bounds = getLocalBounds().reduced(4);
-    bypassButton.setBounds(bounds.removeFromRight(40));
-    label.setBounds(bounds);
+    auto bounds = getLocalBounds();
+
+    whiteBackground.setBounds(bounds);
+    background.setBounds(bounds);
+
+    button.setBounds(88, 3, 22, 14);
+    label.setBounds(3, 3, 82, 14);
   }
 
   void mouseUp(const juce::MouseEvent &event) override {
-    if (event.eventComponent != &bypassButton) {
+    if (event.eventComponent != &button) {
       if (onSelect)
         onSelect(name);
     }
   }
 
+  void mouseEnter(const juce::MouseEvent &) override {
+    updateHoverVisuals();
+  }
+
+  void mouseExit(const juce::MouseEvent &) override {
+    updateHoverVisuals();
+  }
+
+  void setMainColor(juce::Colour color) {
+    mainColor = color;
+    label.setColour(juce::Label::textColourId, mainColor);
+    button.setColour(custom_colors::highlight, mainColor);
+  }
+
   std::function<void(juce::String)> onSelect;
 
-  juce::TextButton bypassButton;
+  Background whiteBackground;
+  Background background;
+  juce::TextButton button;
 
   juce::Colour mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::redHighlight);
 
 private:
+  void updateHoverVisuals() {
+    bool currentlyHovered = isMouseOver(true);
+
+    if (isHovered != currentlyHovered) {
+      isHovered = currentlyHovered;
+
+      float childAlpha = isHovered ? 0.85f : 1.0f;
+      background.setAlpha(childAlpha);
+      label.setAlpha(childAlpha);
+      button.setAlpha(childAlpha);
+
+      repaint();
+    }
+  }
+
+  bool isHovered = false;
+
   juce::String name;
   juce::Label label;
 };
 
 class EffectRackView : public juce::Component {
 public:
-  EffectRackView() {
-    tremoloItem.mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::tremoloHighlight);
-    flangerItem.mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::flangerHighlight);
-    filterItem.mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::filterHighlight);
+  EffectRackView() : background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground)) {
+    tremoloItem.setMainColor(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::tremoloHighlight));
+    flangerItem.setMainColor(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::flangerHighlight));
+    filterItem.setMainColor(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::filterHighlight));
+
+    addAndMakeVisible(background);
 
     addAndMakeVisible(tremoloItem);
     addAndMakeVisible(flangerItem);
@@ -165,13 +214,19 @@ public:
 
   void resized() override {
     auto bounds = getLocalBounds();
-    int itemHeight = 30;
 
-    tremoloItem.setBounds(bounds.removeFromTop(itemHeight));
-    flangerItem.setBounds(bounds.removeFromTop(itemHeight));
-    filterItem.setBounds(bounds.removeFromTop(itemHeight));
+    background.setBounds(bounds);
+
+    auto padding = 4;
+    auto itemWidth = 113;
+    auto itemHeight = 20;
+
+    tremoloItem.setBounds(padding, padding, itemWidth, itemHeight);
+    flangerItem.setBounds(padding, tremoloItem.getBottom() + padding, itemWidth, itemHeight);
+    filterItem.setBounds(padding, flangerItem.getBottom() + padding, itemWidth, itemHeight);
   }
 
+  Background background;
   EffectRackItem tremoloItem{"Tremolo"};
   EffectRackItem flangerItem{"Flanger"};
   EffectRackItem filterItem{"Filter"};
@@ -189,7 +244,7 @@ public:
     addAndMakeVisible(innerBackground);
 
     bypassButton.setClickingTogglesState(true);
-    bypassButton.onClick = [this](){
+    bypassButton.onClick = [this]() {
       bypassButton.setButtonText(bypassButton.getToggleState() ? "ON" : "OFF");
     };
     bypassButton.onClick();
@@ -259,7 +314,7 @@ public:
 
   }
 
-  void paint(juce::Graphics& g) override {
+  void paint(juce::Graphics &g) override {
     const auto bounds = getLocalBounds();
 
     g.setColour(juce::Colours::green);
@@ -273,7 +328,7 @@ public:
 
   }
 
-  void paint(juce::Graphics& g) override {
+  void paint(juce::Graphics &g) override {
     const auto bounds = getLocalBounds();
 
     g.setColour(juce::Colours::blue);

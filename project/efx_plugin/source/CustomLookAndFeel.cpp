@@ -21,7 +21,8 @@ juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
       juce::Colour{0xFF3BB463},
       juce::Colour{0xFF5F78DB},
       juce::Colour{0xFF353535},
-      juce::Colour{0xFFD9D9D9}
+      juce::Colour{0xFFD9D9D9},
+      juce::Colour{0xFF4A494E}
   };
 
   return colors.at(juce::toUnderlyingType(colorName));
