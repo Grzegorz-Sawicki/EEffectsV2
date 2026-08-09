@@ -3,6 +3,7 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   AudioProcessorEditor(&p),
   background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::background)),
   effectDetailView(p),
+  effectRackView(p),
   vuMeter (p.leftPeak, p.rightPeak),
   gainAttachment(p.getParameterRefs().gain, gainLabeledSlider.slider),
   panAttachment(p.getParameterRefs().pan, panLabeledSlider.slider),

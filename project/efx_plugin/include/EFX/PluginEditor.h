@@ -147,7 +147,7 @@ public:
     label.setBounds(3, 3, 82, 14);
   }
 
-  void paintOverChildren(juce::Graphics& g) override {
+  void paintOverChildren(juce::Graphics &g) override {
     if (isSelected) {
       g.setColour(mainColor);
 
@@ -170,6 +170,7 @@ public:
   }
 
   void mouseEnter(const juce::MouseEvent &) override { updateHoverVisuals(); }
+
   void mouseExit(const juce::MouseEvent &) override { updateHoverVisuals(); }
 
   void setMainColor(juce::Colour color) {
@@ -186,7 +187,7 @@ public:
 
   juce::Colour mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::redHighlight);
 
-private:
+protected:
   void updateHoverVisuals() {
     bool currentlyHovered = isMouseOver(true);
 
@@ -209,9 +210,63 @@ private:
   juce::Label label;
 };
 
+class MultiButtonRackItem : public EffectRackItem {
+public:
+  MultiButtonRackItem(juce::String effectName) : EffectRackItem(std::move(effectName)) {
+    setupExtraButton(button2);
+    setupExtraButton(button3);
+  }
+
+  void resized() override {
+    EffectRackItem::resized();
+
+    button.setBounds(88, 3, 22, 14);
+    label.setBounds(3, 3, 82, 14);
+
+    button3.setBounds(88, 3, 22, 14);
+    button2.setBounds(63, 3, 22, 14);
+    button.setBounds(38, 3, 22, 14);
+
+    label.setBounds(3, 3, 32, 14);
+  }
+
+  void setMainColor(juce::Colour color) {
+    EffectRackItem::setMainColor(color);
+    button2.setColour(custom_colors::highlight, color);
+    button3.setColour(custom_colors::highlight, color);
+  }
+
+  void mouseUp(const juce::MouseEvent &event) override {
+    if (event.eventComponent != &button && event.eventComponent != &button2 && event.eventComponent != &button3) {
+      if (onSelect)
+        onSelect(name);
+    }
+  }
+
+  juce::TextButton button2;
+  juce::TextButton button3;
+
+private:
+  void setupExtraButton(juce::TextButton& btn) {
+    btn.getProperties().set("customFontSize", 9.0f);
+    btn.setClickingTogglesState(true);
+    btn.onClick = [&btn]() {
+      btn.setButtonText(btn.getToggleState() ? "ON" : "OFF");
+    };
+    btn.onClick();
+    addAndMakeVisible(btn);
+  }
+};
+
 class EffectRackView : public juce::Component {
 public:
-  EffectRackView() : background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground)) {
+  EffectRackView(PluginProcessor &p) :
+      background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground)),
+      tremoloActiveAttachment(p.getParameterRefs().tremoloActive, tremoloItem.button),
+      flangerActiveAttachment(p.getParameterRefs().flangerActive, flangerItem.button),
+      lowpassActiveAttachment(p.getParameterRefs().lowpassActive, filterItem.button),
+      bandpassActiveAttachment(p.getParameterRefs().bandpassActive, filterItem.button2),
+      highpassActiveAttachment(p.getParameterRefs().highpassActive, filterItem.button3) {
     tremoloItem.setMainColor(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::tremoloHighlight));
     flangerItem.setMainColor(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::flangerHighlight));
     filterItem.setMainColor(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::filterHighlight));
@@ -221,7 +276,7 @@ public:
     addAndMakeVisible(flangerItem);
     addAndMakeVisible(filterItem);
 
-    auto itemClickedCallback = [this](const juce::String& selectedName) {
+    auto itemClickedCallback = [this](const juce::String &selectedName) {
       setSelectedItem(selectedName);
 
       if (onEffectChanged)
@@ -246,7 +301,7 @@ public:
     filterItem.setBounds(padding, flangerItem.getBottom() + padding, itemWidth, itemHeight);
   }
 
-  void setSelectedItem(const juce::String& effectName) {
+  void setSelectedItem(const juce::String &effectName) {
     tremoloItem.setSelected(effectName == "Tremolo");
     flangerItem.setSelected(effectName == "Flanger");
     filterItem.setSelected(effectName == "Filter");
@@ -256,8 +311,15 @@ public:
 
   Background background;
   EffectRackItem tremoloItem{"Tremolo"};
+  juce::ButtonParameterAttachment tremoloActiveAttachment;
+
   EffectRackItem flangerItem{"Flanger"};
-  EffectRackItem filterItem{"Filter"};
+  juce::ButtonParameterAttachment flangerActiveAttachment;
+
+  MultiButtonRackItem filterItem{"Filter"};
+  juce::ButtonParameterAttachment lowpassActiveAttachment;
+  juce::ButtonParameterAttachment bandpassActiveAttachment;
+  juce::ButtonParameterAttachment highpassActiveAttachment;
 };
 
 class TremoloEditor : public juce::Component {
@@ -303,7 +365,7 @@ public:
     auto backgroundBounds = bounds;
     background.setBounds(backgroundBounds);
 
-    auto innerBackgroundBounds = backgroundBounds.reduced(5);
+    auto innerBackgroundBounds = backgroundBounds.reduced(2);
     innerBackground.setBounds(innerBackgroundBounds);
 
     activeButton.setBounds(292, 50, 50, 55);

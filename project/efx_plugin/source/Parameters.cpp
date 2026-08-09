@@ -1,7 +1,7 @@
 
 namespace efx {
 namespace {
-auto& addParameterToProcessor(juce::AudioProcessor& processor, auto parameter) {
+auto &addParameterToProcessor(juce::AudioProcessor &processor, auto parameter) {
   auto &parameterReference = *parameter;
   processor.addParameter(parameter.release());
   return parameterReference;
@@ -16,8 +16,8 @@ juce::AudioParameterFloat &createGainParameter(juce::AudioProcessor &processor) 
       juce::NormalisableRange{-24.f, 24.f, 0.1f},
       0.f,
       juce::AudioParameterFloatAttributes{}.withLabel("dB")
-        .withStringFromValueFunction([](float x, int) { return juce::String(x,1); })
-      );
+          .withStringFromValueFunction([](float x, int) { return juce::String(x, 1); })
+  );
   return addParameterToProcessor(processor, std::move(parameter));
 }
 
@@ -36,7 +36,7 @@ juce::AudioParameterBool &createBypassParameter(juce::AudioProcessor &processor)
       juce::ParameterID("bypass", defaultVersionHint),
       juce::String("Bypass"),
       false
-      );
+  );
   return addParameterToProcessor(processor, std::move(parameter));
 }
 
@@ -46,7 +46,11 @@ juce::AudioParameterFloat &createTremoloRateParameter(juce::AudioProcessor &proc
       juce::String{"Tremolo modulation rate"},
       juce::NormalisableRange{0.1f, 20.f, 0.01f, 0.4f},
       5.f,
-      juce::AudioParameterFloatAttributes{}.withLabel("Hz")
+      juce::AudioParameterFloatAttributes{}
+          .withLabel("Hz")
+          .withStringFromValueFunction([](float value, int /* maximumStringLength */) {
+            return juce::String(value, 2) + " Hz";
+          })
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -98,7 +102,11 @@ juce::AudioParameterFloat &createFlangerRateParameter(juce::AudioProcessor &proc
       juce::String{"Flanger modulation rate"},
       juce::NormalisableRange{0.05f, 10.f, 0.01f, 0.4f},
       1.0f,
-      juce::AudioParameterFloatAttributes{}.withLabel("Hz")
+      juce::AudioParameterFloatAttributes{}
+          .withLabel("Hz")
+          .withStringFromValueFunction([](float value, int /* maximumStringLength */) {
+            return juce::String(value, 2) + " Hz";
+          })
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -155,7 +163,11 @@ juce::AudioParameterFloat &createLowpassFrequencyParameter(juce::AudioProcessor 
       juce::String{"Lowpass cutoff frequency"},
       freqRange,
       20000.0f,
-      juce::AudioParameterFloatAttributes{}.withLabel("Hz")
+      juce::AudioParameterFloatAttributes{}
+          .withLabel("Hz")
+          .withStringFromValueFunction([](float value, int /* maximumStringLength */) {
+            return juce::String(value, 2) + " Hz";
+          })
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -202,7 +214,11 @@ juce::AudioParameterFloat &createHighpassFrequencyParameter(juce::AudioProcessor
       juce::String{"Highpass cutoff frequency"},
       freqRange,
       20.0f,
-      juce::AudioParameterFloatAttributes{}.withLabel("Hz")
+      juce::AudioParameterFloatAttributes{}
+          .withLabel("Hz")
+          .withStringFromValueFunction([](float value, int /* maximumStringLength */) {
+            return juce::String(value, 2) + " Hz";
+          })
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -249,7 +265,11 @@ juce::AudioParameterFloat &createBandpassFrequencyParameter(juce::AudioProcessor
       juce::String{"Bandpass cutoff frequency"},
       freqRange,
       20.0f,
-      juce::AudioParameterFloatAttributes{}.withLabel("Hz")
+      juce::AudioParameterFloatAttributes{}
+          .withLabel("Hz")
+          .withStringFromValueFunction([](float value, int /* maximumStringLength */) {
+            return juce::String(value, 2) + " Hz";
+          })
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -289,36 +309,36 @@ juce::AudioParameterBool &createBandpassActiveParameter(juce::AudioProcessor &pr
 
 }  // namespace
 
-Parameters::Parameters(juce::AudioProcessor& processor)
-  : gain(createGainParameter(processor)),
-    pan(createPanParameter(processor)),
-    bypass(createBypassParameter(processor)),
+Parameters::Parameters(juce::AudioProcessor &processor)
+    : gain(createGainParameter(processor)),
+      pan(createPanParameter(processor)),
+      bypass(createBypassParameter(processor)),
 
-    tremoloRate(createTremoloRateParameter(processor)),
-    tremoloMix(createTremoloMixParameter(processor)),
-    tremoloDepth(createTremoloDepthParameter(processor)),
-    tremoloActive(createTremoloActiveParameter(processor)),
-    tremoloWaveform(createTremoloWaveformParameter(processor)),
+      tremoloRate(createTremoloRateParameter(processor)),
+      tremoloMix(createTremoloMixParameter(processor)),
+      tremoloDepth(createTremoloDepthParameter(processor)),
+      tremoloActive(createTremoloActiveParameter(processor)),
+      tremoloWaveform(createTremoloWaveformParameter(processor)),
 
-    flangerRate(createFlangerRateParameter(processor)),
-    flangerMix(createFlangerMixParameter(processor)),
-    flangerDepth(createFlangerDepthParameter(processor)),
-    flangerActive(createFlangerActiveParameter(processor)),
-    flangerFeedback(createFlangerFeedbackParameter(processor)),
+      flangerRate(createFlangerRateParameter(processor)),
+      flangerMix(createFlangerMixParameter(processor)),
+      flangerDepth(createFlangerDepthParameter(processor)),
+      flangerActive(createFlangerActiveParameter(processor)),
+      flangerFeedback(createFlangerFeedbackParameter(processor)),
 
-    lowpassFrequency(createLowpassFrequencyParameter(processor)),
-    lowpassResonance(createLowpassResonanceParameter(processor)),
-    lowpassMix(createLowpassMixParameter(processor)),
-    lowpassActive(createLowpassActiveParameter(processor)),
+      lowpassFrequency(createLowpassFrequencyParameter(processor)),
+      lowpassResonance(createLowpassResonanceParameter(processor)),
+      lowpassMix(createLowpassMixParameter(processor)),
+      lowpassActive(createLowpassActiveParameter(processor)),
 
-    highpassFrequency(createHighpassFrequencyParameter(processor)),
-    highpassResonance(createHighpassResonanceParameter(processor)),
-    highpassMix(createHighpassMixParameter(processor)),
-    highpassActive(createHighpassActiveParameter(processor)),
+      highpassFrequency(createHighpassFrequencyParameter(processor)),
+      highpassResonance(createHighpassResonanceParameter(processor)),
+      highpassMix(createHighpassMixParameter(processor)),
+      highpassActive(createHighpassActiveParameter(processor)),
 
-    bandpassFrequency(createBandpassFrequencyParameter(processor)),
-    bandpassResonance(createBandpassResonanceParameter(processor)),
-    bandpassMix(createBandpassMixParameter(processor)),
-    bandpassActive(createBandpassActiveParameter(processor)) {
+      bandpassFrequency(createBandpassFrequencyParameter(processor)),
+      bandpassResonance(createBandpassResonanceParameter(processor)),
+      bandpassMix(createBandpassMixParameter(processor)),
+      bandpassActive(createBandpassActiveParameter(processor)) {
 }
 }  // namespace efx
