@@ -147,6 +147,21 @@ public:
     label.setBounds(3, 3, 82, 14);
   }
 
+  void paintOverChildren(juce::Graphics& g) override {
+    if (isSelected) {
+      g.setColour(mainColor);
+
+      g.drawRect(getLocalBounds(), 1);
+    }
+  }
+
+  void setSelected(bool shouldBeSelected) {
+    if (isSelected != shouldBeSelected) {
+      isSelected = shouldBeSelected;
+      repaint();
+    }
+  }
+
   void mouseUp(const juce::MouseEvent &event) override {
     if (event.eventComponent != &button) {
       if (onSelect)
@@ -154,13 +169,8 @@ public:
     }
   }
 
-  void mouseEnter(const juce::MouseEvent &) override {
-    updateHoverVisuals();
-  }
-
-  void mouseExit(const juce::MouseEvent &) override {
-    updateHoverVisuals();
-  }
+  void mouseEnter(const juce::MouseEvent &) override { updateHoverVisuals(); }
+  void mouseExit(const juce::MouseEvent &) override { updateHoverVisuals(); }
 
   void setMainColor(juce::Colour color) {
     mainColor = color;
@@ -193,6 +203,7 @@ private:
   }
 
   bool isHovered = false;
+  bool isSelected = false;
 
   juce::String name;
   juce::Label label;
@@ -206,15 +217,24 @@ public:
     filterItem.setMainColor(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::filterHighlight));
 
     addAndMakeVisible(background);
-
     addAndMakeVisible(tremoloItem);
     addAndMakeVisible(flangerItem);
     addAndMakeVisible(filterItem);
+
+    auto itemClickedCallback = [this](const juce::String& selectedName) {
+      setSelectedItem(selectedName);
+
+      if (onEffectChanged)
+        onEffectChanged(selectedName);
+    };
+
+    tremoloItem.onSelect = itemClickedCallback;
+    flangerItem.onSelect = itemClickedCallback;
+    filterItem.onSelect = itemClickedCallback;
   }
 
   void resized() override {
     auto bounds = getLocalBounds();
-
     background.setBounds(bounds);
 
     auto padding = 4;
@@ -226,6 +246,14 @@ public:
     filterItem.setBounds(padding, flangerItem.getBottom() + padding, itemWidth, itemHeight);
   }
 
+  void setSelectedItem(const juce::String& effectName) {
+    tremoloItem.setSelected(effectName == "Tremolo");
+    flangerItem.setSelected(effectName == "Flanger");
+    filterItem.setSelected(effectName == "Filter");
+  }
+
+  std::function<void(juce::String)> onEffectChanged;
+
   Background background;
   EffectRackItem tremoloItem{"Tremolo"};
   EffectRackItem flangerItem{"Flanger"};
@@ -235,7 +263,7 @@ public:
 class TremoloEditor : public juce::Component {
 public:
   TremoloEditor(PluginProcessor &p) :
-      bypassAttachment(p.getParameterRefs().tremoloBypass, bypassButton),
+      activeAttachment(p.getParameterRefs().tremoloActive, activeButton),
       mixAttachment(p.getParameterRefs().tremoloMix, mixLabeledSlider.slider),
       depthAttachment(p.getParameterRefs().tremoloDepth, depthLabeledSlider.slider),
       rateAttachment(p.getParameterRefs().tremoloRate, rateLabeledSlider.slider),
@@ -243,13 +271,13 @@ public:
     addAndMakeVisible(background);
     addAndMakeVisible(innerBackground);
 
-    bypassButton.setClickingTogglesState(true);
-    bypassButton.onClick = [this]() {
-      bypassButton.setButtonText(bypassButton.getToggleState() ? "ON" : "OFF");
+    activeButton.setClickingTogglesState(true);
+    activeButton.onClick = [this]() {
+      activeButton.setButtonText(activeButton.getToggleState() ? "ON" : "OFF");
     };
-    bypassButton.onClick();
-    bypassButton.setColour(custom_colors::highlight, mainColor);
-    addAndMakeVisible(bypassButton);
+    activeButton.onClick();
+    activeButton.setColour(custom_colors::highlight, mainColor);
+    addAndMakeVisible(activeButton);
 
     mixLabeledSlider.slider.setColour(custom_colors::highlight, mainColor);
     mixLabeledSlider.label.setColour(juce::Label::textColourId, mainColor);
@@ -278,7 +306,7 @@ public:
     auto innerBackgroundBounds = backgroundBounds.reduced(5);
     innerBackground.setBounds(innerBackgroundBounds);
 
-    bypassButton.setBounds(292, 50, 50, 55);
+    activeButton.setBounds(292, 50, 50, 55);
     mixLabeledSlider.setBounds(238, 38, 50, 55);
     depthLabeledSlider.setBounds(158, 38, 50, 55);
     rateLabeledSlider.setBounds(106, 38, 50, 55);
@@ -292,8 +320,8 @@ private:
   Background background{mainColor};
   Background innerBackground{CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground)};
 
-  juce::TextButton bypassButton;
-  juce::ButtonParameterAttachment bypassAttachment;
+  juce::TextButton activeButton;
+  juce::ButtonParameterAttachment activeAttachment;
 
   LabeledSlider mixLabeledSlider{"MIX"};
   juce::SliderParameterAttachment mixAttachment;

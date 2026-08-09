@@ -55,8 +55,8 @@ public:
     }
   }
 
-  void setBypass(bool newBypass) {
-    bypass = newBypass;
+  void setActive(bool active) {
+    bypass = !active;
   }
 
   void process(juce::dsp::ProcessContextReplacing<float> &context) noexcept override {

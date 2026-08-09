@@ -55,8 +55,8 @@ public:
   }
 
   //TODO: use built-in processor chain bypass?
-  void setBypass(bool newBypass) {
-    bypass = newBypass;
+  void setActive(bool active) {
+    bypass = !active;
   }
 
   void process(juce::dsp::ProcessContextReplacing<float>& context) noexcept override {

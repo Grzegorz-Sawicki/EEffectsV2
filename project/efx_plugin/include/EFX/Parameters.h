@@ -11,29 +11,29 @@ struct Parameters {
   juce::AudioParameterFloat& tremoloRate;
   juce::AudioParameterFloat& tremoloMix;
   juce::AudioParameterFloat& tremoloDepth;
-  juce::AudioParameterBool& tremoloBypass;
+  juce::AudioParameterBool& tremoloActive;
   juce::AudioParameterChoice& tremoloWaveform;
 
   juce::AudioParameterFloat& flangerRate;
   juce::AudioParameterFloat& flangerMix;
   juce::AudioParameterFloat& flangerDepth;
   juce::AudioParameterFloat& flangerFeedback;
-  juce::AudioParameterBool& flangerBypass;
+  juce::AudioParameterBool& flangerActive;
 
   juce::AudioParameterFloat& lowpassFrequency;
   juce::AudioParameterFloat& lowpassResonance;
   juce::AudioParameterFloat& lowpassMix;
-  juce::AudioParameterBool& lowpassBypass;
+  juce::AudioParameterBool& lowpassActive;
 
   juce::AudioParameterFloat& highpassFrequency;
   juce::AudioParameterFloat& highpassResonance;
   juce::AudioParameterFloat& highpassMix;
-  juce::AudioParameterBool& highpassBypass;
+  juce::AudioParameterBool& highpassActive;
 
   juce::AudioParameterFloat& bandpassFrequency;
   juce::AudioParameterFloat& bandpassResonance;
   juce::AudioParameterFloat& bandpassMix;
-  juce::AudioParameterBool& bandpassBypass;
+  juce::AudioParameterBool& bandpassActive;
 
   JUCE_DECLARE_NON_COPYABLE(Parameters);
   JUCE_DECLARE_NON_MOVEABLE(Parameters);

@@ -73,11 +73,11 @@ juce::AudioParameterFloat &createTremoloDepthParameter(juce::AudioProcessor &pro
   return addParameterToProcessor(processor, std::move(parameter));
 }
 
-juce::AudioParameterBool &createTremoloBypassParameter(juce::AudioProcessor &processor) {
+juce::AudioParameterBool &createTremoloActiveParameter(juce::AudioProcessor &processor) {
   auto parameter = std::make_unique<juce::AudioParameterBool>(
-      juce::ParameterID{"tremolo.bypass", defaultVersionHint},
-      juce::String{"Tremolo bypass"},
-      true
+      juce::ParameterID{"tremolo.active", defaultVersionHint},
+      juce::String{"Tremolo active"},
+      false
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -137,11 +137,11 @@ juce::AudioParameterFloat &createFlangerFeedbackParameter(juce::AudioProcessor &
   return addParameterToProcessor(processor, std::move(parameter));
 }
 
-juce::AudioParameterBool &createFlangerBypassParameter(juce::AudioProcessor &processor) {
+juce::AudioParameterBool &createFlangerActiveParameter(juce::AudioProcessor &processor) {
   auto parameter = std::make_unique<juce::AudioParameterBool>(
-      juce::ParameterID{"flanger.bypass", defaultVersionHint},
-      juce::String{"Flanger bypass"},
-      true
+      juce::ParameterID{"flanger.active", defaultVersionHint},
+      juce::String{"Flanger active"},
+      false
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -184,11 +184,11 @@ juce::AudioParameterFloat &createLowpassMixParameter(juce::AudioProcessor &proce
   return addParameterToProcessor(processor, std::move(parameter));
 }
 
-juce::AudioParameterBool &createLowpassBypassParameter(juce::AudioProcessor &processor) {
+juce::AudioParameterBool &createLowpassActiveParameter(juce::AudioProcessor &processor) {
   auto parameter = std::make_unique<juce::AudioParameterBool>(
-      juce::ParameterID{"lowpass.bypass", defaultVersionHint},
-      juce::String{"Lowpass bypass"},
-      true
+      juce::ParameterID{"lowpass.active", defaultVersionHint},
+      juce::String{"Lowpass active"},
+      false
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -231,11 +231,11 @@ juce::AudioParameterFloat &createHighpassMixParameter(juce::AudioProcessor &proc
   return addParameterToProcessor(processor, std::move(parameter));
 }
 
-juce::AudioParameterBool &createHighpassBypassParameter(juce::AudioProcessor &processor) {
+juce::AudioParameterBool &createHighpassActiveParameter(juce::AudioProcessor &processor) {
   auto parameter = std::make_unique<juce::AudioParameterBool>(
-      juce::ParameterID{"highpass.bypass", defaultVersionHint},
-      juce::String{"Highpass bypass"},
-      true
+      juce::ParameterID{"highpass.active", defaultVersionHint},
+      juce::String{"Highpass active"},
+      false
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -278,11 +278,11 @@ juce::AudioParameterFloat &createBandpassMixParameter(juce::AudioProcessor &proc
   return addParameterToProcessor(processor, std::move(parameter));
 }
 
-juce::AudioParameterBool &createBandpassBypassParameter(juce::AudioProcessor &processor) {
+juce::AudioParameterBool &createBandpassActiveParameter(juce::AudioProcessor &processor) {
   auto parameter = std::make_unique<juce::AudioParameterBool>(
-      juce::ParameterID{"bandpass.bypass", defaultVersionHint},
-      juce::String{"Bandpass bypass"},
-      true
+      juce::ParameterID{"bandpass.active", defaultVersionHint},
+      juce::String{"Bandpass active"},
+      false
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -297,28 +297,28 @@ Parameters::Parameters(juce::AudioProcessor& processor)
     tremoloRate(createTremoloRateParameter(processor)),
     tremoloMix(createTremoloMixParameter(processor)),
     tremoloDepth(createTremoloDepthParameter(processor)),
-    tremoloBypass(createTremoloBypassParameter(processor)),
+    tremoloActive(createTremoloActiveParameter(processor)),
     tremoloWaveform(createTremoloWaveformParameter(processor)),
 
     flangerRate(createFlangerRateParameter(processor)),
     flangerMix(createFlangerMixParameter(processor)),
     flangerDepth(createFlangerDepthParameter(processor)),
-    flangerBypass(createFlangerBypassParameter(processor)),
+    flangerActive(createFlangerActiveParameter(processor)),
     flangerFeedback(createFlangerFeedbackParameter(processor)),
 
     lowpassFrequency(createLowpassFrequencyParameter(processor)),
     lowpassResonance(createLowpassResonanceParameter(processor)),
     lowpassMix(createLowpassMixParameter(processor)),
-    lowpassBypass(createLowpassBypassParameter(processor)),
+    lowpassActive(createLowpassActiveParameter(processor)),
 
     highpassFrequency(createHighpassFrequencyParameter(processor)),
     highpassResonance(createHighpassResonanceParameter(processor)),
     highpassMix(createHighpassMixParameter(processor)),
-    highpassBypass(createHighpassBypassParameter(processor)),
+    highpassActive(createHighpassActiveParameter(processor)),
 
     bandpassFrequency(createBandpassFrequencyParameter(processor)),
     bandpassResonance(createBandpassResonanceParameter(processor)),
     bandpassMix(createBandpassMixParameter(processor)),
-    bandpassBypass(createBandpassBypassParameter(processor)) {
+    bandpassActive(createBandpassActiveParameter(processor)) {
 }
 }  // namespace efx

@@ -118,28 +118,28 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   tremolo.setMix(parameters.tremoloMix.get());
   tremolo.setDepth(parameters.tremoloDepth.get()),
   tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()));
-  tremolo.setBypass(parameters.tremoloBypass.get());
+  tremolo.setActive(parameters.tremoloActive.get());
 
   flanger.setRate(parameters.flangerRate.get());
   flanger.setMix(parameters.flangerMix.get());
   flanger.setDepth(parameters.flangerDepth.get());
   flanger.setFeedback(parameters.flangerFeedback.get());
-  flanger.setBypass(parameters.flangerBypass.get());
+  flanger.setActive(parameters.flangerActive.get());
 
   lowpass.setCutoff(parameters.lowpassFrequency.get());
   lowpass.setResonance(parameters.lowpassResonance.get());
   lowpass.setMix(parameters.lowpassMix.get());
-  lowpass.setBypass(parameters.lowpassBypass.get());
+  lowpass.setActive(parameters.lowpassActive.get());
 
   highpass.setCutoff(parameters.highpassFrequency.get());
   highpass.setResonance(parameters.highpassResonance.get());
   highpass.setMix(parameters.highpassMix.get());
-  highpass.setBypass(parameters.highpassBypass.get());
+  highpass.setActive(parameters.highpassActive.get());
 
   bandpass.setCutoff(parameters.bandpassFrequency.get());
   bandpass.setResonance(parameters.bandpassResonance.get());
   bandpass.setMix(parameters.bandpassMix.get());
-  bandpass.setBypass(parameters.bandpassBypass.get());
+  bandpass.setActive(parameters.bandpassActive.get());
 
   if(parameters.bypass.get()) {
     return;
@@ -197,29 +197,29 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
   tremolo.setModulationRate(parameters.tremoloRate.get());
   tremolo.setMix(parameters.tremoloMix.get(), true);
   tremolo.setDepth(parameters.tremoloDepth.get(), true);
-  tremolo.setBypass(parameters.tremoloBypass.get());
+  tremolo.setActive(parameters.tremoloActive.get());
   tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()));
 
   flanger.setMix(parameters.flangerMix.get(), true);
   flanger.setDepth(parameters.flangerDepth.get(), true);
   flanger.setFeedback(parameters.flangerFeedback.get(), true);
   flanger.setRate(parameters.flangerRate.get(), true);
-  flanger.setBypass(parameters.flangerBypass.get());
+  flanger.setActive(parameters.flangerActive.get());
 
   lowpass.setCutoff(parameters.lowpassFrequency.get(), true);
   lowpass.setResonance(parameters.lowpassResonance.get(), true);
   lowpass.setMix(parameters.lowpassMix.get(), true);
-  lowpass.setBypass(parameters.lowpassBypass.get());
+  lowpass.setActive(parameters.lowpassActive.get());
 
   highpass.setCutoff(parameters.highpassFrequency.get(), true);
   highpass.setResonance(parameters.highpassResonance.get(), true);
   highpass.setMix(parameters.highpassMix.get(), true);
-  highpass.setBypass(parameters.highpassBypass.get());
+  highpass.setActive(parameters.highpassActive.get());
 
   bandpass.setCutoff(parameters.bandpassFrequency.get(), true);
   bandpass.setResonance(parameters.bandpassResonance.get(), true);
   bandpass.setMix(parameters.bandpassMix.get(), true);
-  bandpass.setBypass(parameters.bandpassBypass.get());
+  bandpass.setActive(parameters.bandpassActive.get());
 }
 
 juce::AudioProcessorParameter* PluginProcessor::getBypassParameter() const {

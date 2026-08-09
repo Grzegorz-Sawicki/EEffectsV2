@@ -8,29 +8,29 @@ struct SerializableParameters {
   float tremoloRate;
   float tremoloMix;
   float tremoloDepth;
-  bool tremoloBypass;
+  bool tremoloActive;
   juce::String tremoloWaveform;
 
   float flangerRate;
   float flangerMix;
   float flangerDepth;
   float flangerFeedback;
-  bool flangerBypass;
+  bool flangerActive;
 
   float lowpassFrequency;
   float lowpassResonance;
   float lowpassMix;
-  bool lowpassBypass;
+  bool lowpassActive;
 
   float highpassFrequency;
   float highpassResonance;
   float highpassMix;
-  bool highpassBypass;
+  bool highpassActive;
 
   float bandpassFrequency;
   float bandpassResonance;
   float bandpassMix;
-  bool bandpassBypass;
+  bool bandpassActive;
 
   static constexpr auto marshallingVersion = 1;
 
@@ -57,25 +57,25 @@ struct SerializableParameters {
         named("tremoloRate", t.tremoloRate),
         named("tremoloMix", t.tremoloMix),
         named("tremoloDepth", t.tremoloDepth),
-        named("tremoloBypass", t.tremoloBypass),
+        named("tremoloActive", t.tremoloActive),
         named("tremoloWaveform", t.tremoloWaveform),
         named("flangerRate", t.flangerRate),
         named("flangerMix", t.flangerMix),
         named("flangerDepth", t.flangerDepth),
         named("flangerFeedback", t.flangerFeedback),
-        named("flangerBypass", t.flangerBypass),
+        named("flangerActive", t.flangerActive),
         named("lowpassFrequency", t.lowpassFrequency),
         named("lowpassResonance", t.lowpassResonance),
         named("lowpassMix", t.lowpassMix),
-        named("lowpassBypass", t.lowpassBypass),
+        named("lowpassActive", t.lowpassActive),
         named("highpassFrequency", t.highpassFrequency),
         named("highpassResonance", t.highpassResonance),
         named("highpassMix", t.highpassMix),
-        named("highpassBypass", t.highpassBypass),
+        named("highpassActive", t.highpassActive),
         named("bandpassFrequency", t.bandpassFrequency),
         named("bandpassResonance", t.bandpassResonance),
         named("bandpassMix", t.bandpassMix),
-        named("bandpassBypass", t.bandpassBypass)
+        named("bandpassActive", t.bandpassActive)
     );
   }
 };
@@ -88,25 +88,25 @@ SerializableParameters from(const efx::Parameters &parameters) {
       .tremoloRate = parameters.tremoloRate.get(),
       .tremoloMix = parameters.tremoloMix.get(),
       .tremoloDepth = parameters.tremoloDepth.get(),
-      .tremoloBypass = parameters.tremoloBypass.get(),
+      .tremoloActive = parameters.tremoloActive.get(),
       .tremoloWaveform = parameters.tremoloWaveform.getCurrentChoiceName(),
       .flangerRate = parameters.flangerRate.get(),
       .flangerMix = parameters.flangerMix.get(),
       .flangerDepth = parameters.flangerDepth.get(),
       .flangerFeedback = parameters.flangerFeedback.get(),
-      .flangerBypass = parameters.flangerBypass.get(),
+      .flangerActive = parameters.flangerActive.get(),
       .lowpassFrequency = parameters.lowpassFrequency.get(),
       .lowpassResonance = parameters.lowpassResonance.get(),
       .lowpassMix = parameters.lowpassMix.get(),
-      .lowpassBypass = parameters.lowpassBypass.get(),
+      .lowpassActive = parameters.lowpassActive.get(),
       .highpassFrequency = parameters.highpassFrequency.get(),
       .highpassResonance = parameters.highpassResonance.get(),
       .highpassMix = parameters.highpassMix.get(),
-      .highpassBypass = parameters.highpassBypass.get(),
+      .highpassActive = parameters.highpassActive.get(),
       .bandpassFrequency = parameters.bandpassFrequency.get(),
       .bandpassResonance = parameters.bandpassResonance.get(),
       .bandpassMix = parameters.bandpassMix.get(),
-      .bandpassBypass = parameters.bandpassBypass.get()
+      .bandpassActive = parameters.bandpassActive.get()
   };
 }
 } // namespace
@@ -155,9 +155,9 @@ juce::Result JsonSerializer::deserialize(juce::InputStream& input,
   parameters.tremoloRate = parsedParameters->tremoloRate;
   parameters.tremoloMix = parsedParameters->tremoloMix;
   parameters.tremoloDepth = parsedParameters->tremoloDepth;
-  parameters.tremoloBypass = parsedParameters->tremoloBypass;
+  parameters.tremoloActive = parsedParameters->tremoloActive;
 
-  parameters.flangerBypass = parsedParameters->flangerBypass;
+  parameters.flangerActive = parsedParameters->flangerActive;
   parameters.flangerRate = parsedParameters->flangerRate;
   parameters.flangerMix = parsedParameters->flangerMix;
   parameters.flangerDepth = parsedParameters->flangerDepth;
@@ -166,17 +166,17 @@ juce::Result JsonSerializer::deserialize(juce::InputStream& input,
   parameters.lowpassFrequency = parsedParameters->lowpassFrequency;
   parameters.lowpassResonance = parsedParameters->lowpassResonance;
   parameters.lowpassMix = parsedParameters->lowpassMix;
-  parameters.lowpassBypass = parsedParameters->lowpassBypass;
+  parameters.lowpassActive = parsedParameters->lowpassActive;
 
   parameters.highpassFrequency = parsedParameters->highpassFrequency;
   parameters.highpassResonance = parsedParameters->highpassResonance;
   parameters.highpassMix = parsedParameters->highpassMix;
-  parameters.highpassBypass = parsedParameters->highpassBypass;
+  parameters.highpassActive = parsedParameters->highpassActive;
 
   parameters.bandpassFrequency = parsedParameters->bandpassFrequency;
   parameters.bandpassResonance = parsedParameters->bandpassResonance;
   parameters.bandpassMix = parsedParameters->bandpassMix;
-  parameters.bandpassBypass = parsedParameters->bandpassBypass;
+  parameters.bandpassActive = parsedParameters->bandpassActive;
 
   return juce::Result::ok();
 }

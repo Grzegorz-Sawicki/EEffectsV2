@@ -123,8 +123,8 @@ public:
     }
   }
 
-  void setBypass(bool newBypass) {
-    bypass = newBypass;
+  void setActive(bool active) {
+    bypass = !active;
   }
 
   void setRate(float rateHz, bool force = false) {

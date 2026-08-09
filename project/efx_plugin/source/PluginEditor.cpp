@@ -31,13 +31,11 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   addAndMakeVisible(effectRackView);
   addAndMakeVisible(effectDetailView);
 
-  auto selectionCallback = [this] (juce::String selectedName) {
-    effectDetailView.showEditor(selectedName);
-  };
+  effectRackView.setSelectedItem("Tremolo");
 
-  effectRackView.tremoloItem.onSelect = selectionCallback;
-  effectRackView.flangerItem.onSelect = selectionCallback;
-  effectRackView.filterItem.onSelect = selectionCallback;
+  effectRackView.onEffectChanged = [this](juce::String effectName) {
+    effectDetailView.showEditor(effectName);
+  };
 
   effectDetailView.showEditor("Tremolo");
 
