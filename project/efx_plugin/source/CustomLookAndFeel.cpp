@@ -20,7 +20,8 @@ juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
       juce::Colour{0xFFFDBA00},
       juce::Colour{0xFF3BB463},
       juce::Colour{0xFF5F78DB},
-      juce::Colour{0xFF353535}
+      juce::Colour{0xFF353535},
+      juce::Colour{0xFFD9D9D9}
   };
 
   return colors.at(juce::toUnderlyingType(colorName));
@@ -31,7 +32,7 @@ void CustomLookAndFeel::drawToggleButton (juce::Graphics& g, juce::ToggleButton&
   const auto bounds = button.getLocalBounds().toFloat();
   const auto innerBounds = bounds.reduced(2.0f);
 
-  g.setColour(juce::Colour(0xFFD9D9D9));
+  g.setColour(juce::Colour(getColor(Colors::dirtyWhite)));
   g.fillRect(bounds);
 
   juce::Colour fillColor;
@@ -50,8 +51,53 @@ void CustomLookAndFeel::drawToggleButton (juce::Graphics& g, juce::ToggleButton&
   g.fillRect(innerBounds);
 }
 
-void
-CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, int height, float sliderPosProportional,
+void CustomLookAndFeel::drawButtonBackground(juce::Graphics &g, juce::Button &button, const juce::Colour &backgroundColour,
+                                        bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) {
+  auto bounds = button.getLocalBounds().toFloat();
+  auto cornerRadius = 2.0f;
+  auto backgroundColor = getColor(Colors::dirtyWhite);
+
+  g.setColour(backgroundColor);
+  g.fillRoundedRectangle(bounds, cornerRadius);
+
+  auto innerBounds = bounds.reduced(2.0f);
+  juce::Colour innerColor;
+
+  if (button.getToggleState()) {
+    innerColor = button.findColour(custom_colors::highlight, true);
+  } else {
+    innerColor = getColor(Colors::effectBackground);
+  }
+
+  if (shouldDrawButtonAsHighlighted) {
+    innerColor = innerColor.withAlpha(0.7f);
+  }
+
+  g.setColour(innerColor);
+  g.fillRoundedRectangle(innerBounds, cornerRadius);
+}
+
+void CustomLookAndFeel::drawButtonText(juce::Graphics &g, juce::TextButton &button, bool shouldDrawButtonAsHighlighted,
+                                       bool shouldDrawButtonAsDown) {
+  auto fontSize = button.getProperties().getWithDefault("customFontSize", 12.0f);
+
+  auto font = getInterMediumFont().withPointHeight(fontSize);
+  g.setFont(font);
+
+  juce::Colour textColor;
+
+  if(button.getToggleState()) {
+    textColor = getColor(Colors::effectBackground);
+  } else {
+    textColor = getColor(Colors::dirtyWhite);
+  }
+
+  g.setColour(textColor);
+
+  g.drawFittedText(button.getButtonText(), button.getLocalBounds(), juce::Justification::centred, 1);
+}
+
+void CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int width, int height, float sliderPosProportional,
                                     float rotaryStartAngle, float rotaryEndAngle, juce::Slider &slider) {
   const auto bounds = slider.getLocalBounds().toFloat();
 

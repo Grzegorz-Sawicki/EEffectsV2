@@ -118,8 +118,12 @@ public:
     label.setInterceptsMouseClicks(false, false);
     addAndMakeVisible(label);
 
-    bypassButton.setButtonText("On");
     bypassButton.setClickingTogglesState(true);
+    bypassButton.onClick = [this](){
+      bypassButton.setButtonText(bypassButton.getToggleState() ? "ON" : "OFF");
+    };
+    bypassButton.onClick();
+    bypassButton.setColour(custom_colors::highlight, mainColor);
     addAndMakeVisible(bypassButton);
   }
 
@@ -140,6 +144,8 @@ public:
 
   juce::TextButton bypassButton;
 
+  juce::Colour mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::redHighlight);
+
 private:
   juce::String name;
   juce::Label label;
@@ -148,6 +154,10 @@ private:
 class EffectRackView : public juce::Component {
 public:
   EffectRackView() {
+    tremoloItem.mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::tremoloHighlight);
+    flangerItem.mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::flangerHighlight);
+    filterItem.mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::filterHighlight);
+
     addAndMakeVisible(tremoloItem);
     addAndMakeVisible(flangerItem);
     addAndMakeVisible(filterItem);
@@ -170,7 +180,7 @@ public:
 class TremoloEditor : public juce::Component {
 public:
   TremoloEditor(PluginProcessor &p) :
-      bypassAttachment(p.getParameterRefs().tremoloBypass, bypassLabeledButton.button),
+      bypassAttachment(p.getParameterRefs().tremoloBypass, bypassButton),
       mixAttachment(p.getParameterRefs().tremoloMix, mixLabeledSlider.slider),
       depthAttachment(p.getParameterRefs().tremoloDepth, depthLabeledSlider.slider),
       rateAttachment(p.getParameterRefs().tremoloRate, rateLabeledSlider.slider),
@@ -178,8 +188,13 @@ public:
     addAndMakeVisible(background);
     addAndMakeVisible(innerBackground);
 
-    bypassLabeledButton.label.setColour(juce::Label::textColourId, mainColor);
-    addAndMakeVisible(bypassLabeledButton);
+    bypassButton.setClickingTogglesState(true);
+    bypassButton.onClick = [this](){
+      bypassButton.setButtonText(bypassButton.getToggleState() ? "ON" : "OFF");
+    };
+    bypassButton.onClick();
+    bypassButton.setColour(custom_colors::highlight, mainColor);
+    addAndMakeVisible(bypassButton);
 
     mixLabeledSlider.slider.setColour(custom_colors::highlight, mainColor);
     mixLabeledSlider.label.setColour(juce::Label::textColourId, mainColor);
@@ -208,7 +223,7 @@ public:
     auto innerBackgroundBounds = backgroundBounds.reduced(5);
     innerBackground.setBounds(innerBackgroundBounds);
 
-    bypassLabeledButton.setBounds(292, 50, 50, 55);
+    bypassButton.setBounds(292, 50, 50, 55);
     mixLabeledSlider.setBounds(238, 38, 50, 55);
     depthLabeledSlider.setBounds(158, 38, 50, 55);
     rateLabeledSlider.setBounds(106, 38, 50, 55);
@@ -222,7 +237,7 @@ private:
   Background background{mainColor};
   Background innerBackground{CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground)};
 
-  LabeledButton bypassLabeledButton{"BYPASS"};
+  juce::TextButton bypassButton;
   juce::ButtonParameterAttachment bypassAttachment;
 
   LabeledSlider mixLabeledSlider{"MIX"};
