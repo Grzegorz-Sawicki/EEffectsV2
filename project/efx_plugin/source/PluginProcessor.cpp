@@ -117,7 +117,7 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   tremolo.setModulationRate(parameters.tremoloRate.get());
   tremolo.setMix(parameters.tremoloMix.get());
   tremolo.setDepth(parameters.tremoloDepth.get()),
-  tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()));
+  tremolo.setLfoWaveform(static_cast<Waveform>(parameters.tremoloWaveform.getIndex()));
   tremolo.setActive(parameters.tremoloActive.get());
 
   flanger.setRate(parameters.flangerRate.get());
@@ -198,7 +198,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
   tremolo.setMix(parameters.tremoloMix.get(), true);
   tremolo.setDepth(parameters.tremoloDepth.get(), true);
   tremolo.setActive(parameters.tremoloActive.get());
-  tremolo.setLfoWaveform(static_cast<TremoloProcessor::LfoWaveform>(parameters.tremoloWaveform.getIndex()));
+  tremolo.setLfoWaveform(static_cast<Waveform>(parameters.tremoloWaveform.getIndex()));
 
   flanger.setMix(parameters.flangerMix.get(), true);
   flanger.setDepth(parameters.flangerDepth.get(), true);

@@ -3,12 +3,6 @@
 namespace efx {
 class TremoloProcessor : public EffectProcessorBase {
 public:
-  enum class LfoWaveform : std::uint8_t {
-    sine = 0,
-    triangle = 1,
-    square = 2
-  };
-
   TremoloProcessor() = default;
 
   void prepare(const juce::dsp::ProcessSpec& spec) noexcept override {
@@ -25,15 +19,9 @@ public:
     lfo.prepare(sampleRate);
   }
 
-  void setLfoWaveform(LfoWaveform waveform) {
-    jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle || waveform == LfoWaveform::square);
-
-    if (waveform == LfoWaveform::sine)
-      lfo.setWaveform(LFO::Waveform::sine);
-    else if (waveform == LfoWaveform::triangle)
-      lfo.setWaveform(LFO::Waveform::triangle);
-    else if (waveform == LfoWaveform::square)
-      lfo.setWaveform(LFO::Waveform::square);
+  void setLfoWaveform(Waveform waveform) {
+    jassert(waveform == Waveform::sine || waveform == Waveform::triangle);
+    lfo.setWaveform(waveform);
   }
 
   void setModulationRate(float rateHz) {

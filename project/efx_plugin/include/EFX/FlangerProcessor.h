@@ -51,7 +51,7 @@ private:
 class FlangerProcessor : public EffectProcessorBase {
 public:
   FlangerProcessor() {
-    lfo.setWaveform(LFO::Waveform::sine);
+    lfo.setWaveform(Waveform::sine);
   }
 
   void prepare(const juce::dsp::ProcessSpec &spec) noexcept override {

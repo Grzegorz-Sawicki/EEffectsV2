@@ -1,14 +1,13 @@
 #pragma once
 
 namespace efx {
+enum class Waveform : std::uint8_t {
+  sine = 0,
+  triangle = 1
+};
+
 class LFO {
 public:
-  enum class Waveform : std::uint8_t {
-    sine = 0,
-    triangle = 1,
-    square = 2
-  };
-
   LFO() = default;
 
   void prepare(double sampleRate) {
@@ -43,10 +42,6 @@ public:
 
       case Waveform::triangle:
         out = 2.0f * std::abs(2.0f * phase - 1.0f) - 1.0f;
-        break;
-
-      case Waveform::square:
-        out = phase < 0.5f ? 1.0f : -1.0f;
         break;
     }
 
