@@ -38,14 +38,19 @@ END_JUCE_MODULE_DECLARATION
 #include "include/EFX/Parameters.h"
 #include "include/EFX/CustomLookAndFeel.h"
 #include "include/EFX/JsonSerializer.h"
-#include "include/EFX/EffectProcessorBase.h"
-#include "include/EFX/ComplexEffectProcessorBase.h"
-#include "include/EFX/GainProcessor.h"
-#include "include/EFX/PanProcessor.h"
-#include "include/EFX/LFO.h"
-#include "include/EFX/TremoloProcessor.h"
-#include "include/EFX/FlangerProcessor.h"
-#include "include/EFX/FilterProcessor.h"
-#include "include/EFX/VUMeter.h"
+
+#include "include/EFX/EffectProcessors/EffectProcessorBase.h"
+#include "include/EFX/EffectProcessors/GainProcessor.h"
+#include "include/EFX/EffectProcessors/PanProcessor.h"
+
+#include "include/EFX/EffectUtils/LFO.h"
+#include "include/EFX/EffectUtils/DelayLine.h"
+
+#include "include/EFX/EffectProcessors/Complex/ComplexEffectProcessorBase.h"
+#include "include/EFX/EffectProcessors/Complex/TremoloProcessor.h"
+#include "include/EFX/EffectProcessors/Complex/FlangerProcessor.h"
+#include "include/EFX/EffectProcessors/Complex/FilterProcessor.h"
+
+#include "include/EFX/GUI/VUMeter.h"
 #include "include/EFX/PluginProcessor.h"
 #include "include/EFX/PluginEditor.h"

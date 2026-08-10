@@ -1,4 +1,4 @@
-This is a VST3 audio plugin named X developed by Y.
+This is a VST3 audio plugin named EFX developed by Embo.
 
 To install it on your system:
 
