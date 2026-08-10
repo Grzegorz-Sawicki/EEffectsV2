@@ -1,7 +1,7 @@
 #pragma once
 
 namespace efx {
-class TremoloProcessor : public EffectProcessorBase {
+class TremoloProcessor : public ComplexEffectProcessorBase {
 public:
   TremoloProcessor() = default;
 
@@ -28,25 +28,12 @@ public:
     lfo.setFrequency(rateHz);
   }
 
-
-  void setMix(float mix, bool force = false) {
-    if(force) {
-      mixSmoothed.setCurrentAndTargetValue(mix);
-    } else {
-      mixSmoothed.setTargetValue(mix);
-    }
-  }
-
   void setDepth(float depth, bool force = false) {
     if(force) {
       depthSmoothed.setCurrentAndTargetValue(depth);
     } else {
       depthSmoothed.setTargetValue(depth);
     }
-  }
-
-  void setActive(bool active) {
-    bypass = !active;
   }
 
   void process(juce::dsp::ProcessContextReplacing<float>& context) noexcept override {
@@ -84,10 +71,7 @@ public:
     lfo.reset();
   }
 private:
-  bool bypass{false};
-
   juce::SmoothedValue<float> depthSmoothed{0.4f};
-  juce::SmoothedValue<float> mixSmoothed{1.0f};
 
   LFO lfo;
 };

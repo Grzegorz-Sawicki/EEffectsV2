@@ -8,7 +8,7 @@ enum class FilterType {
 };
 
 template <FilterType Type = FilterType::LowPass>
-class FilterProcessor : public EffectProcessorBase {
+class FilterProcessor : public ComplexEffectProcessorBase {
 public:
   explicit FilterProcessor(FilterType type = FilterType::LowPass)
       : filterType(type) {}
@@ -31,14 +31,6 @@ public:
     updateCoefficients(cutoffSmoothed.getCurrentValue(), resonanceSmoothed.getCurrentValue());
   }
 
-  void setMix(float mix, bool force = false) {
-    if (force) {
-      mixSmoothed.setCurrentAndTargetValue(mix);
-    } else {
-      mixSmoothed.setTargetValue(mix);
-    }
-  }
-
   void setCutoff(float cutoffHz, bool force = false) {
     if (force) {
       cutoffSmoothed.setCurrentAndTargetValue(cutoffHz);
@@ -53,10 +45,6 @@ public:
     } else {
       resonanceSmoothed.setTargetValue(q);
     }
-  }
-
-  void setActive(bool active) {
-    bypass = !active;
   }
 
   void process(juce::dsp::ProcessContextReplacing<float> &context) noexcept override {
@@ -142,10 +130,8 @@ private:
   }
 
   FilterType filterType;
-  bool bypass{false};
   double sampleRate{44100.0};
 
-  juce::SmoothedValue<float> mixSmoothed{1.0f};
   juce::SmoothedValue<float> cutoffSmoothed{1000.0f};
   juce::SmoothedValue<float> resonanceSmoothed{0.707f};
 

@@ -48,7 +48,7 @@ private:
   double currentSampleRate{44100.0};
 };
 
-class FlangerProcessor : public EffectProcessorBase {
+class FlangerProcessor : public ComplexEffectProcessorBase {
 public:
   FlangerProcessor() {
     lfo.setWaveform(Waveform::sine);
@@ -123,10 +123,6 @@ public:
     }
   }
 
-  void setActive(bool active) {
-    bypass = !active;
-  }
-
   void setRate(float rateHz, bool force = false) {
     if (force) {
       rateSmoothed.setCurrentAndTargetValue(rateHz);
@@ -136,23 +132,16 @@ public:
 
   void setDepth(float depthNormalized, bool force = false) {
     if (force) {
-      depthSmoothed.setCurrentAndTargetValue(std::clamp(depthNormalized, 0.0f, 1.0f));
+      depthSmoothed.setCurrentAndTargetValue(depthNormalized);
     }
-    depthSmoothed.setTargetValue(std::clamp(depthNormalized, 0.0f, 1.0f));
-  }
-
-  void setMix(float mixNormalized, bool force = false) {
-    if (force) {
-      mixSmoothed.setCurrentAndTargetValue(std::clamp(mixNormalized, 0.0f, 1.0f));
-    }
-    mixSmoothed.setTargetValue(std::clamp(mixNormalized, 0.0f, 1.0f));
+    depthSmoothed.setTargetValue(depthNormalized);
   }
 
   void setFeedback(float feedbackNormalized, bool force = false) {
     if (force) {
-      feedbackSmoothed.setCurrentAndTargetValue(std::clamp(feedbackNormalized, -0.95f, 0.95f));
+      feedbackSmoothed.setCurrentAndTargetValue(feedbackNormalized);
     }
-    feedbackSmoothed.setTargetValue(std::clamp(feedbackNormalized, -0.95f, 0.95f));
+    feedbackSmoothed.setTargetValue(feedbackNormalized);
   }
 
 private:
@@ -160,9 +149,6 @@ private:
 
   LFO lfo;
 
-  bool bypass{false};
-
-  juce::SmoothedValue<float> mixSmoothed{0.5f};
   juce::SmoothedValue<float> rateSmoothed{0.5f};
   juce::SmoothedValue<float> depthSmoothed{0.5f};
   juce::SmoothedValue<float> feedbackSmoothed{0.3f};
