@@ -1,16 +1,15 @@
 #pragma once
 
 namespace efx {
-class TremoloLFO {
+class LFO {
 public:
   enum class Waveform : std::uint8_t {
     sine = 0,
     triangle = 1,
-    square = 2,
-    sawtooth = 3
+    square = 2
   };
 
-  TremoloLFO() = default;
+  LFO() = default;
 
   void prepare(double sampleRate) {
     jassert (sampleRate > 0.0);
@@ -48,10 +47,6 @@ public:
 
       case Waveform::square:
         out = phase < 0.5f ? 1.0f : -1.0f;
-        break;
-
-      case Waveform::sawtooth:
-        out = 2.0f * phase - 1.0f;
         break;
     }
 

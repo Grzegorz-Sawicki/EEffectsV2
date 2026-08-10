@@ -51,7 +51,7 @@ private:
 class FlangerProcessor : public EffectProcessorBase {
 public:
   FlangerProcessor() {
-    lfo.setWaveform(TremoloLFO::Waveform::sine);
+    lfo.setWaveform(LFO::Waveform::sine);
   }
 
   void prepare(const juce::dsp::ProcessSpec &spec) noexcept override {
@@ -158,7 +158,7 @@ public:
 private:
   std::vector<DelayLine> delayLines;
 
-  TremoloLFO lfo;
+  LFO lfo;
 
   bool bypass{false};
 

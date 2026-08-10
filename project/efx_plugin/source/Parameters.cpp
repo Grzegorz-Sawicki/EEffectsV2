@@ -15,8 +15,11 @@ juce::AudioParameterFloat &createGainParameter(juce::AudioProcessor &processor) 
       juce::String{"Gain"},
       juce::NormalisableRange{-24.f, 24.f, 0.1f},
       0.f,
-      juce::AudioParameterFloatAttributes{}.withLabel("dB")
-          .withStringFromValueFunction([](float x, int) { return juce::String(x, 1); })
+      juce::AudioParameterFloatAttributes{}
+          .withLabel("dB")
+          .withStringFromValueFunction([](float x, int) {
+            return juce::String(x, 1) + "dB";
+          })
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -90,7 +93,7 @@ juce::AudioParameterChoice &createTremoloWaveformParameter(juce::AudioProcessor 
   auto parameter = std::make_unique<juce::AudioParameterChoice>(
       juce::ParameterID{"tremolo.waveform", defaultVersionHint},
       juce::String{"Tremolo waveform"},
-      juce::StringArray{"Sine", "Triangle"},
+      juce::StringArray{"Sine", "Triangle", "Square"},
       0
   );
   return addParameterToProcessor(processor, std::move(parameter));

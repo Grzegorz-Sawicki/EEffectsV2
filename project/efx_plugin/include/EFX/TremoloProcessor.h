@@ -6,6 +6,7 @@ public:
   enum class LfoWaveform : std::uint8_t {
     sine = 0,
     triangle = 1,
+    square = 2
   };
 
   TremoloProcessor() = default;
@@ -25,12 +26,14 @@ public:
   }
 
   void setLfoWaveform(LfoWaveform waveform) {
-    jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle);
+    jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle || waveform == LfoWaveform::square);
 
     if (waveform == LfoWaveform::sine)
-      lfo.setWaveform(TremoloLFO::Waveform::sine);
+      lfo.setWaveform(LFO::Waveform::sine);
     else if (waveform == LfoWaveform::triangle)
-      lfo.setWaveform(TremoloLFO::Waveform::triangle);
+      lfo.setWaveform(LFO::Waveform::triangle);
+    else if (waveform == LfoWaveform::square)
+      lfo.setWaveform(LFO::Waveform::square);
   }
 
   void setModulationRate(float rateHz) {
@@ -54,7 +57,6 @@ public:
     }
   }
 
-  //TODO: use built-in processor chain bypass?
   void setActive(bool active) {
     bypass = !active;
   }
@@ -99,6 +101,6 @@ private:
   juce::SmoothedValue<float> depthSmoothed{0.4f};
   juce::SmoothedValue<float> mixSmoothed{1.0f};
 
-  TremoloLFO lfo;
+  LFO lfo;
 };
 }
