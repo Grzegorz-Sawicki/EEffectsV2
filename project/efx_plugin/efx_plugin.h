@@ -35,9 +35,9 @@ END_JUCE_MODULE_DECLARATION
 #include <array>
 #include <cmath>
 
-#include "include/EFX/Parameters.h"
-#include "include/EFX/CustomLookAndFeel.h"
-#include "include/EFX/JsonSerializer.h"
+#include "include/EFX/Params/Parameters.h"
+#include "include/EFX/GUI/CustomLookAndFeel.h"
+#include "include/EFX/Params/JsonSerializer.h"
 
 #include "include/EFX/EffectProcessors/EffectProcessorBase.h"
 #include "include/EFX/EffectProcessors/GainProcessor.h"

@@ -1,5 +1,5 @@
 
-#include "efx_plugin/include/EFX/CustomLookAndFeel.h"
+#include "efx_plugin/include/EFX/GUI/CustomLookAndFeel.h"
 
 namespace efx {
 CustomLookAndFeel::CustomLookAndFeel() {
