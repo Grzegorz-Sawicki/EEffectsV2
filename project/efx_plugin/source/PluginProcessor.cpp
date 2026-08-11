@@ -210,11 +210,6 @@ void PluginProcessor::updateParameters() {
   bandpass.setMix(parameters.bandpassMix.get());
   bandpass.setActive(parameters.bandpassActive.get());
 }
-
-void PluginProcessor::updateMeterPeaks() {
-
-}
-
 }  // namespace efx
 
 juce::AudioProcessor *JUCE_CALLTYPE createPluginFilter() {

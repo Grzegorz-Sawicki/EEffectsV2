@@ -57,25 +57,23 @@ private:
 
   void updateParameters();
 
-  void updateMeterPeaks();
-
   juce::dsp::ProcessorChain<
-      GainProcessor,
-      PanProcessor,
       TremoloProcessor,
       FlangerProcessor,
       FilterProcessor<FilterType::LowPass>,
       FilterProcessor<FilterType::HighPass>,
-      FilterProcessor<FilterType::BandPass>> processorChain;
+      FilterProcessor<FilterType::BandPass>,
+      GainProcessor,
+      PanProcessor> processorChain;
 
   enum ProcessorIndices {
-    gainIndex,
-    panIndex,
     tremoloIndex,
     flangerIndex,
     lowpassIndex,
     highpassIndex,
-    bandpassIndex
+    bandpassIndex,
+    gainIndex,
+    panIndex,
   };
 
   GainProcessor &gain;
