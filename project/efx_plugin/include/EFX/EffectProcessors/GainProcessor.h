@@ -10,9 +10,13 @@ public:
     gainLinear.setCurrentAndTargetValue(1.f);
   }
 
-  void setGain(float gainDb) {
+  void setGain(float gainDb, bool force = false) {
     const float linear = std::pow(10.f, gainDb / 20.f);
-    gainLinear.setTargetValue(linear);
+    if (force) {
+      gainLinear.setCurrentAndTargetValue(linear);
+    } else {
+      gainLinear.setTargetValue(linear);
+    }
   }
 
   void process(juce::dsp::ProcessContextReplacing<float>& context) noexcept override {

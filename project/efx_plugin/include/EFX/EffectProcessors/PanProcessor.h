@@ -10,8 +10,12 @@ public:
     panValue.setCurrentAndTargetValue(0.f);
   }
 
-  void setPan(float newPan) {
-    panValue.setTargetValue((juce::jlimit(-1.f, 1.f, newPan)));
+  void setPan(float newPan, bool force = false) {
+    if (force) {
+      panValue.setCurrentAndTargetValue(newPan);
+    } else {
+      panValue.setTargetValue(newPan);
+    }
   }
 
   void process(juce::dsp::ProcessContextReplacing<float> &context) noexcept override {
