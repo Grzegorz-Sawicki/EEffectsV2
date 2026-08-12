@@ -7,12 +7,9 @@ enum class FilterType {
   BandPass
 };
 
-template <FilterType Type = FilterType::LowPass>
+template<FilterType Type = FilterType::LowPass>
 class FilterProcessor : public ComplexEffectProcessorBase {
 public:
-  explicit FilterProcessor(FilterType type = FilterType::LowPass)
-      : filterType(type) {}
-
   void prepare(const juce::dsp::ProcessSpec &spec) noexcept override {
     sampleRate = spec.sampleRate;
     bypass = false;
@@ -88,13 +85,13 @@ public:
 
   void reset() noexcept override {
     for (auto &state: states) {
-      state = {0.f, 0.f, 0.f, 0.f};
+      state = {0.0f, 0.0f, 0.0f, 0.0f};
     }
   }
 
 private:
   struct BiquadState {
-    float x1{0.f}, x2{0.f}, y1{0.f}, y2{0.f};
+    float x1{0.0f}, x2{0.0f}, y1{0.0f}, y2{0.0f};
   };
 
   void updateCoefficients(float cutoff, float q) {
@@ -113,13 +110,11 @@ private:
       b0 = ((1.0f - cosW0) / 2.0f) / a0;
       b1 = (1.0f - cosW0) / a0;
       b2 = ((1.0f - cosW0) / 2.0f) / a0;
-    }
-    else if constexpr (Type == FilterType::HighPass) {
+    } else if constexpr (Type == FilterType::HighPass) {
       b0 = ((1.0f + cosW0) / 2.0f) / a0;
       b1 = -(1.0f + cosW0) / a0;
       b2 = ((1.0f + cosW0) / 2.0f) / a0;
-    }
-    else if constexpr (Type == FilterType::BandPass) {
+    } else if constexpr (Type == FilterType::BandPass) {
       b0 = alpha / a0;
       b1 = 0.0f;
       b2 = -alpha / a0;
@@ -129,13 +124,12 @@ private:
     a2 = (1.0f - alpha) / a0;
   }
 
-  FilterType filterType;
   double sampleRate{44100.0};
 
   juce::SmoothedValue<float> cutoffSmoothed{1000.0f};
   juce::SmoothedValue<float> resonanceSmoothed{0.707f};
 
   std::vector<BiquadState> states;
-  float b0{0.f}, b1{0.f}, b2{0.f}, a1{0.f}, a2{0.f};
+  float b0{0.0f}, b1{0.0f}, b2{0.0f}, a1{0.0f}, a2{0.0f};
 };
 } // namespace efx

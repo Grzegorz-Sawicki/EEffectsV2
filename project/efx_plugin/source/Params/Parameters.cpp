@@ -13,8 +13,8 @@ juce::AudioParameterFloat &createGainParameter(juce::AudioProcessor &processor) 
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"gain", defaultVersionHint},
       juce::String{"Gain"},
-      juce::NormalisableRange{-24.f, 24.f, 0.1f},
-      0.f,
+      juce::NormalisableRange{-24.0f, 24.0f, 0.1f},
+      0.0f,
       juce::AudioParameterFloatAttributes{}
           .withLabel("dB")
           .withStringFromValueFunction([](float x, int) {
@@ -28,8 +28,8 @@ juce::AudioParameterFloat &createPanParameter(juce::AudioProcessor &processor) {
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"pan", defaultVersionHint},
       juce::String{"Pan"},
-      juce::NormalisableRange{-1.f, 1.f, 0.01f},
-      0.f
+      juce::NormalisableRange{-1.0f, 1.0f, 0.01f},
+      0.0f
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -48,7 +48,7 @@ juce::AudioParameterFloat &createTremoloRateParameter(juce::AudioProcessor &proc
       juce::ParameterID{"tremolo.modulation.rate", defaultVersionHint},
       juce::String{"Tremolo modulation rate"},
       juce::NormalisableRange{0.1f, 20.0f, 0.01f, 0.4f},
-      5.f,
+      5.0f,
       juce::AudioParameterFloatAttributes{}
           .withLabel("Hz")
           .withStringFromValueFunction([](float value, int /* maximumStringLength */) {
@@ -62,8 +62,8 @@ juce::AudioParameterFloat &createTremoloMixParameter(juce::AudioProcessor &proce
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"tremolo.mix", defaultVersionHint},
       juce::String{"Tremolo mix"},
-      juce::NormalisableRange{0.f, 1.f, 0.001f},
-      1.f
+      juce::NormalisableRange{0.0f, 1.0f, 0.001f},
+      1.0f
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -72,7 +72,7 @@ juce::AudioParameterFloat &createTremoloDepthParameter(juce::AudioProcessor &pro
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"tremolo.depth", defaultVersionHint},
       juce::String{"Tremolo depth"},
-      juce::NormalisableRange{0.f, 1.f, 0.001f},
+      juce::NormalisableRange{0.0f, 1.0f, 0.001f},
       0.4f,
       juce::AudioParameterFloatAttributes{}
           .withStringFromValueFunction([](float x, int) { return juce::String(x, 3); })
@@ -118,8 +118,8 @@ juce::AudioParameterFloat &createFlangerMixParameter(juce::AudioProcessor &proce
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"flanger.mix", defaultVersionHint},
       juce::String{"Flanger mix"},
-      juce::NormalisableRange{0.f, 1.f, 0.001f},
-      1.f
+      juce::NormalisableRange{0.0f, 1.0f, 0.001f},
+      1.0f
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -128,7 +128,7 @@ juce::AudioParameterFloat &createFlangerDepthParameter(juce::AudioProcessor &pro
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"flanger.depth", defaultVersionHint},
       juce::String{"Flanger depth"},
-      juce::NormalisableRange{0.f, 1.f, 0.001f},
+      juce::NormalisableRange{0.0f, 1.0f, 0.001f},
       0.5f,
       juce::AudioParameterFloatAttributes{}
           .withStringFromValueFunction([](float x, int) { return juce::String(x, 3); })
@@ -193,8 +193,8 @@ juce::AudioParameterFloat &createLowpassMixParameter(juce::AudioProcessor &proce
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"lowpass.mix", defaultVersionHint},
       juce::String{"Lowpass mix"},
-      juce::NormalisableRange{0.f, 1.f, 0.001f},
-      1.f
+      juce::NormalisableRange{0.0f, 1.0f, 0.001f},
+      1.0f
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -244,8 +244,8 @@ juce::AudioParameterFloat &createHighpassMixParameter(juce::AudioProcessor &proc
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"highpass.mix", defaultVersionHint},
       juce::String{"Highpass mix"},
-      juce::NormalisableRange{0.f, 1.f, 0.001f},
-      1.f
+      juce::NormalisableRange{0.0f, 1.0f, 0.001f},
+      1.0f
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
@@ -295,8 +295,8 @@ juce::AudioParameterFloat &createBandpassMixParameter(juce::AudioProcessor &proc
   auto parameter = std::make_unique<juce::AudioParameterFloat>(
       juce::ParameterID{"bandpass.mix", defaultVersionHint},
       juce::String{"Bandpass mix"},
-      juce::NormalisableRange{0.f, 1.f, 0.001f},
-      1.f
+      juce::NormalisableRange{0.0f, 1.0f, 0.001f},
+      1.0f
   );
   return addParameterToProcessor(processor, std::move(parameter));
 }
