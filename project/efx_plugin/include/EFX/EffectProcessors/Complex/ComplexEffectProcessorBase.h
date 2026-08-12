@@ -4,10 +4,11 @@ namespace efx {
 class ComplexEffectProcessorBase : public EffectProcessorBase {
 public:
   ComplexEffectProcessorBase() = default;
+
   virtual ~ComplexEffectProcessorBase() = default;
 
   void setMix(float mix, bool force = false) {
-    if(force) {
+    if (force) {
       mixSmoothed.setCurrentAndTargetValue(mix);
     } else {
       mixSmoothed.setTargetValue(mix);

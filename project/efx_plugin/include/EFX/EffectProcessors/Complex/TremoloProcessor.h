@@ -5,7 +5,7 @@ class TremoloProcessor : public ComplexEffectProcessorBase {
 public:
   TremoloProcessor() = default;
 
-  void prepare(const juce::dsp::ProcessSpec& spec) noexcept override {
+  void prepare(const juce::dsp::ProcessSpec &spec) noexcept override {
     const auto sampleRate = spec.sampleRate;
 
     bypass = false;
@@ -29,15 +29,15 @@ public:
   }
 
   void setDepth(float depth, bool force = false) {
-    if(force) {
+    if (force) {
       depthSmoothed.setCurrentAndTargetValue(depth);
     } else {
       depthSmoothed.setTargetValue(depth);
     }
   }
 
-  void process(juce::dsp::ProcessContextReplacing<float>& context) noexcept override {
-    if(bypass) {
+  void process(juce::dsp::ProcessContextReplacing<float> &context) noexcept override {
+    if (bypass) {
       return;
     }
 
@@ -70,6 +70,7 @@ public:
   void reset() noexcept override {
     lfo.reset();
   }
+
 private:
   juce::SmoothedValue<float> depthSmoothed{0.4f};
 

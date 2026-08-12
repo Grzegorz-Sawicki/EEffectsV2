@@ -9,6 +9,7 @@ public:
 
   void prepare(const juce::dsp::ProcessSpec &spec) noexcept override {
     const auto sampleRate = spec.sampleRate;
+    const auto numChannels = spec.numChannels;
 
     mixSmoothed.reset(sampleRate, rampLength);
     mixSmoothed.setCurrentAndTargetValue(0.5f);
@@ -24,14 +25,14 @@ public:
 
     lfo.prepare(sampleRate);
 
-    delayLines.resize(spec.numChannels);
+    delayLines.resize(numChannels);
     for (auto &delayLine: delayLines) {
       delayLine.prepare(sampleRate, 10.0);
     }
   }
 
   void process(juce::dsp::ProcessContextReplacing<float> &context) noexcept override {
-    if(bypass) {
+    if (bypass) {
       return;
     }
 
