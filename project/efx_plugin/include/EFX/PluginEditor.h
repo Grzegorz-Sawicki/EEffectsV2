@@ -4,100 +4,6 @@
 
 namespace efx {
 
-class LabeledSlider : public juce::Component {
-public:
-  LabeledSlider(const juce::String &labelText) {
-    label.setText(labelText, juce::dontSendNotification);
-
-    setSliderDefaults();
-    setLabelDefaults();
-
-    addAndMakeVisible(slider);
-    addAndMakeVisible(label);
-  }
-
-  void resized() override {
-    auto area = getLocalBounds();
-    label.setSize(area.getWidth(), 15);
-
-    slider.setCentrePosition(area.getWidth() * 0.5f, slider.getHeight() * 0.5f);
-    label.setTopLeftPosition(area.getX(), area.getBottom() - label.getHeight());
-  }
-
-  juce::Slider slider;
-  juce::Label label;
-
-private:
-  void setSliderDefaults() {
-    slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
-    slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-    slider.setPopupDisplayEnabled(true, true, nullptr);
-    slider.setSize(40, 40);
-  }
-
-  void setLabelDefaults() {
-    label.setInterceptsMouseClicks(false, false);
-    label.setJustificationType(juce::Justification::centred);
-  }
-};
-
-class LabeledButton : public juce::Component {
-public:
-  LabeledButton(const juce::String &labelText) {
-    label.setText(labelText, juce::dontSendNotification);
-
-    setButtonDefaults();
-    setLabelDefaults();
-
-    addAndMakeVisible(button);
-    addAndMakeVisible(label);
-  }
-
-  void resized() override {
-    auto area = getLocalBounds();
-
-    button.setSize(30, 30);
-    label.setSize(area.getWidth(), 15);
-
-    button.setCentrePosition(area.getWidth() * 0.5f, (area.getHeight() - label.getHeight()) * 0.5f);
-    label.setTopLeftPosition(area.getX(), area.getBottom() - label.getHeight());
-  }
-
-  juce::ToggleButton button;
-  juce::Label label;
-
-private:
-  void setButtonDefaults() {}
-
-  void setLabelDefaults() {
-    label.setInterceptsMouseClicks(false, false);
-    label.setJustificationType(juce::Justification::centred);
-  }
-};
-
-class LabeledComboBox : public juce::Component {
-public:
-  LabeledComboBox(const juce::String &labelText) {
-    label.setText(labelText, juce::dontSendNotification);
-
-    addAndMakeVisible(comboBox);
-    addAndMakeVisible(label);
-  }
-
-  void resized() override {
-    auto area = getLocalBounds();
-
-    comboBox.setSize(90, 21);
-    label.setSize(area.getWidth(), 15);
-
-    comboBox.setTopLeftPosition(area.getTopLeft());
-    label.setTopLeftPosition(area.getX(), area.getBottom() - label.getHeight());
-  }
-
-  juce::ComboBox comboBox;
-  juce::Label label;
-};
-
 namespace {
 class Background : public juce::Component {
 public:
@@ -326,10 +232,10 @@ class TremoloEditor : public juce::Component {
 public:
   TremoloEditor(PluginProcessor &p) :
       activeAttachment(p.getParameterRefs().tremoloActive, activeButton),
-      mixAttachment(p.getParameterRefs().tremoloMix, mixLabeledSlider.slider),
-      depthAttachment(p.getParameterRefs().tremoloDepth, depthLabeledSlider.slider),
-      rateAttachment(p.getParameterRefs().tremoloRate, rateLabeledSlider.slider),
-      waveformAttachment(p.getParameterRefs().tremoloWaveform, waveformLabeledComboBox.comboBox) {
+      mixAttachment(p.getParameterRefs().tremoloMix, mixSlider),
+      depthAttachment(p.getParameterRefs().tremoloDepth, depthSlider),
+      rateAttachment(p.getParameterRefs().tremoloRate, rateSlider),
+      waveformAttachment(p.getParameterRefs().tremoloWaveform, waveformComboBox) {
     addAndMakeVisible(background);
     addAndMakeVisible(innerBackground);
 
@@ -341,23 +247,27 @@ public:
     activeButton.setColour(custom_colors::highlight, mainColor);
     addAndMakeVisible(activeButton);
 
-    mixLabeledSlider.slider.setColour(custom_colors::highlight, mainColor);
-    mixLabeledSlider.label.setColour(juce::Label::textColourId, mainColor);
-    addAndMakeVisible(mixLabeledSlider);
+    setupSlider(mixSlider, mixLabel, "MIX");
+    addAndMakeVisible(mixSlider);
+    addAndMakeVisible(mixLabel);
 
-    depthLabeledSlider.slider.setColour(custom_colors::highlight, mainColor);
-    depthLabeledSlider.label.setColour(juce::Label::textColourId, mainColor);
-    addAndMakeVisible(depthLabeledSlider);
+    setupSlider(depthSlider, depthLabel, "DEPTH");
+    addAndMakeVisible(depthSlider);
+    addAndMakeVisible(depthLabel);
 
-    rateLabeledSlider.slider.setColour(custom_colors::highlight, mainColor);
-    rateLabeledSlider.label.setColour(juce::Label::textColourId, mainColor);
-    addAndMakeVisible(rateLabeledSlider);
+    setupSlider(rateSlider, rateLabel, "RATE");
+    addAndMakeVisible(rateSlider);
+    addAndMakeVisible(rateLabel);
 
-    waveformLabeledComboBox.comboBox.setColour(custom_colors::highlight, mainColor);
-    waveformLabeledComboBox.comboBox.addItemList(p.getParameterRefs().tremoloWaveform.choices, 1);
+    waveformComboBox.setColour(custom_colors::highlight, mainColor);
+    waveformComboBox.addItemList(p.getParameterRefs().tremoloWaveform.choices, 1);
     waveformAttachment.sendInitialUpdate();
-    waveformLabeledComboBox.label.setColour(juce::Label::textColourId, mainColor);
-    addAndMakeVisible(waveformLabeledComboBox);
+    waveformLabel.setText("WAVEFORM", juce::dontSendNotification);
+    waveformLabel.setColour(juce::Label::textColourId, mainColor);
+    waveformLabel.setJustificationType(juce::Justification::centred);
+    waveformLabel.setInterceptsMouseClicks(false, false);
+    addAndMakeVisible(waveformComboBox);
+    addAndMakeVisible(waveformLabel);
   }
 
   void resized() override {
@@ -369,14 +279,33 @@ public:
     innerBackground.setBounds(innerBackgroundBounds);
 
     activeButton.setBounds(292, 50, 50, 55);
-    mixLabeledSlider.setBounds(238, 38, 50, 55);
-    depthLabeledSlider.setBounds(158, 38, 50, 55);
-    rateLabeledSlider.setBounds(106, 38, 50, 55);
 
-    waveformLabeledComboBox.setBounds(15, 51, 90, 35);
+    mixSlider.setBounds(243, 38, 40, 40);
+    mixLabel.setBounds(238, 78, 50, 15);
+
+    depthSlider.setBounds(163, 38, 40, 40);
+    depthLabel.setBounds(158, 78, 50, 15);
+
+    rateSlider.setBounds(111, 38, 40, 40);
+    rateLabel.setBounds(106, 78, 50, 15);
+
+    waveformComboBox.setBounds(15, 51, 90, 21);
+    waveformLabel.setBounds(15, 71, 90, 15);
   }
 
 private:
+  void setupSlider(juce::Slider& slider, juce::Label& label, const juce::String& labelText) {
+    slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+    slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+    slider.setPopupDisplayEnabled(true, true, nullptr);
+    slider.setColour(custom_colors::highlight, mainColor);
+
+    label.setText(labelText, juce::dontSendNotification);
+    label.setInterceptsMouseClicks(false, false);
+    label.setJustificationType(juce::Justification::centred);
+    label.setColour(juce::Label::textColourId, mainColor);
+  }
+
   juce::Colour mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::tremoloHighlight);
 
   Background background{mainColor};
@@ -385,16 +314,20 @@ private:
   juce::TextButton activeButton;
   juce::ButtonParameterAttachment activeAttachment;
 
-  LabeledSlider mixLabeledSlider{"MIX"};
+  juce::Slider mixSlider;
+  juce::Label mixLabel;
   juce::SliderParameterAttachment mixAttachment;
 
-  LabeledSlider depthLabeledSlider{"DEPTH"};
+  juce::Slider depthSlider;
+  juce::Label depthLabel;
   juce::SliderParameterAttachment depthAttachment;
 
-  LabeledSlider rateLabeledSlider{"RATE"};
+  juce::Slider rateSlider;
+  juce::Label rateLabel;
   juce::SliderParameterAttachment rateAttachment;
 
-  LabeledComboBox waveformLabeledComboBox{"WAVEFORM"};
+  juce::ComboBox waveformComboBox;
+  juce::Label waveformLabel;
   juce::ComboBoxParameterAttachment waveformAttachment;
 };
 
@@ -469,16 +402,22 @@ public:
   void resized() override;
 
 private:
+  void setupSlider(juce::Slider& slider, juce::Label& label, const juce::String& labelText);
+  void setupToggleButton(juce::ToggleButton& button, juce::Label& label, const juce::String& labelText);
+
   std::unique_ptr<juce::Drawable> logo;
   Background background;
 
-  LabeledSlider gainLabeledSlider{"GAIN"};
+  juce::Slider gainSlider;
+  juce::Label gainLabel;
   juce::SliderParameterAttachment gainAttachment;
 
-  LabeledSlider panLabeledSlider{"PAN"};
+  juce::Slider panSlider;
+  juce::Label panLabel;
   juce::SliderParameterAttachment panAttachment;
 
-  LabeledButton bypassLabeledButton{"BYPASS"};
+  juce::ToggleButton bypassButton;
+  juce::Label bypassLabel;
   juce::ButtonParameterAttachment bypassAttachment;
 
   VUMeter vuMeter;

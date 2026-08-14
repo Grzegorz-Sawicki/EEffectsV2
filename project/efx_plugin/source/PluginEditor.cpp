@@ -1,13 +1,13 @@
 namespace efx {
 PluginEditor::PluginEditor(PluginProcessor& p) :
-  AudioProcessorEditor(&p),
-  background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::background)),
-  effectDetailView(p),
-  effectRackView(p),
-  vuMeter (p.leftPeak, p.rightPeak),
-  gainAttachment(p.getParameterRefs().gain, gainLabeledSlider.slider),
-  panAttachment(p.getParameterRefs().pan, panLabeledSlider.slider),
-  bypassAttachment(p.getParameterRefs().bypass, bypassLabeledButton.button) {
+    AudioProcessorEditor(&p),
+    background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::background)),
+    effectDetailView(p),
+    effectRackView(p),
+    vuMeter (p.leftPeak, p.rightPeak),
+    gainAttachment(p.getParameterRefs().gain, gainSlider),
+    panAttachment(p.getParameterRefs().pan, panSlider),
+    bypassAttachment(p.getParameterRefs().bypass, bypassButton) {
   addAndMakeVisible(background);
 
   logo = juce::Drawable::createFromImageData (assets::efx_logo_svg, assets::efx_logo_svgSize);
@@ -19,18 +19,19 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
   addAndMakeVisible(logo.get());
 
-  gainLabeledSlider.slider.setColour(custom_colors::highlight, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-  gainLabeledSlider.slider.getProperties().set("isBipolar", true);
-  gainLabeledSlider.label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-  addAndMakeVisible(gainLabeledSlider);
+  setupSlider(gainSlider, gainLabel, "GAIN");
+  gainSlider.getProperties().set("isBipolar", true);
+  addAndMakeVisible(gainSlider);
+  addAndMakeVisible(gainLabel);
 
-  panLabeledSlider.slider.setColour(custom_colors::highlight, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-  panLabeledSlider.slider.getProperties().set("isBipolar", true);
-  panLabeledSlider.label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-  addAndMakeVisible(panLabeledSlider);
+  setupSlider(panSlider, panLabel, "PAN");
+  panSlider.getProperties().set("isBipolar", true);
+  addAndMakeVisible(panSlider);
+  addAndMakeVisible(panLabel);
 
-  bypassLabeledButton.label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
-  addAndMakeVisible(bypassLabeledButton);
+  setupToggleButton(bypassButton, bypassLabel, "BYPASS");
+  addAndMakeVisible(bypassButton);
+  addAndMakeVisible(bypassLabel);
 
   addAndMakeVisible(vuMeter);
 
@@ -58,6 +59,25 @@ PluginEditor::~PluginEditor() {
   setLookAndFeel(nullptr);
 }
 
+void PluginEditor::setupSlider(juce::Slider& slider, juce::Label& label, const juce::String& labelText) {
+  slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+  slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+  slider.setPopupDisplayEnabled(true, true, nullptr);
+  slider.setColour(custom_colors::highlight, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
+
+  label.setText(labelText, juce::dontSendNotification);
+  label.setInterceptsMouseClicks(false, false);
+  label.setJustificationType(juce::Justification::centred);
+  label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
+}
+
+void PluginEditor::setupToggleButton(juce::ToggleButton& button, juce::Label& label, const juce::String& labelText) {
+  label.setText(labelText, juce::dontSendNotification);
+  label.setInterceptsMouseClicks(false, false);
+  label.setJustificationType(juce::Justification::centred);
+  label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
+}
+
 void PluginEditor::resized() {
   const auto bounds = getLocalBounds();
 
@@ -65,11 +85,14 @@ void PluginEditor::resized() {
 
   vuMeter.setBounds({494, 6, 40, 206});
 
-  gainLabeledSlider.setBounds(330, 12, 50, 55);
+  gainSlider.setBounds(335, 12, 40, 40);
+  gainLabel.setBounds(330, 52, 50, 15);
 
-  panLabeledSlider.setBounds(380, 12, 50, 55);
+  panSlider.setBounds(385, 12, 40, 40);
+  panLabel.setBounds(380, 52, 50, 15);
 
-  bypassLabeledButton.setBounds(430, 12, 50, 55);
+  bypassButton.setBounds(440, 17, 30, 30);
+  bypassLabel.setBounds(430, 52, 50, 15);
 
   effectRackView.setBounds(6, 70, 122, 142);
 
