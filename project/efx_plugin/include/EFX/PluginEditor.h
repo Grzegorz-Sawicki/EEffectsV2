@@ -153,7 +153,7 @@ public:
   juce::TextButton button3;
 
 private:
-  void setupExtraButton(juce::TextButton& btn) {
+  void setupExtraButton(juce::TextButton &btn) {
     btn.getProperties().set("customFontSize", 9.0f);
     btn.setClickingTogglesState(true);
     btn.onClick = [&btn]() {
@@ -231,14 +231,14 @@ public:
 
 class EffectEditorBase : public juce::Component {
 protected:
-  void setupLabel(juce::Label& label, juce::Font& font) {
+  void setupLabel(juce::Label &label, juce::Font &font) {
     label.setInterceptsMouseClicks(false, false);
     label.setJustificationType(juce::Justification::centred);
     label.setColour(juce::Label::textColourId, mainColor);
     label.setFont(font);
   }
 
-  void setupActiveButton(juce::TextButton& activeButton) {
+  void setupActiveButton(juce::TextButton &activeButton) {
     activeButton.setClickingTogglesState(true);
     activeButton.setColour(custom_colors::highlight, mainColor);
 
@@ -248,14 +248,14 @@ protected:
     activeButton.onClick();
   }
 
-  void setupSlider(juce::Slider& slider) {
+  void setupSlider(juce::Slider &slider) {
     slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     slider.setPopupDisplayEnabled(true, true, nullptr);
     slider.setColour(custom_colors::highlight, mainColor);
   }
 
-  void setupComboBox(juce::ComboBox& comboBox) {
+  void setupComboBox(juce::ComboBox &comboBox) {
     comboBox.setColour(custom_colors::highlight, mainColor);
   }
 
@@ -464,13 +464,30 @@ private:
 class FilterEditor : public EffectEditorBase {
 public:
   explicit FilterEditor(PluginProcessor &p) :
+      // Lowpass Attachments
       lowActiveAttachment(p.getParameterRefs().lowpassActive, lowActiveButton),
       lowMixAttachment(p.getParameterRefs().lowpassMix, lowMixSlider),
       lowResonanceAttachment(p.getParameterRefs().lowpassResonance, lowResonanceSlider),
-      lowFreqAttachment(p.getParameterRefs().lowpassFrequency, lowFreqSlider) {
+      lowFreqAttachment(p.getParameterRefs().lowpassFrequency, lowFreqSlider),
+
+      // Bandpass Attachments
+      bandActiveAttachment(p.getParameterRefs().bandpassActive, bandActiveButton),
+      bandMixAttachment(p.getParameterRefs().bandpassMix, bandMixSlider),
+      bandResonanceAttachment(p.getParameterRefs().bandpassResonance, bandResonanceSlider),
+      bandFreqAttachment(p.getParameterRefs().bandpassFrequency, bandFreqSlider),
+
+      // Highpass Attachments
+      highActiveAttachment(p.getParameterRefs().highpassActive, highActiveButton),
+      highMixAttachment(p.getParameterRefs().highpassMix, highMixSlider),
+      highResonanceAttachment(p.getParameterRefs().highpassResonance, highResonanceSlider),
+      highFreqAttachment(p.getParameterRefs().highpassFrequency, highFreqSlider) {
+
     mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::filterHighlight);
     logoFont = CustomLookAndFeel::getOrbitronMediumFont().withPointHeight(16.0f);
 
+    // ==========================================
+    // Lowpass Setup
+    // ==========================================
     setupLabel(lowLogoLabel, logoFont);
     addAndMakeVisible(lowLogoLabel);
 
@@ -491,6 +508,54 @@ public:
     setupLabel(lowFreqLabel, labelFont);
     addAndMakeVisible(lowFreqSlider);
     addAndMakeVisible(lowFreqLabel);
+
+    // ==========================================
+    // Bandpass Setup
+    // ==========================================
+    setupLabel(bandLogoLabel, logoFont);
+    addAndMakeVisible(bandLogoLabel);
+
+    setupActiveButton(bandActiveButton);
+    addAndMakeVisible(bandActiveButton);
+
+    setupSlider(bandMixSlider);
+    setupLabel(bandMixLabel, labelFont);
+    addAndMakeVisible(bandMixSlider);
+    addAndMakeVisible(bandMixLabel);
+
+    setupSlider(bandResonanceSlider);
+    setupLabel(bandResonanceLabel, labelFont);
+    addAndMakeVisible(bandResonanceSlider);
+    addAndMakeVisible(bandResonanceLabel);
+
+    setupSlider(bandFreqSlider);
+    setupLabel(bandFreqLabel, labelFont);
+    addAndMakeVisible(bandFreqSlider);
+    addAndMakeVisible(bandFreqLabel);
+
+    // ==========================================
+    // Highpass Setup
+    // ==========================================
+    setupLabel(highLogoLabel, logoFont);
+    addAndMakeVisible(highLogoLabel);
+
+    setupActiveButton(highActiveButton);
+    addAndMakeVisible(highActiveButton);
+
+    setupSlider(highMixSlider);
+    setupLabel(highMixLabel, labelFont);
+    addAndMakeVisible(highMixSlider);
+    addAndMakeVisible(highMixLabel);
+
+    setupSlider(highResonanceSlider);
+    setupLabel(highResonanceLabel, labelFont);
+    addAndMakeVisible(highResonanceSlider);
+    addAndMakeVisible(highResonanceLabel);
+
+    setupSlider(highFreqSlider);
+    setupLabel(highFreqLabel, labelFont);
+    addAndMakeVisible(highFreqSlider);
+    addAndMakeVisible(highFreqLabel);
   }
 
   void paint(juce::Graphics &g) override {
@@ -504,12 +569,27 @@ public:
     g.fillRect(innerBounds);
 
     g.setColour(mainColor);
+
+    // Lowpass Lines
     g.drawLine(12.0f, 12.0f, 12.0f, 130.0f, 2.0f);
     g.drawLine(44.0f, 62.0f, 96.0f, 62.0f, 2.0f);
     g.drawLine(44.0f, 81.0f, 96.0f, 81.0f, 2.0f);
+
+    // Bandpass Lines
+    g.drawLine(126.0f, 12.0f, 126.0f, 130.0f, 2.0f);
+    g.drawLine(158.0f, 62.0f, 210.0f, 62.0f, 2.0f);
+    g.drawLine(158.0f, 81.0f, 210.0f, 81.0f, 2.0f);
+
+    // Highpass Lines
+    g.drawLine(240.0f, 12.0f, 240.0f, 130.0f, 2.0f);
+    g.drawLine(272.0f, 62.0f, 324.0f, 62.0f, 2.0f);
+    g.drawLine(272.0f, 81.0f, 324.0f, 81.0f, 2.0f);
   }
 
   void resized() override {
+    // ==========================================
+    // Lowpass Bounds
+    // ==========================================
     lowLogoLabel.setBounds(44, 61, 52, 20);
 
     lowFreqSlider.setBounds(29, 10, 34, 34);
@@ -522,9 +602,42 @@ public:
     lowMixLabel.setBounds(29, 120, 34, 15);
 
     lowActiveButton.setBounds(75, 91, 38, 26);
+
+    // ==========================================
+    // Bandpass Bounds
+    // ==========================================
+    bandLogoLabel.setBounds(158, 61, 52, 20);
+
+    bandFreqSlider.setBounds(143, 10, 34, 34);
+    bandFreqLabel.setBounds(143, 43, 34, 15);
+
+    bandResonanceSlider.setBounds(191, 10, 34, 34);
+    bandResonanceLabel.setBounds(191, 43, 34, 15);
+
+    bandMixSlider.setBounds(143, 87, 34, 34);
+    bandMixLabel.setBounds(143, 120, 34, 15);
+
+    bandActiveButton.setBounds(189, 91, 38, 26);
+
+    // ==========================================
+    // Highpass Bounds
+    // ==========================================
+    highLogoLabel.setBounds(272, 61, 52, 20);
+
+    highFreqSlider.setBounds(257, 10, 34, 34);
+    highFreqLabel.setBounds(257, 43, 34, 15);
+
+    highResonanceSlider.setBounds(305, 10, 34, 34);
+    highResonanceLabel.setBounds(305, 43, 34, 15);
+
+    highMixSlider.setBounds(257, 87, 34, 34);
+    highMixLabel.setBounds(257, 120, 34, 15);
+
+    highActiveButton.setBounds(303, 91, 38, 26);
   }
 
 private:
+  // Lowpass Components
   juce::Label lowLogoLabel{"lowpassLogoLabel", "LOW"};
 
   juce::TextButton lowActiveButton;
@@ -541,6 +654,42 @@ private:
   juce::Slider lowFreqSlider;
   juce::Label lowFreqLabel{"lowpassFreqLabel", "FREQ"};
   juce::SliderParameterAttachment lowFreqAttachment;
+
+  // Bandpass Components
+  juce::Label bandLogoLabel{"bandpassLogoLabel", "BAND"};
+
+  juce::TextButton bandActiveButton;
+  juce::ButtonParameterAttachment bandActiveAttachment;
+
+  juce::Slider bandMixSlider;
+  juce::Label bandMixLabel{"bandpassMixLabel", "MIX"};
+  juce::SliderParameterAttachment bandMixAttachment;
+
+  juce::Slider bandResonanceSlider;
+  juce::Label bandResonanceLabel{"bandpassResonanceLabel", "Q"};
+  juce::SliderParameterAttachment bandResonanceAttachment;
+
+  juce::Slider bandFreqSlider;
+  juce::Label bandFreqLabel{"bandpassFreqLabel", "FREQ"};
+  juce::SliderParameterAttachment bandFreqAttachment;
+
+  // Highpass Components
+  juce::Label highLogoLabel{"highpassLogoLabel", "HIGH"};
+
+  juce::TextButton highActiveButton;
+  juce::ButtonParameterAttachment highActiveAttachment;
+
+  juce::Slider highMixSlider;
+  juce::Label highMixLabel{"highpassMixLabel", "MIX"};
+  juce::SliderParameterAttachment highMixAttachment;
+
+  juce::Slider highResonanceSlider;
+  juce::Label highResonanceLabel{"highpassResonanceLabel", "Q"};
+  juce::SliderParameterAttachment highResonanceAttachment;
+
+  juce::Slider highFreqSlider;
+  juce::Label highFreqLabel{"highpassFreqLabel", "FREQ"};
+  juce::SliderParameterAttachment highFreqAttachment;
 };
 
 class EffectDetailView : public juce::Component {
@@ -588,8 +737,9 @@ public:
   void resized() override;
 
 private:
-  void setupSlider(juce::Slider& slider, juce::Label& label, const juce::String& labelText);
-  void setupToggleButton(juce::ToggleButton& button, juce::Label& label, const juce::String& labelText);
+  void setupSlider(juce::Slider &slider, juce::Label &label, const juce::String &labelText);
+
+  void setupToggleButton(juce::ToggleButton &button, juce::Label &label, const juce::String &labelText);
 
   std::unique_ptr<juce::Drawable> logo;
 
