@@ -30,7 +30,7 @@ public:
   void paint (juce::Graphics& g) override {
     auto bounds = getLocalBounds();
 
-    g.setColour(juce::Colours::black);
+    g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground));
     g.fillAll();
 
     const auto padding = 4;
@@ -57,10 +57,10 @@ public:
       float yPos = juce::jmap(tickDb, minDb, maxDb, (float)leftMeterBounds.getBottom(), (float)leftMeterBounds.getY());
       g.setFont(8);
       g.setColour(juce::Colours::white.withAlpha(0.6f));
-      g.drawSingleLineText(juce::String((int)tickDb), rightMeterBounds.getRight(), yPos + 4.0f);
+      g.drawSingleLineText(juce::String((int)tickDb), rightMeterBounds.getRight() + 3.0f, yPos + 2.0f);
 
       g.setColour(juce::Colours::white.withAlpha(0.2f));
-      g.drawLine(leftMeterBounds.getX(), yPos, leftMeterBounds.getRight(), yPos);
+      g.drawLine(leftMeterBounds.getX(), yPos, rightMeterBounds.getRight(), yPos);
     }
 
     drawMeterBar(g, leftMeterBounds, visualLeft);

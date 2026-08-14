@@ -83,19 +83,19 @@ void PluginEditor::resized() {
 
   background.setBounds(bounds);
 
-  vuMeter.setBounds({494, 6, 40, 206});
+  vuMeter.setBounds(494, 6, 40, 206);
 
-  gainSlider.setBounds(335, 12, 40, 40);
-  gainLabel.setBounds(330, 52, 50, 15);
+  gainSlider.setBounds(333, 12, 40, 40);
+  gainLabel.setBounds(328, 50, 50, 15);
 
   panSlider.setBounds(385, 12, 40, 40);
-  panLabel.setBounds(380, 52, 50, 15);
+  panLabel.setBounds(380, 50, 50, 15);
 
-  bypassButton.setBounds(440, 17, 30, 30);
-  bypassLabel.setBounds(430, 52, 50, 15);
+  bypassButton.setBounds(442, 17, 30, 30);
+  bypassLabel.setBounds(432, 50, 50, 15);
 
   effectRackView.setBounds(6, 70, 122, 142);
 
-  effectDetailView.setBounds(130, 70, 352, 142);
+  effectDetailView.setBounds(133, 70, 355, 142);
 }
 }  // namespace efx
