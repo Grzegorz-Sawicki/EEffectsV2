@@ -167,7 +167,6 @@ private:
 class EffectRackView : public juce::Component {
 public:
   EffectRackView(PluginProcessor &p) :
-      background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground)),
       tremoloActiveAttachment(p.getParameterRefs().tremoloActive, tremoloItem.button),
       flangerActiveAttachment(p.getParameterRefs().flangerActive, flangerItem.button),
       lowpassActiveAttachment(p.getParameterRefs().lowpassActive, filterItem.button),
@@ -177,7 +176,6 @@ public:
     flangerItem.setMainColor(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::flangerHighlight));
     filterItem.setMainColor(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::filterHighlight));
 
-    addAndMakeVisible(background);
     addAndMakeVisible(tremoloItem);
     addAndMakeVisible(flangerItem);
     addAndMakeVisible(filterItem);
@@ -194,10 +192,14 @@ public:
     filterItem.onSelect = itemClickedCallback;
   }
 
-  void resized() override {
-    auto bounds = getLocalBounds();
-    background.setBounds(bounds);
+  void paint(juce::Graphics &g) override {
+    const auto bounds = getLocalBounds();
 
+    g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground));
+    g.fillRect(bounds);
+  }
+
+  void resized() override {
     auto padding = 4;
     auto itemWidth = 113;
     auto itemHeight = 20;
@@ -215,7 +217,6 @@ public:
 
   std::function<void(juce::String)> onEffectChanged;
 
-  Background background;
   EffectRackItem tremoloItem{"Tremolo"};
   juce::ButtonParameterAttachment tremoloActiveAttachment;
 
@@ -228,7 +229,42 @@ public:
   juce::ButtonParameterAttachment highpassActiveAttachment;
 };
 
-class TremoloEditor : public juce::Component {
+class EffectEditorBase : public juce::Component {
+protected:
+  void setupLabel(juce::Label& label, juce::Font& font) {
+    label.setInterceptsMouseClicks(false, false);
+    label.setJustificationType(juce::Justification::centred);
+    label.setColour(juce::Label::textColourId, mainColor);
+    label.setFont(font);
+  }
+
+  void setupActiveButton(juce::TextButton& activeButton) {
+    activeButton.setClickingTogglesState(true);
+    activeButton.setColour(custom_colors::highlight, mainColor);
+
+    activeButton.onClick = [&activeButton]() {
+      activeButton.setButtonText(activeButton.getToggleState() ? "ON" : "OFF");
+    };
+    activeButton.onClick();
+  }
+
+  void setupSlider(juce::Slider& slider) {
+    slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+    slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+    slider.setPopupDisplayEnabled(true, true, nullptr);
+    slider.setColour(custom_colors::highlight, mainColor);
+  }
+
+  void setupComboBox(juce::ComboBox& comboBox) {
+    comboBox.setColour(custom_colors::highlight, mainColor);
+  }
+
+  juce::Colour mainColor;
+  juce::Font labelFont = CustomLookAndFeel::getInterMediumFont().withPointHeight(10.0f);
+  juce::Font logoFont = CustomLookAndFeel::getOrbitronMediumFont().withPointHeight(20.0f);
+};
+
+class TremoloEditor : public EffectEditorBase {
 public:
   TremoloEditor(PluginProcessor &p) :
       activeAttachment(p.getParameterRefs().tremoloActive, activeButton),
@@ -236,41 +272,33 @@ public:
       depthAttachment(p.getParameterRefs().tremoloDepth, depthSlider),
       rateAttachment(p.getParameterRefs().tremoloRate, rateSlider),
       waveformAttachment(p.getParameterRefs().tremoloWaveform, waveformComboBox) {
-    logoLabel.setInterceptsMouseClicks(false, false);
-    logoLabel.setJustificationType(juce::Justification::centred);
-    logoLabel.setColour(juce::Label::textColourId, mainColor);
-    logoLabel.setFont(CustomLookAndFeel::getOrbitronMediumFont());
+    mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::tremoloHighlight);
+
+    setupLabel(logoLabel, logoFont);
     addAndMakeVisible(logoLabel);
 
-    activeButton.setClickingTogglesState(true);
-    activeButton.onClick = [this]() {
-      activeButton.setButtonText(activeButton.getToggleState() ? "ON" : "OFF");
-    };
-    activeButton.onClick();
-    activeButton.setColour(custom_colors::highlight, mainColor);
+    setupActiveButton(activeButton);
     addAndMakeVisible(activeButton);
 
-    setupSlider(mixSlider, mixLabel, "MIX");
+    setupSlider(mixSlider);
+    setupLabel(mixLabel, labelFont);
     addAndMakeVisible(mixSlider);
     addAndMakeVisible(mixLabel);
 
-    setupSlider(depthSlider, depthLabel, "DEPTH");
+    setupSlider(depthSlider);
+    setupLabel(depthLabel, labelFont);
     addAndMakeVisible(depthSlider);
     addAndMakeVisible(depthLabel);
 
-    setupSlider(rateSlider, rateLabel, "RATE");
+    setupSlider(rateSlider);
+    setupLabel(rateLabel, labelFont);
     addAndMakeVisible(rateSlider);
     addAndMakeVisible(rateLabel);
 
-    waveformComboBox.setColour(custom_colors::highlight, mainColor);
+    setupComboBox(waveformComboBox);
+    setupLabel(waveformLabel, labelFont);
     waveformComboBox.addItemList(p.getParameterRefs().tremoloWaveform.choices, 1);
     waveformAttachment.sendInitialUpdate();
-
-    waveformLabel.setText("WAVEFORM", juce::dontSendNotification);
-    waveformLabel.setColour(juce::Label::textColourId, mainColor);
-    waveformLabel.setJustificationType(juce::Justification::centred);
-    waveformLabel.setInterceptsMouseClicks(false, false);
-    waveformLabel.setFont(CustomLookAndFeel::getInterMediumFont().withPointHeight(10.0f));
 
     addAndMakeVisible(waveformComboBox);
     addAndMakeVisible(waveformLabel);
@@ -314,40 +342,25 @@ public:
   }
 
 private:
-  void setupSlider(juce::Slider& slider, juce::Label& label, const juce::String& labelText) {
-    slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
-    slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-    slider.setPopupDisplayEnabled(true, true, nullptr);
-    slider.setColour(custom_colors::highlight, mainColor);
-
-    label.setText(labelText, juce::dontSendNotification);
-    label.setInterceptsMouseClicks(false, false);
-    label.setJustificationType(juce::Justification::centred);
-    label.setColour(juce::Label::textColourId, mainColor);
-    label.setFont(CustomLookAndFeel::getInterMediumFont().withPointHeight(10.0f));
-  }
-
-  juce::Colour mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::tremoloHighlight);
-
-  juce::Label logoLabel{"logoLabel", "TREMOLO"};
+  juce::Label logoLabel{"tremoloLogoLabel", "TREMOLO"};
 
   juce::TextButton activeButton;
   juce::ButtonParameterAttachment activeAttachment;
 
   juce::Slider mixSlider;
-  juce::Label mixLabel;
+  juce::Label mixLabel{"tremoloMixLabel", "MIX"};
   juce::SliderParameterAttachment mixAttachment;
 
   juce::Slider depthSlider;
-  juce::Label depthLabel;
+  juce::Label depthLabel{"tremoloDepthLabel", "DEPTH"};
   juce::SliderParameterAttachment depthAttachment;
 
   juce::Slider rateSlider;
-  juce::Label rateLabel;
+  juce::Label rateLabel{"tremoloRateLabel", "RATE"};
   juce::SliderParameterAttachment rateAttachment;
 
   juce::ComboBox waveformComboBox;
-  juce::Label waveformLabel;
+  juce::Label waveformLabel{"tremoloWaveformLabel", "WAVEFORM"};
   juce::ComboBoxParameterAttachment waveformAttachment;
 };
 
@@ -419,6 +432,8 @@ public:
 
   ~PluginEditor() override;
 
+  void paint(juce::Graphics &g) override;
+
   void resized() override;
 
 private:
@@ -426,7 +441,6 @@ private:
   void setupToggleButton(juce::ToggleButton& button, juce::Label& label, const juce::String& labelText);
 
   std::unique_ptr<juce::Drawable> logo;
-  Background background;
 
   juce::Slider gainSlider;
   juce::Label gainLabel;

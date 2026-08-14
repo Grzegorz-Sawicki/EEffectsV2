@@ -1,14 +1,12 @@
 namespace efx {
 PluginEditor::PluginEditor(PluginProcessor& p) :
     AudioProcessorEditor(&p),
-    background(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::background)),
     effectDetailView(p),
     effectRackView(p),
     vuMeter (p.leftPeak, p.rightPeak),
     gainAttachment(p.getParameterRefs().gain, gainSlider),
     panAttachment(p.getParameterRefs().pan, panSlider),
     bypassAttachment(p.getParameterRefs().bypass, bypassButton) {
-  addAndMakeVisible(background);
 
   logo = juce::Drawable::createFromImageData (assets::efx_logo_svg, assets::efx_logo_svgSize);
 
@@ -80,10 +78,15 @@ void PluginEditor::setupToggleButton(juce::ToggleButton& button, juce::Label& la
   label.setFont(CustomLookAndFeel::getInterMediumFont());
 }
 
-void PluginEditor::resized() {
+void PluginEditor::paint(juce::Graphics &g) {
   const auto bounds = getLocalBounds();
 
-  background.setBounds(bounds);
+  g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::background));
+  g.fillRect(bounds);
+}
+
+void PluginEditor::resized() {
+  const auto bounds = getLocalBounds();
 
   vuMeter.setBounds(494, 6, 40, 206);
 

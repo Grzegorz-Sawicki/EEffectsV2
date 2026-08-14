@@ -31,7 +31,7 @@ public:
     auto bounds = getLocalBounds();
 
     g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground));
-    g.fillAll();
+    g.fillRect(bounds);
 
     const auto padding = 4;
     bounds = bounds.reduced(padding);
