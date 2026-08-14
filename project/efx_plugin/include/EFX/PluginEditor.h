@@ -461,18 +461,86 @@ private:
   juce::SliderParameterAttachment feedbackAttachment;
 };
 
-class FilterEditor : public juce::Component {
+class FilterEditor : public EffectEditorBase {
 public:
-  FilterEditor(PluginProcessor &processor) {
+  explicit FilterEditor(PluginProcessor &p) :
+      lowActiveAttachment(p.getParameterRefs().lowpassActive, lowActiveButton),
+      lowMixAttachment(p.getParameterRefs().lowpassMix, lowMixSlider),
+      lowResonanceAttachment(p.getParameterRefs().lowpassResonance, lowResonanceSlider),
+      lowFreqAttachment(p.getParameterRefs().lowpassFrequency, lowFreqSlider) {
+    mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::filterHighlight);
+    logoFont = CustomLookAndFeel::getOrbitronMediumFont().withPointHeight(16.0f);
 
+    setupLabel(lowLogoLabel, logoFont);
+    addAndMakeVisible(lowLogoLabel);
+
+    setupActiveButton(lowActiveButton);
+    addAndMakeVisible(lowActiveButton);
+
+    setupSlider(lowMixSlider);
+    setupLabel(lowMixLabel, labelFont);
+    addAndMakeVisible(lowMixSlider);
+    addAndMakeVisible(lowMixLabel);
+
+    setupSlider(lowResonanceSlider);
+    setupLabel(lowResonanceLabel, labelFont);
+    addAndMakeVisible(lowResonanceSlider);
+    addAndMakeVisible(lowResonanceLabel);
+
+    setupSlider(lowFreqSlider);
+    setupLabel(lowFreqLabel, labelFont);
+    addAndMakeVisible(lowFreqSlider);
+    addAndMakeVisible(lowFreqLabel);
   }
 
   void paint(juce::Graphics &g) override {
-    const auto bounds = getLocalBounds();
+    auto bounds = getLocalBounds().toFloat();
 
-    g.setColour(juce::Colours::blue);
+    g.setColour(mainColor);
     g.fillRect(bounds);
+
+    auto innerBounds = bounds.reduced(2.0f);
+    g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground));
+    g.fillRect(innerBounds);
+
+    g.setColour(mainColor);
+    g.drawLine(12.0f, 12.0f, 12.0f, 130.0f, 2.0f);
+    g.drawLine(44.0f, 62.0f, 96.0f, 62.0f, 2.0f);
+    g.drawLine(44.0f, 81.0f, 96.0f, 81.0f, 2.0f);
   }
+
+  void resized() override {
+    lowLogoLabel.setBounds(44, 61, 52, 20);
+
+    lowFreqSlider.setBounds(29, 10, 34, 34);
+    lowFreqLabel.setBounds(29, 43, 34, 15);
+
+    lowResonanceSlider.setBounds(77, 10, 34, 34);
+    lowResonanceLabel.setBounds(77, 43, 34, 15);
+
+    lowMixSlider.setBounds(29, 87, 34, 34);
+    lowMixLabel.setBounds(29, 120, 34, 15);
+
+    lowActiveButton.setBounds(75, 91, 38, 26);
+  }
+
+private:
+  juce::Label lowLogoLabel{"lowpassLogoLabel", "LOW"};
+
+  juce::TextButton lowActiveButton;
+  juce::ButtonParameterAttachment lowActiveAttachment;
+
+  juce::Slider lowMixSlider;
+  juce::Label lowMixLabel{"lowpassMixLabel", "MIX"};
+  juce::SliderParameterAttachment lowMixAttachment;
+
+  juce::Slider lowResonanceSlider;
+  juce::Label lowResonanceLabel{"lowpassResonanceLabel", "Q"};
+  juce::SliderParameterAttachment lowResonanceAttachment;
+
+  juce::Slider lowFreqSlider;
+  juce::Label lowFreqLabel{"lowpassFreqLabel", "FREQ"};
+  juce::SliderParameterAttachment lowFreqAttachment;
 };
 
 class EffectDetailView : public juce::Component {
