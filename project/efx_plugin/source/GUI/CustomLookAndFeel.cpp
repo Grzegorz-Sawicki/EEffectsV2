@@ -17,7 +17,7 @@ juce::Colour CustomLookAndFeel::getColor(Colors colorName) {
       juce::Colour{0xFF1E1E1E},
       juce::Colour{0xFFFFFFFF},
       juce::Colour{0xFFFF005E},
-      juce::Colour{0xFFFDBA00},
+      juce::Colour{0xFFDEA11F},
       juce::Colour{0xFF3BB463},
       juce::Colour{0xFF5F78DB},
       juce::Colour{0xFF353535},
@@ -102,8 +102,8 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int wi
                                     float rotaryStartAngle, float rotaryEndAngle, juce::Slider &slider) {
   const auto bounds = slider.getLocalBounds().toFloat();
 
-  const float startAngle = -juce::MathConstants<float>::pi * 0.75f; // -135 deg
-  const float endAngle = juce::MathConstants<float>::pi * 0.75f; // +135 deg
+  const float startAngle = -juce::MathConstants<float>::pi * 0.75f;
+  const float endAngle = juce::MathConstants<float>::pi * 0.75f;
   const float currentAngle = startAngle + sliderPosProportional * (endAngle - startAngle);
   auto center = bounds.getCentre();
 
@@ -140,16 +140,19 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int wi
   }
 
   // Background
-  const auto backgroundBounds = bounds.reduced(3.0f);
+  const auto backgroundReduction = bounds.getWidth() * 0.075f;
+  const auto backgroundBounds = bounds.reduced(backgroundReduction);
   g.setColour(juce::Colour(0xFF170A2D));
   g.fillEllipse(backgroundBounds);
 
   // Inner Border
-  const auto innerBorderBounds = backgroundBounds.reduced(4.0f);
+  const auto innerBorderReduction = bounds.getWidth() * 0.1f;
+  const auto innerBorderBounds = backgroundBounds.reduced(innerBorderReduction);
   g.setColour(juce::Colour(0xFF7E7E7E));
   g.fillEllipse(innerBorderBounds);
 
   // Inner
+  const auto innerReduction = bounds.getWidth() * 0.25f;
   const auto innerBounds = innerBorderBounds.reduced(1.0f);
   g.setColour(juce::Colour(0xFF4A494E));
   g.fillEllipse(innerBounds);
@@ -162,7 +165,7 @@ void CustomLookAndFeel::drawRotarySlider(juce::Graphics &g, int x, int y, int wi
   indicatorLine.startNewSubPath(center);
   indicatorLine.lineTo(endPoint);
   g.setColour(ringColor);
-  g.strokePath(indicatorLine, juce::PathStrokeType(1.0f, juce::PathStrokeType::curved));
+  g.strokePath(indicatorLine, juce::PathStrokeType(0.025f * bounds.getWidth(), juce::PathStrokeType::curved));
 }
 
 void CustomLookAndFeel::drawComboBox(juce::Graphics &g,

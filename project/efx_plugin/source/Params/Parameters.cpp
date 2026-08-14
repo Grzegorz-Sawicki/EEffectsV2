@@ -18,7 +18,7 @@ juce::AudioParameterFloat &createGainParameter(juce::AudioProcessor &processor) 
       juce::AudioParameterFloatAttributes{}
           .withLabel("dB")
           .withStringFromValueFunction([](float x, int) {
-            return juce::String(x, 1) + "dB";
+            return juce::String(x, 1) + " dB";
           })
   );
   return addParameterToProcessor(processor, std::move(parameter));

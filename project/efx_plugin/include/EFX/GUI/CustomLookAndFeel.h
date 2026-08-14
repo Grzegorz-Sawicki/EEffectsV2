@@ -36,14 +36,14 @@ public:
   void drawRotarySlider(juce::Graphics &, int x, int y, int width, int height, float sliderPosProportional,
                         float rotaryStartAngle, float rotaryEndAngle, juce::Slider &) override;
 
-  juce::Font getLabelFont (juce::Label&) override {
-    return interMedium().withPointHeight(12.0f);
+  juce::Font getLabelFont (juce::Label& label) override {
+    return label.getFont();
   }
 
   void drawComboBox (juce::Graphics &g, int width, int height, bool isButtonDown, int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox &box) override;
 
   juce::Font getComboBoxFont (juce::ComboBox&) override {
-    return interMedium().withPointHeight(12.0f);
+    return interMedium().withPointHeight(10.0f);
   }
 
   void positionComboBoxText (juce::ComboBox& box, juce::Label& label) override;
@@ -51,7 +51,7 @@ public:
   juce::PopupMenu::Options getOptionsForComboBoxPopupMenu (juce::ComboBox&, juce::Label&) override;
 
   juce::Font getPopupMenuFont() override {
-    return interMedium().withPointHeight(12.0f);
+    return interMedium().withPointHeight(10.0f);
   }
 
   juce::Path getTickShape(float) override {

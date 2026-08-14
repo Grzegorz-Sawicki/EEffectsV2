@@ -236,8 +236,11 @@ public:
       depthAttachment(p.getParameterRefs().tremoloDepth, depthSlider),
       rateAttachment(p.getParameterRefs().tremoloRate, rateSlider),
       waveformAttachment(p.getParameterRefs().tremoloWaveform, waveformComboBox) {
-    addAndMakeVisible(background);
-    addAndMakeVisible(innerBackground);
+    logoLabel.setInterceptsMouseClicks(false, false);
+    logoLabel.setJustificationType(juce::Justification::centred);
+    logoLabel.setColour(juce::Label::textColourId, mainColor);
+    logoLabel.setFont(CustomLookAndFeel::getOrbitronMediumFont());
+    addAndMakeVisible(logoLabel);
 
     activeButton.setClickingTogglesState(true);
     activeButton.onClick = [this]() {
@@ -262,35 +265,52 @@ public:
     waveformComboBox.setColour(custom_colors::highlight, mainColor);
     waveformComboBox.addItemList(p.getParameterRefs().tremoloWaveform.choices, 1);
     waveformAttachment.sendInitialUpdate();
+
     waveformLabel.setText("WAVEFORM", juce::dontSendNotification);
     waveformLabel.setColour(juce::Label::textColourId, mainColor);
     waveformLabel.setJustificationType(juce::Justification::centred);
     waveformLabel.setInterceptsMouseClicks(false, false);
+    waveformLabel.setFont(CustomLookAndFeel::getInterMediumFont().withPointHeight(10.0f));
+
     addAndMakeVisible(waveformComboBox);
     addAndMakeVisible(waveformLabel);
   }
 
+  void paint(juce::Graphics &g) override {
+    auto bounds = getLocalBounds().toFloat();
+
+    g.setColour(mainColor);
+    g.fillRect(bounds);
+
+    auto innerBounds = bounds.reduced(2.0f);
+    g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground));
+    g.fillRect(innerBounds);
+
+    g.setColour(mainColor);
+    g.drawLine(12.0f, 129.0f, 240.0f, 129.0f, 2.0f);
+    g.drawLine(239.0f, 129.0f, 239.0f, 13.0f, 2.0f);
+    g.drawLine(238.0f, 13.0f, 343.0f, 13.0f, 2.0f);
+
+    g.drawLine(12.0f, 13.0f, 126.0f, 13.0f, 2.0f);
+    g.drawLine(12.0f, 37.0f, 126.0f, 37.0f, 2.0f);
+  }
+
   void resized() override {
-    auto bounds = getLocalBounds();
-    auto backgroundBounds = bounds;
-    background.setBounds(backgroundBounds);
+    logoLabel.setBounds(12, 10, 114, 29);
 
-    auto innerBackgroundBounds = backgroundBounds.reduced(2);
-    innerBackground.setBounds(innerBackgroundBounds);
+    activeButton.setBounds(305, 50, 38, 26);
 
-    activeButton.setBounds(292, 50, 50, 55);
+    mixSlider.setBounds(259, 46, 34, 34);
+    mixLabel.setBounds(259, 79, 34, 15);
 
-    mixSlider.setBounds(243, 38, 40, 40);
-    mixLabel.setBounds(238, 78, 50, 15);
+    depthSlider.setBounds(185, 46, 34, 34);
+    depthLabel.setBounds(183, 79, 40, 15);
 
-    depthSlider.setBounds(163, 38, 40, 40);
-    depthLabel.setBounds(158, 78, 50, 15);
+    rateSlider.setBounds(139, 46, 34, 34);
+    rateLabel.setBounds(139, 79, 34, 15);
 
-    rateSlider.setBounds(111, 38, 40, 40);
-    rateLabel.setBounds(106, 78, 50, 15);
-
-    waveformComboBox.setBounds(15, 51, 90, 21);
-    waveformLabel.setBounds(15, 71, 90, 15);
+    waveformComboBox.setBounds(53, 52, 74, 21);
+    waveformLabel.setBounds(53, 79, 74, 15);
   }
 
 private:
@@ -304,12 +324,12 @@ private:
     label.setInterceptsMouseClicks(false, false);
     label.setJustificationType(juce::Justification::centred);
     label.setColour(juce::Label::textColourId, mainColor);
+    label.setFont(CustomLookAndFeel::getInterMediumFont().withPointHeight(10.0f));
   }
 
   juce::Colour mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::tremoloHighlight);
 
-  Background background{mainColor};
-  Background innerBackground{CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground)};
+  juce::Label logoLabel{"logoLabel", "TREMOLO"};
 
   juce::TextButton activeButton;
   juce::ButtonParameterAttachment activeAttachment;

@@ -69,6 +69,7 @@ void PluginEditor::setupSlider(juce::Slider& slider, juce::Label& label, const j
   label.setInterceptsMouseClicks(false, false);
   label.setJustificationType(juce::Justification::centred);
   label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
+  label.setFont(CustomLookAndFeel::getInterMediumFont());
 }
 
 void PluginEditor::setupToggleButton(juce::ToggleButton& button, juce::Label& label, const juce::String& labelText) {
@@ -76,6 +77,7 @@ void PluginEditor::setupToggleButton(juce::ToggleButton& button, juce::Label& la
   label.setInterceptsMouseClicks(false, false);
   label.setJustificationType(juce::Justification::centred);
   label.setColour(juce::Label::textColourId, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
+  label.setFont(CustomLookAndFeel::getInterMediumFont());
 }
 
 void PluginEditor::resized() {
