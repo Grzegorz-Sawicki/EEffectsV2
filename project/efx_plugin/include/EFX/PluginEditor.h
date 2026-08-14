@@ -469,7 +469,7 @@ public:
   void resized() override;
 
 private:
-  juce::ImageComponent logo;
+  std::unique_ptr<juce::Drawable> logo;
   Background background;
 
   LabeledSlider gainLabeledSlider{"GAIN"};

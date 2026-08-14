@@ -8,11 +8,16 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   gainAttachment(p.getParameterRefs().gain, gainLabeledSlider.slider),
   panAttachment(p.getParameterRefs().pan, panLabeledSlider.slider),
   bypassAttachment(p.getParameterRefs().bypass, bypassLabeledButton.button) {
-  logo.setImage(
-      juce::ImageCache::getFromMemory(assets::efx_logo_png, assets::efx_logo_pngSize));
-
   addAndMakeVisible(background);
-  addAndMakeVisible(logo);
+
+  logo = juce::Drawable::createFromImageData (assets::efx_logo_svg, assets::efx_logo_svgSize);
+
+  if (auto* composite = dynamic_cast<juce::DrawableComposite*> (logo.get()))
+  {
+    composite->setBoundingBox(juce::Rectangle<float> (-2, -2, 161, 78));
+  }
+
+  addAndMakeVisible(logo.get());
 
   gainLabeledSlider.slider.setColour(custom_colors::highlight, CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight));
   gainLabeledSlider.slider.getProperties().set("isBipolar", true);
@@ -42,7 +47,11 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
   setLookAndFeel(&lookAndFeel);
 
-  setSize(540, 218);
+  const int width = 540;
+  const int height = 218;
+
+  juce::Desktop::getInstance().setGlobalScaleFactor (2.0f);
+  setSize(width, height);
 }
 
 PluginEditor::~PluginEditor() {
@@ -53,7 +62,6 @@ void PluginEditor::resized() {
   const auto bounds = getLocalBounds();
 
   background.setBounds(bounds);
-  logo.setBounds({-2, -3, 160, 77});
 
   vuMeter.setBounds({494, 6, 40, 206});
 

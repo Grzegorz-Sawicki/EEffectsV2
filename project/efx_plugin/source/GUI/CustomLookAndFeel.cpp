@@ -61,7 +61,7 @@ void CustomLookAndFeel::drawButtonBackground(juce::Graphics &g, juce::Button &bu
   g.setColour(backgroundColor);
   g.fillRoundedRectangle(bounds, cornerRadius);
 
-  auto innerBounds = bounds.reduced(2.0f);
+  auto innerBounds = bounds.reduced(1.0f);
   juce::Colour innerColor;
 
   if (button.getToggleState()) {

@@ -98,7 +98,7 @@ juce_add_binary_data(plugin_assets
   NAMESPACE
     efx::assets
   SOURCES
-    assets/efx_logo.png
+    assets/efx_logo.svg
     assets/Inter-Medium.ttf
     assets/Orbitron-Medium.ttf
 )
