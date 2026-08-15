@@ -1,5 +1,23 @@
 #pragma once
 
+namespace GUI {
+constexpr int sliderSize = 40;
+constexpr int smallSliderSize = 34;
+
+constexpr int buttonSize = 30;
+
+constexpr int textButtonWidth = 38;
+constexpr int textButtonHeight = 26;
+
+constexpr int smallTextButtonWidth = 22;
+constexpr int smallTextButtonHeight = 14;
+
+constexpr int comboBoxWidth = 74;
+constexpr int comboBoxHeight = 21;
+
+constexpr int labelHeight = 15;
+}
+
 namespace efx {
 namespace custom_colors {
   const int highlight = 0x12345678;

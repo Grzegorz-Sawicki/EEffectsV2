@@ -9,16 +9,16 @@ public:
   }
 
   void resized() override {
+    constexpr int labelWidth = 32;
+    constexpr int labelHeight = 14;
+
     EffectRackItem::resized();
 
-    button.setBounds(88, 3, 22, 14);
-    label.setBounds(3, 3, 82, 14);
+    button3.setBounds(88, 3, GUI::smallTextButtonWidth, GUI::smallTextButtonHeight);
+    button2.setBounds(63, 3, GUI::smallTextButtonWidth, GUI::smallTextButtonHeight);
+    button.setBounds(38, 3, GUI::smallTextButtonWidth, GUI::smallTextButtonHeight);
 
-    button3.setBounds(88, 3, 22, 14);
-    button2.setBounds(63, 3, 22, 14);
-    button.setBounds(38, 3, 22, 14);
-
-    label.setBounds(3, 3, 32, 14);
+    label.setBounds(3, 3, labelWidth, labelHeight);
   }
 
   void setMainColor(juce::Colour color) {
@@ -39,7 +39,7 @@ public:
 
 private:
   void setupExtraButton(juce::TextButton &btn) {
-    btn.getProperties().set("customFontSize", 9.0f);
+    btn.getProperties().set("customFontSize", fontSize);
     btn.setClickingTogglesState(true);
     btn.onClick = [&btn]() {
       btn.setButtonText(btn.getToggleState() ? "ON" : "OFF");

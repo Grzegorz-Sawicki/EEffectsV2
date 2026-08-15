@@ -14,7 +14,7 @@ public:
     label.setInterceptsMouseClicks(false, false);
     addAndMakeVisible(label);
 
-    button.getProperties().set("customFontSize", 9.0f);
+    button.getProperties().set("customFontSize", fontSize);
     button.setClickingTogglesState(true);
     button.onClick = [this]() {
       button.setButtonText(button.getToggleState() ? "ON" : "OFF");
@@ -28,13 +28,16 @@ public:
   }
 
   void resized() override {
+    constexpr int labelWidth = 82;
+    constexpr int labelHeight = 14;
+
     auto bounds = getLocalBounds();
 
     whiteBackground.setBounds(bounds);
     background.setBounds(bounds);
 
-    button.setBounds(88, 3, 22, 14);
-    label.setBounds(3, 3, 82, 14);
+    button.setBounds(88, 3, GUI::smallTextButtonWidth, GUI::smallTextButtonHeight);
+    label.setBounds(3, 3, labelWidth, labelHeight);
   }
 
   void paintOverChildren(juce::Graphics &g) override {
@@ -95,6 +98,8 @@ protected:
 
   bool isHovered = false;
   bool isSelected = false;
+
+  const float fontSize = 9.0f;
 
   juce::String name;
   juce::Label label;

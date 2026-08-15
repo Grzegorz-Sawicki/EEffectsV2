@@ -33,12 +33,11 @@ public:
     g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground));
     g.fillRect(bounds);
 
-    const auto padding = 4;
-    bounds = bounds.reduced(padding);
+    constexpr int padding = 4;
 
-    const auto meterWidth = 8;
-    const auto meterHeight = 198;
-    const auto meterSpace = 2;
+    constexpr int meterWidth = 8;
+    constexpr int meterHeight = 198;
+    constexpr int meterSpace = 2;
 
     auto leftMeterBounds = juce::Rectangle<int>{padding, padding, meterWidth, meterHeight};
     auto rightMeterBounds = juce::Rectangle<int>{
@@ -48,8 +47,8 @@ public:
       meterHeight
     };
 
-    const float minDb = -60.0f;
-    const float maxDb = 6.0f;
+    constexpr float minDb = -60.0f;
+    constexpr float maxDb = 6.0f;
     const std::vector<float> ticks = { 6.0f, 0.0f, -6.0f, -12.0f, -18.0f, -24.0f, -36.0f, -48.0f, -60.0f };
 
     for (const float tickDb : ticks)

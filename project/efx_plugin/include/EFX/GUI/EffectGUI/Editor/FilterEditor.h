@@ -4,7 +4,7 @@ namespace efx {
 class FilterEditor : public EffectEditorBase {
 public:
   explicit FilterEditor(PluginProcessor &p) :
-  // Lowpass Attachments
+      // Lowpass Attachments
       lowActiveAttachment(p.getParameterRefs().lowpassActive, lowActiveButton),
       lowMixAttachment(p.getParameterRefs().lowpassMix, lowMixSlider),
       lowResonanceAttachment(p.getParameterRefs().lowpassResonance, lowResonanceSlider),
@@ -104,76 +104,79 @@ public:
     g.setColour(mainColor);
     g.fillRect(bounds);
 
-    auto innerBounds = bounds.reduced(2.0f);
+    auto innerBounds = bounds.reduced(lineThickness);
     g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground));
     g.fillRect(innerBounds);
 
     g.setColour(mainColor);
 
     // Lowpass Lines
-    g.drawLine(12.0f, 12.0f, 12.0f, 130.0f, 2.0f);
-    g.drawLine(44.0f, 62.0f, 96.0f, 62.0f, 2.0f);
-    g.drawLine(44.0f, 81.0f, 96.0f, 81.0f, 2.0f);
+    g.drawLine(12.0f, 12.0f, 12.0f, 130.0f, lineThickness);
+    g.drawLine(44.0f, 62.0f, 96.0f, 62.0f, lineThickness);
+    g.drawLine(44.0f, 81.0f, 96.0f, 81.0f, lineThickness);
 
     // Bandpass Lines
-    g.drawLine(126.0f, 12.0f, 126.0f, 130.0f, 2.0f);
-    g.drawLine(158.0f, 62.0f, 210.0f, 62.0f, 2.0f);
-    g.drawLine(158.0f, 81.0f, 210.0f, 81.0f, 2.0f);
+    g.drawLine(126.0f, 12.0f, 126.0f, 130.0f, lineThickness);
+    g.drawLine(158.0f, 62.0f, 210.0f, 62.0f, lineThickness);
+    g.drawLine(158.0f, 81.0f, 210.0f, 81.0f, lineThickness);
 
     // Highpass Lines
-    g.drawLine(240.0f, 12.0f, 240.0f, 130.0f, 2.0f);
-    g.drawLine(272.0f, 62.0f, 324.0f, 62.0f, 2.0f);
-    g.drawLine(272.0f, 81.0f, 324.0f, 81.0f, 2.0f);
+    g.drawLine(240.0f, 12.0f, 240.0f, 130.0f, lineThickness);
+    g.drawLine(272.0f, 62.0f, 324.0f, 62.0f, lineThickness);
+    g.drawLine(272.0f, 81.0f, 324.0f, 81.0f, lineThickness);
   }
 
   void resized() override {
+    constexpr int logoWidth = 52;
+    constexpr int logoHeight = 20;
+
     // ==========================================
     // Lowpass Bounds
     // ==========================================
-    lowLogoLabel.setBounds(44, 61, 52, 20);
+    lowLogoLabel.setBounds(44, 61, logoWidth, logoHeight);
 
-    lowFreqSlider.setBounds(29, 10, 34, 34);
-    lowFreqLabel.setBounds(29, 43, 34, 15);
+    lowFreqSlider.setBounds(29, 10, GUI::smallSliderSize, GUI::smallSliderSize);
+    lowFreqLabel.setBounds(29, 43, lowFreqSlider.getWidth(), GUI::labelHeight);
 
-    lowResonanceSlider.setBounds(77, 10, 34, 34);
-    lowResonanceLabel.setBounds(77, 43, 34, 15);
+    lowResonanceSlider.setBounds(77, 10, GUI::smallSliderSize, GUI::smallSliderSize);
+    lowResonanceLabel.setBounds(77, 43, lowResonanceSlider.getWidth(), GUI::labelHeight);
 
-    lowMixSlider.setBounds(29, 87, 34, 34);
-    lowMixLabel.setBounds(29, 120, 34, 15);
+    lowMixSlider.setBounds(29, 87, GUI::smallSliderSize, GUI::smallSliderSize);
+    lowMixLabel.setBounds(29, 120, lowMixSlider.getWidth(), GUI::labelHeight);
 
-    lowActiveButton.setBounds(75, 91, 38, 26);
+    lowActiveButton.setBounds(75, 91, GUI::textButtonWidth, GUI::textButtonHeight);
 
     // ==========================================
     // Bandpass Bounds
     // ==========================================
-    bandLogoLabel.setBounds(158, 61, 52, 20);
+    bandLogoLabel.setBounds(158, 61, logoWidth, logoHeight);
 
-    bandFreqSlider.setBounds(143, 10, 34, 34);
-    bandFreqLabel.setBounds(143, 43, 34, 15);
+    bandFreqSlider.setBounds(143, 10, GUI::smallSliderSize, GUI::smallSliderSize);
+    bandFreqLabel.setBounds(143, 43, bandFreqSlider.getWidth(), GUI::labelHeight);
 
-    bandResonanceSlider.setBounds(191, 10, 34, 34);
-    bandResonanceLabel.setBounds(191, 43, 34, 15);
+    bandResonanceSlider.setBounds(191, 10, GUI::smallSliderSize, GUI::smallSliderSize);
+    bandResonanceLabel.setBounds(191, 43, bandResonanceSlider.getWidth(), GUI::labelHeight);
 
-    bandMixSlider.setBounds(143, 87, 34, 34);
-    bandMixLabel.setBounds(143, 120, 34, 15);
+    bandMixSlider.setBounds(143, 87, GUI::smallSliderSize, GUI::smallSliderSize);
+    bandMixLabel.setBounds(143, 120, bandMixSlider.getWidth(), GUI::labelHeight);
 
-    bandActiveButton.setBounds(189, 91, 38, 26);
+    bandActiveButton.setBounds(189, 91, GUI::textButtonWidth, GUI::textButtonHeight);
 
     // ==========================================
     // Highpass Bounds
     // ==========================================
-    highLogoLabel.setBounds(272, 61, 52, 20);
+    highLogoLabel.setBounds(272, 61, logoWidth, logoHeight);
 
-    highFreqSlider.setBounds(257, 10, 34, 34);
-    highFreqLabel.setBounds(257, 43, 34, 15);
+    highFreqSlider.setBounds(257, 10, GUI::smallSliderSize, GUI::smallSliderSize);
+    highFreqLabel.setBounds(257, 43, highFreqSlider.getWidth(), GUI::labelHeight);
 
-    highResonanceSlider.setBounds(305, 10, 34, 34);
-    highResonanceLabel.setBounds(305, 43, 34, 15);
+    highResonanceSlider.setBounds(305, 10, GUI::smallSliderSize, GUI::smallSliderSize);
+    highResonanceLabel.setBounds(305, 43, highResonanceSlider.getWidth(), GUI::labelHeight);
 
-    highMixSlider.setBounds(257, 87, 34, 34);
-    highMixLabel.setBounds(257, 120, 34, 15);
+    highMixSlider.setBounds(257, 87, GUI::smallSliderSize, GUI::smallSliderSize);
+    highMixLabel.setBounds(257, 120, highMixSlider.getWidth(), GUI::labelHeight);
 
-    highActiveButton.setBounds(303, 91, 38, 26);
+    highActiveButton.setBounds(303, 91, GUI::textButtonWidth, GUI::textButtonHeight);
   }
 
 private:

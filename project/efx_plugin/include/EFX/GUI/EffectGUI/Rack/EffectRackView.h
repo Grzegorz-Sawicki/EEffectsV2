@@ -37,9 +37,9 @@ public:
   }
 
   void resized() override {
-    auto padding = 4;
-    auto itemWidth = 113;
-    auto itemHeight = 20;
+    constexpr int padding = 4;
+    constexpr int itemWidth = 113;
+    constexpr int itemHeight = 20;
 
     tremoloItem.setBounds(padding, padding, itemWidth, itemHeight);
     flangerItem.setBounds(padding, tremoloItem.getBottom() + padding, itemWidth, itemHeight);

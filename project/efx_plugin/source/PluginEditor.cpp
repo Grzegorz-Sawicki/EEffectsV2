@@ -77,13 +77,13 @@ void PluginEditor::paint(juce::Graphics &g) {
 void PluginEditor::resized() {
   vuMeter.setBounds(494, 6, 40, 206);
 
-  gainSlider.setBounds(333, 12, 40, 40);
+  gainSlider.setBounds(333, 12, GUI::sliderSize, GUI::sliderSize);
   gainLabel.setBounds(328, 50, 50, 15);
 
-  panSlider.setBounds(385, 12, 40, 40);
+  panSlider.setBounds(385, 12, GUI::sliderSize, GUI::sliderSize);
   panLabel.setBounds(380, 50, 50, 15);
 
-  bypassButton.setBounds(442, 17, 30, 30);
+  bypassButton.setBounds(442, 17, GUI::buttonSize, GUI::buttonSize);
   bypassLabel.setBounds(432, 50, 50, 15);
 
   effectRackView.setBounds(6, 70, 122, 142);

@@ -47,35 +47,38 @@ public:
     g.setColour(mainColor);
     g.fillRect(bounds);
 
-    auto innerBounds = bounds.reduced(2.0f);
+    auto innerBounds = bounds.reduced(lineThickness);
     g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::effectBackground));
     g.fillRect(innerBounds);
 
     g.setColour(mainColor);
-    g.drawLine(12.0f, 129.0f, 240.0f, 129.0f, 2.0f);
-    g.drawLine(239.0f, 129.0f, 239.0f, 13.0f, 2.0f);
-    g.drawLine(238.0f, 13.0f, 343.0f, 13.0f, 2.0f);
+    g.drawLine(12.0f, 129.0f, 240.0f, 129.0f, lineThickness);
+    g.drawLine(239.0f, 129.0f, 239.0f, 13.0f, lineThickness);
+    g.drawLine(238.0f, 13.0f, 343.0f, 13.0f, lineThickness);
 
-    g.drawLine(12.0f, 13.0f, 126.0f, 13.0f, 2.0f);
-    g.drawLine(12.0f, 37.0f, 126.0f, 37.0f, 2.0f);
+    g.drawLine(12.0f, 13.0f, 126.0f, 13.0f, lineThickness);
+    g.drawLine(12.0f, 37.0f, 126.0f, 37.0f, lineThickness);
   }
 
   void resized() override {
-    logoLabel.setBounds(12, 10, 114, 29);
+    constexpr int logoWidth = 114;
+    constexpr int logoHeight = 29;
 
-    activeButton.setBounds(305, 50, 38, 26);
+    logoLabel.setBounds(12, 10, logoWidth, logoHeight);
 
-    mixSlider.setBounds(259, 46, 34, 34);
-    mixLabel.setBounds(259, 79, 34, 15);
+    activeButton.setBounds(305, 50, GUI::textButtonWidth, GUI::textButtonHeight);
 
-    depthSlider.setBounds(185, 46, 34, 34);
-    depthLabel.setBounds(183, 79, 40, 15);
+    mixSlider.setBounds(259, 46, GUI::smallSliderSize, GUI::smallSliderSize);
+    mixLabel.setBounds(259, 79, mixSlider.getWidth(), GUI::labelHeight);
 
-    rateSlider.setBounds(139, 46, 34, 34);
-    rateLabel.setBounds(139, 79, 34, 15);
+    depthSlider.setBounds(185, 46, GUI::smallSliderSize, GUI::smallSliderSize);
+    depthLabel.setBounds(182, 79, depthSlider.getWidth() + 6, GUI::labelHeight);
 
-    waveformComboBox.setBounds(53, 52, 74, 21);
-    waveformLabel.setBounds(53, 79, 74, 15);
+    rateSlider.setBounds(139, 46, GUI::smallSliderSize, GUI::smallSliderSize);
+    rateLabel.setBounds(139, 79, rateSlider.getWidth(), GUI::labelHeight);
+
+    waveformComboBox.setBounds(53, 52, GUI::comboBoxWidth, GUI::comboBoxHeight);
+    waveformLabel.setBounds(53, 79, waveformComboBox.getWidth(), GUI::labelHeight);
   }
 
 private:
