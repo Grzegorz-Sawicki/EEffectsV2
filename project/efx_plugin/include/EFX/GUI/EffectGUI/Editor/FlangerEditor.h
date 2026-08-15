@@ -11,29 +11,29 @@ public:
       feedbackAttachment(p.getParameterRefs().flangerFeedback, feedbackSlider) {
     mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::flangerHighlight);
 
-    setupLabel(logoLabel, logoFont);
+    CustomLookAndFeel::setupLabel(logoLabel, logoFont, mainColor);
     addAndMakeVisible(logoLabel);
 
-    setupActiveButton(activeButton);
+    CustomLookAndFeel::setupActiveButton(activeButton, mainColor);
     addAndMakeVisible(activeButton);
 
-    setupSlider(mixSlider);
-    setupLabel(mixLabel, labelFont);
+    CustomLookAndFeel::setupSlider(mixSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(mixLabel, labelFont, mainColor);
     addAndMakeVisible(mixSlider);
     addAndMakeVisible(mixLabel);
 
-    setupSlider(depthSlider);
-    setupLabel(depthLabel, labelFont);
+    CustomLookAndFeel::setupSlider(depthSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(depthLabel, labelFont, mainColor);
     addAndMakeVisible(depthSlider);
     addAndMakeVisible(depthLabel);
 
-    setupSlider(rateSlider);
-    setupLabel(rateLabel, labelFont);
+    CustomLookAndFeel::setupSlider(rateSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(rateLabel, labelFont, mainColor);
     addAndMakeVisible(rateSlider);
     addAndMakeVisible(rateLabel);
 
-    setupSlider(feedbackSlider);
-    setupLabel(feedbackLabel, labelFont);
+    CustomLookAndFeel::setupSlider(feedbackSlider, true, mainColor);
+    CustomLookAndFeel::setupLabel(feedbackLabel, labelFont, mainColor);
     addAndMakeVisible(feedbackSlider);
     addAndMakeVisible(feedbackLabel);
   }

@@ -11,29 +11,29 @@ public:
       waveformAttachment(p.getParameterRefs().tremoloWaveform, waveformComboBox) {
     mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::tremoloHighlight);
 
-    setupLabel(logoLabel, logoFont);
+    CustomLookAndFeel::setupLabel(logoLabel, logoFont, mainColor);
     addAndMakeVisible(logoLabel);
 
-    setupActiveButton(activeButton);
+    CustomLookAndFeel::setupActiveButton(activeButton, mainColor);
     addAndMakeVisible(activeButton);
 
-    setupSlider(mixSlider);
-    setupLabel(mixLabel, labelFont);
+    CustomLookAndFeel::setupSlider(mixSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(mixLabel, labelFont, mainColor);
     addAndMakeVisible(mixSlider);
     addAndMakeVisible(mixLabel);
 
-    setupSlider(depthSlider);
-    setupLabel(depthLabel, labelFont);
+    CustomLookAndFeel::setupSlider(depthSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(depthLabel, labelFont, mainColor);
     addAndMakeVisible(depthSlider);
     addAndMakeVisible(depthLabel);
 
-    setupSlider(rateSlider);
-    setupLabel(rateLabel, labelFont);
+    CustomLookAndFeel::setupSlider(rateSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(rateLabel, labelFont, mainColor);
     addAndMakeVisible(rateSlider);
     addAndMakeVisible(rateLabel);
 
-    setupComboBox(waveformComboBox);
-    setupLabel(waveformLabel, labelFont);
+    CustomLookAndFeel::setupComboBox(waveformComboBox, mainColor);
+    CustomLookAndFeel::setupLabel(waveformLabel, labelFont, mainColor);
     waveformComboBox.addItemList(p.getParameterRefs().tremoloWaveform.choices, 1);
     waveformAttachment.sendInitialUpdate();
 

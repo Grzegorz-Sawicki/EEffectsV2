@@ -236,4 +236,33 @@ juce::FontOptions CustomLookAndFeel::orbitronMedium() {
   return juce::FontOptions(result);
 }
 
+void CustomLookAndFeel::setupLabel(juce::Label &label, juce::Font &font, juce::Colour &mainColor) {
+  label.setInterceptsMouseClicks(false, false);
+  label.setJustificationType(juce::Justification::centred);
+  label.setColour(juce::Label::textColourId, mainColor);
+  label.setFont(font);
+}
+
+void CustomLookAndFeel::setupSlider(juce::Slider& slider, bool isBipolar, juce::Colour &mainColor) {
+  slider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+  slider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+  slider.setPopupDisplayEnabled(true, true, nullptr);
+  slider.setColour(custom_colors::highlight, mainColor);
+  slider.getProperties().set("isBipolar", isBipolar);
+}
+
+void CustomLookAndFeel::setupActiveButton(juce::TextButton &activeButton, juce::Colour &mainColor) {
+  activeButton.setClickingTogglesState(true);
+  activeButton.setColour(custom_colors::highlight, mainColor);
+
+  activeButton.onClick = [&activeButton]() {
+    activeButton.setButtonText(activeButton.getToggleState() ? "ON" : "OFF");
+  };
+  activeButton.onClick();
+}
+
+void CustomLookAndFeel::setupComboBox(juce::ComboBox &comboBox, juce::Colour &mainColor) {
+  comboBox.setColour(custom_colors::highlight, mainColor);
+}
+
 }  // namespace efx

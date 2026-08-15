@@ -28,72 +28,72 @@ public:
     // ==========================================
     // Lowpass Setup
     // ==========================================
-    setupLabel(lowLogoLabel, logoFont);
+    CustomLookAndFeel::setupLabel(lowLogoLabel, logoFont, mainColor);
     addAndMakeVisible(lowLogoLabel);
 
-    setupActiveButton(lowActiveButton);
+    CustomLookAndFeel::setupActiveButton(lowActiveButton, mainColor);
     addAndMakeVisible(lowActiveButton);
 
-    setupSlider(lowMixSlider);
-    setupLabel(lowMixLabel, labelFont);
+    CustomLookAndFeel::setupSlider(lowMixSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(lowMixLabel, labelFont, mainColor);
     addAndMakeVisible(lowMixSlider);
     addAndMakeVisible(lowMixLabel);
 
-    setupSlider(lowResonanceSlider);
-    setupLabel(lowResonanceLabel, labelFont);
+    CustomLookAndFeel::setupSlider(lowResonanceSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(lowResonanceLabel, labelFont, mainColor);
     addAndMakeVisible(lowResonanceSlider);
     addAndMakeVisible(lowResonanceLabel);
 
-    setupSlider(lowFreqSlider);
-    setupLabel(lowFreqLabel, labelFont);
+    CustomLookAndFeel::setupSlider(lowFreqSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(lowFreqLabel, labelFont, mainColor);
     addAndMakeVisible(lowFreqSlider);
     addAndMakeVisible(lowFreqLabel);
 
     // ==========================================
     // Bandpass Setup
     // ==========================================
-    setupLabel(bandLogoLabel, logoFont);
+    CustomLookAndFeel::setupLabel(bandLogoLabel, logoFont, mainColor);
     addAndMakeVisible(bandLogoLabel);
 
-    setupActiveButton(bandActiveButton);
+    CustomLookAndFeel::setupActiveButton(bandActiveButton, mainColor);
     addAndMakeVisible(bandActiveButton);
 
-    setupSlider(bandMixSlider);
-    setupLabel(bandMixLabel, labelFont);
+    CustomLookAndFeel::setupSlider(bandMixSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(bandMixLabel, labelFont, mainColor);
     addAndMakeVisible(bandMixSlider);
     addAndMakeVisible(bandMixLabel);
 
-    setupSlider(bandResonanceSlider);
-    setupLabel(bandResonanceLabel, labelFont);
+    CustomLookAndFeel::setupSlider(bandResonanceSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(bandResonanceLabel, labelFont, mainColor);
     addAndMakeVisible(bandResonanceSlider);
     addAndMakeVisible(bandResonanceLabel);
 
-    setupSlider(bandFreqSlider);
-    setupLabel(bandFreqLabel, labelFont);
+    CustomLookAndFeel::setupSlider(bandFreqSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(bandFreqLabel, labelFont, mainColor);
     addAndMakeVisible(bandFreqSlider);
     addAndMakeVisible(bandFreqLabel);
 
     // ==========================================
     // Highpass Setup
     // ==========================================
-    setupLabel(highLogoLabel, logoFont);
+    CustomLookAndFeel::setupLabel(highLogoLabel, logoFont, mainColor);
     addAndMakeVisible(highLogoLabel);
 
-    setupActiveButton(highActiveButton);
+    CustomLookAndFeel::setupActiveButton(highActiveButton, mainColor);
     addAndMakeVisible(highActiveButton);
 
-    setupSlider(highMixSlider);
-    setupLabel(highMixLabel, labelFont);
+    CustomLookAndFeel::setupSlider(highMixSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(highMixLabel, labelFont, mainColor);
     addAndMakeVisible(highMixSlider);
     addAndMakeVisible(highMixLabel);
 
-    setupSlider(highResonanceSlider);
-    setupLabel(highResonanceLabel, labelFont);
+    CustomLookAndFeel::setupSlider(highResonanceSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(highResonanceLabel, labelFont, mainColor);
     addAndMakeVisible(highResonanceSlider);
     addAndMakeVisible(highResonanceLabel);
 
-    setupSlider(highFreqSlider);
-    setupLabel(highFreqLabel, labelFont);
+    CustomLookAndFeel::setupSlider(highFreqSlider, false, mainColor);
+    CustomLookAndFeel::setupLabel(highFreqLabel, labelFont, mainColor);
     addAndMakeVisible(highFreqSlider);
     addAndMakeVisible(highFreqLabel);
   }

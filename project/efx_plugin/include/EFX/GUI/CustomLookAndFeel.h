@@ -70,6 +70,14 @@ public:
     return orbitronMedium().withPointHeight(20.0f);
   }
 
+  static void setupLabel(juce::Label &label, juce::Font &font, juce::Colour &mainColor);
+
+  static void setupSlider(juce::Slider &slider, bool isBipolar, juce::Colour &mainColor);
+
+  static void setupActiveButton(juce::TextButton &activeButton, juce::Colour &mainColor);
+
+  static void setupComboBox(juce::ComboBox &comboBox, juce::Colour &mainColor);
+
 private:
   static juce::FontOptions interMedium();
   static juce::FontOptions orbitronMedium();

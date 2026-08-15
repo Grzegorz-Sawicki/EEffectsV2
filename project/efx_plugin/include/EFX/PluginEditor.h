@@ -14,22 +14,21 @@ public:
   void resized() override;
 
 private:
-  void setupSlider(juce::Slider &slider, juce::Label &label, const juce::String &labelText);
-
-  void setupToggleButton(juce::ToggleButton &button, juce::Label &label, const juce::String &labelText);
+  juce::Colour mainColor = CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::whiteHighlight);
+  juce::Font labelFont = CustomLookAndFeel::getInterMediumFont();
 
   std::unique_ptr<juce::Drawable> logo;
 
   juce::Slider gainSlider;
-  juce::Label gainLabel;
+  juce::Label gainLabel{"gainLabel", "GAIN"};
   juce::SliderParameterAttachment gainAttachment;
 
   juce::Slider panSlider;
-  juce::Label panLabel;
+  juce::Label panLabel{"panLabel", "PAN"};
   juce::SliderParameterAttachment panAttachment;
 
   juce::ToggleButton bypassButton;
-  juce::Label bypassLabel;
+  juce::Label bypassLabel{"bypassLabel", "BYPASS"};
   juce::ButtonParameterAttachment bypassAttachment;
 
   VUMeter vuMeter;
