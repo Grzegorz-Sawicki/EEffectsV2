@@ -36,7 +36,6 @@ END_JUCE_MODULE_DECLARATION
 #include <cmath>
 
 #include "include/EFX/Params/Parameters.h"
-#include "include/EFX/GUI/CustomLookAndFeel.h"
 #include "include/EFX/Params/JsonSerializer.h"
 
 #include "include/EFX/EffectProcessors/EffectProcessorBase.h"
@@ -51,6 +50,21 @@ END_JUCE_MODULE_DECLARATION
 #include "include/EFX/EffectProcessors/Complex/FlangerProcessor.h"
 #include "include/EFX/EffectProcessors/Complex/FilterProcessor.h"
 
-#include "include/EFX/GUI/VUMeter.h"
 #include "include/EFX/PluginProcessor.h"
+
+#include "include/EFX/GUI/CustomLookAndFeel.h"
+#include "include/EFX/GUI/Background.h"
+
+#include "include/EFX/GUI/EffectGUI/Rack/EffectRackItem.h"
+#include "include/EFX/GUI/EffectGUI/Rack/MultiButtonRackItem.h"
+#include "include/EFX/GUI/EffectGUI/Rack/EffectRackView.h"
+
+#include "include/EFX/GUI/EffectGUI/Editor/EffectEditorBase.h"
+#include "include/EFX/GUI/EffectGUI/Editor/TremoloEditor.h"
+#include "include/EFX/GUI/EffectGUI/Editor/FlangerEditor.h"
+#include "include/EFX/GUI/EffectGUI/Editor/FilterEditor.h"
+#include "include/EFX/GUI/EffectGUI/Editor/EffectDetailView.h"
+
+#include "include/EFX/GUI/VUMeter.h"
+
 #include "include/EFX/PluginEditor.h"

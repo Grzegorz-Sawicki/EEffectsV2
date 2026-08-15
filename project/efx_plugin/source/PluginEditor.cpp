@@ -8,6 +8,9 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
     panAttachment(p.getParameterRefs().pan, panSlider),
     bypassAttachment(p.getParameterRefs().bypass, bypassButton) {
 
+  constexpr int pluginWidth = 540;
+  constexpr int pluginHeight = 218;
+
   logo = juce::Drawable::createFromImageData (assets::efx_logo_svg, assets::efx_logo_svgSize);
 
   if (auto* composite = dynamic_cast<juce::DrawableComposite*> (logo.get()))
@@ -46,11 +49,8 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
   setLookAndFeel(&lookAndFeel);
 
-  const int width = 540;
-  const int height = 218;
-
   juce::Desktop::getInstance().setGlobalScaleFactor (2.0f);
-  setSize(width, height);
+  setSize(pluginWidth, pluginHeight);
 }
 
 PluginEditor::~PluginEditor() {
@@ -79,15 +79,11 @@ void PluginEditor::setupToggleButton(juce::ToggleButton& button, juce::Label& la
 }
 
 void PluginEditor::paint(juce::Graphics &g) {
-  const auto bounds = getLocalBounds();
-
   g.setColour(CustomLookAndFeel::getColor(CustomLookAndFeel::Colors::background));
-  g.fillRect(bounds);
+  g.fillAll();
 }
 
 void PluginEditor::resized() {
-  const auto bounds = getLocalBounds();
-
   vuMeter.setBounds(494, 6, 40, 206);
 
   gainSlider.setBounds(333, 12, 40, 40);
