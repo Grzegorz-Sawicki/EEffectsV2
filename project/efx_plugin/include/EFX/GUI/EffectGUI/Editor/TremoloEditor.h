@@ -66,19 +66,19 @@ public:
 
     logoLabel.setBounds(12, 10, logoWidth, logoHeight);
 
-    activeButton.setBounds(305, 50, GUI::textButtonWidth, GUI::textButtonHeight);
+    activeButton.setBounds(305, 50, gui::textButtonWidth, gui::textButtonHeight);
 
-    mixSlider.setBounds(259, 46, GUI::smallSliderSize, GUI::smallSliderSize);
-    mixLabel.setBounds(259, 79, mixSlider.getWidth(), GUI::labelHeight);
+    mixSlider.setBounds(259, 46, gui::smallSliderSize, gui::smallSliderSize);
+    mixLabel.setBounds(259, 79, mixSlider.getWidth(), gui::labelHeight);
 
-    depthSlider.setBounds(185, 46, GUI::smallSliderSize, GUI::smallSliderSize);
-    depthLabel.setBounds(182, 79, depthSlider.getWidth() + 6, GUI::labelHeight);
+    depthSlider.setBounds(185, 46, gui::smallSliderSize, gui::smallSliderSize);
+    depthLabel.setBounds(182, 79, depthSlider.getWidth() + 6, gui::labelHeight);
 
-    rateSlider.setBounds(139, 46, GUI::smallSliderSize, GUI::smallSliderSize);
-    rateLabel.setBounds(139, 79, rateSlider.getWidth(), GUI::labelHeight);
+    rateSlider.setBounds(139, 46, gui::smallSliderSize, gui::smallSliderSize);
+    rateLabel.setBounds(139, 79, rateSlider.getWidth(), gui::labelHeight);
 
-    waveformComboBox.setBounds(53, 52, GUI::comboBoxWidth, GUI::comboBoxHeight);
-    waveformLabel.setBounds(53, 79, waveformComboBox.getWidth(), GUI::labelHeight);
+    waveformComboBox.setBounds(53, 52, gui::comboBoxWidth, gui::comboBoxHeight);
+    waveformLabel.setBounds(53, 79, waveformComboBox.getWidth(), gui::labelHeight);
   }
 
 private:

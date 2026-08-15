@@ -36,7 +36,7 @@ public:
     whiteBackground.setBounds(bounds);
     background.setBounds(bounds);
 
-    button.setBounds(88, 3, GUI::smallTextButtonWidth, GUI::smallTextButtonHeight);
+    button.setBounds(88, 3, gui::smallTextButtonWidth, gui::smallTextButtonHeight);
     label.setBounds(3, 3, labelWidth, labelHeight);
   }
 

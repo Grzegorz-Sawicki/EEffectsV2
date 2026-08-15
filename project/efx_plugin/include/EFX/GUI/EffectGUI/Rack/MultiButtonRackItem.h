@@ -14,9 +14,9 @@ public:
 
     EffectRackItem::resized();
 
-    button3.setBounds(88, 3, GUI::smallTextButtonWidth, GUI::smallTextButtonHeight);
-    button2.setBounds(63, 3, GUI::smallTextButtonWidth, GUI::smallTextButtonHeight);
-    button.setBounds(38, 3, GUI::smallTextButtonWidth, GUI::smallTextButtonHeight);
+    button3.setBounds(88, 3, gui::smallTextButtonWidth, gui::smallTextButtonHeight);
+    button2.setBounds(63, 3, gui::smallTextButtonWidth, gui::smallTextButtonHeight);
+    button.setBounds(38, 3, gui::smallTextButtonWidth, gui::smallTextButtonHeight);
 
     label.setBounds(3, 3, labelWidth, labelHeight);
   }

@@ -63,19 +63,19 @@ public:
 
     logoLabel.setBounds(12, 10, logoWidth, logoHeight);
 
-    activeButton.setBounds(305, 50, GUI::textButtonWidth, GUI::textButtonHeight);
+    activeButton.setBounds(305, 50, gui::textButtonWidth, gui::textButtonHeight);
 
-    mixSlider.setBounds(259, 46, GUI::smallSliderSize, GUI::smallSliderSize);
-    mixLabel.setBounds(259, 79, mixSlider.getWidth(), GUI::labelHeight);
+    mixSlider.setBounds(259, 46, gui::smallSliderSize, gui::smallSliderSize);
+    mixLabel.setBounds(259, 79, mixSlider.getWidth(), gui::labelHeight);
 
-    depthSlider.setBounds(185, 23, GUI::smallSliderSize, GUI::smallSliderSize);
-    depthLabel.setBounds(182, 56, depthSlider.getWidth() + 6, GUI::labelHeight);
+    depthSlider.setBounds(185, 23, gui::smallSliderSize, gui::smallSliderSize);
+    depthLabel.setBounds(182, 56, depthSlider.getWidth() + 6, gui::labelHeight);
 
-    rateSlider.setBounds(139, 23, GUI::smallSliderSize, GUI::smallSliderSize);
-    rateLabel.setBounds(139, 56, rateSlider.getWidth(), GUI::labelHeight);
+    rateSlider.setBounds(139, 23, gui::smallSliderSize, gui::smallSliderSize);
+    rateLabel.setBounds(139, 56, rateSlider.getWidth(), gui::labelHeight);
 
-    feedbackSlider.setBounds(162, 74, GUI::smallSliderSize, GUI::smallSliderSize);
-    feedbackLabel.setBounds(142, 107, feedbackSlider.getWidth() + 40, GUI::labelHeight);
+    feedbackSlider.setBounds(162, 74, gui::smallSliderSize, gui::smallSliderSize);
+    feedbackLabel.setBounds(142, 107, feedbackSlider.getWidth() + 40, gui::labelHeight);
   }
 
 private:

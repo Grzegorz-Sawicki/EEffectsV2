@@ -135,48 +135,48 @@ public:
     // ==========================================
     lowLogoLabel.setBounds(44, 61, logoWidth, logoHeight);
 
-    lowFreqSlider.setBounds(29, 10, GUI::smallSliderSize, GUI::smallSliderSize);
-    lowFreqLabel.setBounds(29, 43, lowFreqSlider.getWidth(), GUI::labelHeight);
+    lowFreqSlider.setBounds(29, 10, gui::smallSliderSize, gui::smallSliderSize);
+    lowFreqLabel.setBounds(29, 43, lowFreqSlider.getWidth(), gui::labelHeight);
 
-    lowResonanceSlider.setBounds(77, 10, GUI::smallSliderSize, GUI::smallSliderSize);
-    lowResonanceLabel.setBounds(77, 43, lowResonanceSlider.getWidth(), GUI::labelHeight);
+    lowResonanceSlider.setBounds(77, 10, gui::smallSliderSize, gui::smallSliderSize);
+    lowResonanceLabel.setBounds(77, 43, lowResonanceSlider.getWidth(), gui::labelHeight);
 
-    lowMixSlider.setBounds(29, 87, GUI::smallSliderSize, GUI::smallSliderSize);
-    lowMixLabel.setBounds(29, 120, lowMixSlider.getWidth(), GUI::labelHeight);
+    lowMixSlider.setBounds(29, 87, gui::smallSliderSize, gui::smallSliderSize);
+    lowMixLabel.setBounds(29, 120, lowMixSlider.getWidth(), gui::labelHeight);
 
-    lowActiveButton.setBounds(75, 91, GUI::textButtonWidth, GUI::textButtonHeight);
+    lowActiveButton.setBounds(75, 91, gui::textButtonWidth, gui::textButtonHeight);
 
     // ==========================================
     // Bandpass Bounds
     // ==========================================
     bandLogoLabel.setBounds(158, 61, logoWidth, logoHeight);
 
-    bandFreqSlider.setBounds(143, 10, GUI::smallSliderSize, GUI::smallSliderSize);
-    bandFreqLabel.setBounds(143, 43, bandFreqSlider.getWidth(), GUI::labelHeight);
+    bandFreqSlider.setBounds(143, 10, gui::smallSliderSize, gui::smallSliderSize);
+    bandFreqLabel.setBounds(143, 43, bandFreqSlider.getWidth(), gui::labelHeight);
 
-    bandResonanceSlider.setBounds(191, 10, GUI::smallSliderSize, GUI::smallSliderSize);
-    bandResonanceLabel.setBounds(191, 43, bandResonanceSlider.getWidth(), GUI::labelHeight);
+    bandResonanceSlider.setBounds(191, 10, gui::smallSliderSize, gui::smallSliderSize);
+    bandResonanceLabel.setBounds(191, 43, bandResonanceSlider.getWidth(), gui::labelHeight);
 
-    bandMixSlider.setBounds(143, 87, GUI::smallSliderSize, GUI::smallSliderSize);
-    bandMixLabel.setBounds(143, 120, bandMixSlider.getWidth(), GUI::labelHeight);
+    bandMixSlider.setBounds(143, 87, gui::smallSliderSize, gui::smallSliderSize);
+    bandMixLabel.setBounds(143, 120, bandMixSlider.getWidth(), gui::labelHeight);
 
-    bandActiveButton.setBounds(189, 91, GUI::textButtonWidth, GUI::textButtonHeight);
+    bandActiveButton.setBounds(189, 91, gui::textButtonWidth, gui::textButtonHeight);
 
     // ==========================================
     // Highpass Bounds
     // ==========================================
     highLogoLabel.setBounds(272, 61, logoWidth, logoHeight);
 
-    highFreqSlider.setBounds(257, 10, GUI::smallSliderSize, GUI::smallSliderSize);
-    highFreqLabel.setBounds(257, 43, highFreqSlider.getWidth(), GUI::labelHeight);
+    highFreqSlider.setBounds(257, 10, gui::smallSliderSize, gui::smallSliderSize);
+    highFreqLabel.setBounds(257, 43, highFreqSlider.getWidth(), gui::labelHeight);
 
-    highResonanceSlider.setBounds(305, 10, GUI::smallSliderSize, GUI::smallSliderSize);
-    highResonanceLabel.setBounds(305, 43, highResonanceSlider.getWidth(), GUI::labelHeight);
+    highResonanceSlider.setBounds(305, 10, gui::smallSliderSize, gui::smallSliderSize);
+    highResonanceLabel.setBounds(305, 43, highResonanceSlider.getWidth(), gui::labelHeight);
 
-    highMixSlider.setBounds(257, 87, GUI::smallSliderSize, GUI::smallSliderSize);
-    highMixLabel.setBounds(257, 120, highMixSlider.getWidth(), GUI::labelHeight);
+    highMixSlider.setBounds(257, 87, gui::smallSliderSize, gui::smallSliderSize);
+    highMixLabel.setBounds(257, 120, highMixSlider.getWidth(), gui::labelHeight);
 
-    highActiveButton.setBounds(303, 91, GUI::textButtonWidth, GUI::textButtonHeight);
+    highActiveButton.setBounds(303, 91, gui::textButtonWidth, gui::textButtonHeight);
   }
 
 private:

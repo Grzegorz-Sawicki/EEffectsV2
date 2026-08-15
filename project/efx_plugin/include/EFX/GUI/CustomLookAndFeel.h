@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GUI {
+namespace gui {
 constexpr int sliderSize = 40;
 constexpr int smallSliderSize = 34;
 
