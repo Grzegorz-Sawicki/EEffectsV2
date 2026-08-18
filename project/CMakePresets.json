@@ -15,6 +15,20 @@
       }
     },
     {
+      "name": "release",
+      "binaryDir": "cmake-release-build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "release-debug",
+      "binaryDir": "cmake-release-debug-build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
       "name": "default-with-tests",
       "inherits": "default",
       "binaryDir": "cmake-build-with-tests",
