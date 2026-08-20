@@ -187,7 +187,7 @@ void CustomLookAndFeel::drawComboBox(juce::Graphics &g,
 
   auto arrowWidth = 8.f;
   auto arrowHeight = 6.f;
-  auto arrowX = buttonBounds.getWidth() - 8 - arrowWidth / 2.f;
+  auto arrowX = buttonBounds.getWidth() - 4 - arrowWidth / 2.f;
   auto arrowY = buttonBounds.getCentreY();
   auto arrowBounds = juce::Rectangle<float>{0, 0, arrowWidth, arrowHeight};
   arrowBounds.setCentre(arrowX, arrowY);
@@ -220,8 +220,7 @@ juce::PopupMenu::Options CustomLookAndFeel::getOptionsForComboBoxPopupMenu(juce:
   return LookAndFeel_V4::getOptionsForComboBoxPopupMenu(box, label)
       .withStandardItemHeight(18)
       .withItemThatMustBeVisible(0)
-      .withTargetScreenArea(menuBounds)
-      .withMinimumWidth(76);
+      .withTargetScreenArea(menuBounds);
 }
 
 juce::FontOptions CustomLookAndFeel::interMedium() {
